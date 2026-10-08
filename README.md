@@ -54,7 +54,7 @@ Scoring: 10 points for a first-try answer, 7 after one mistake, 4 after two, 2 a
 ## Add your logos
 
 Put these files in `brand/logos/` (same names):
-`chemistry-with-dr-nam-logo.jpg` (badge), `uitm-logo-full.png` (UiTM, top-left) and `uitm-di-hatiku-motto.png` (top-right).
+`chemistry-with-dr-nam-logo.jpg` (badge), `uitm-logo-full.png` (UiTM, top-left) and `uitm-di-hatiku-motto.png` (UiTM motto, top-right).
 Until then, the game shows labelled placeholders.
 
 ## Change the wording (BM / English)
