@@ -1,6 +1,17 @@
 // The Lewis board: atoms, electron slots and draggable electrons (mouse, touch or pinch via drag.js).
 import { makeDraggable } from '../../drag.js';
-import { R, SITE_DIST, PAIR_HALF, chargeText } from './rules.js';
+import { R, SITE_DIST, PAIR_HALF, chargeText, answerOwners } from './rules.js';
+
+// One colour per atom (by position in the molecule) so students can see whose electron is whose.
+// fill = on the dark/light board, ink = darker version for the white answer panel.
+export const ATOM_COLOURS = [
+  { fill: '#d4ff3a', ink: '#5f8f00' },
+  { fill: '#2dd4bf', ink: '#0b8577' },
+  { fill: '#fc7a7a', ink: '#d14040' },
+  { fill: '#ffb938', ink: '#b06f00' },
+  { fill: '#9db4ff', ink: '#4a62c9' },
+];
+export const colourOf = (model, atomId) => ATOM_COLOURS[Math.max(0, model.atoms.findIndex(a => a.id === atomId)) % ATOM_COLOURS.length];
 
 const NS = 'http://www.w3.org/2000/svg';
 const div = (cls, parent) => {
@@ -35,11 +46,12 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
     const el = div('lw-atom', host);
     el.textContent = a.el;
     el.dataset.el = a.el;
+    if (model.atoms.length > 1) el.style.setProperty('--ring', colourOf(model, a.id).fill);
     atomEls.set(a.id, el);
   }
   for (const s of model.slots) {
     const el = div('lw-slot', host);
-    if (s.prefilled) el.classList.add('lw-slot--static');
+    if (s.prefilled) { el.classList.add('lw-slot--static'); el.style.background = colourOf(model, s.owners[0]).fill; }
     if (s.home) el.classList.add('lw-slot--home');
     if (s.type === 'bond') el.classList.add('lw-slot--bond');
     slotEls.set(s.id, el);
@@ -57,8 +69,12 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
   function homePos(tok) {
     if (ionic) { const s = slotById.get(tok.homeSlot); return { x: X(s.x), y: Y(s.y) }; }
     const n = tokens.length;
-    const gap = Math.min(e * 1.5, (W * 0.84) / Math.max(n, 1));
-    return { x: W / 2 + (tok.index - (n - 1) / 2) * gap, y: H - trayH / 2 };
+    const breaks = tokens.filter((t, i) => i && t.owner !== tokens[i - 1].owner).length;
+    const gap = Math.min(e * 1.5, (W * 0.84) / Math.max(n + breaks * 0.8, 1));
+    const before = tokens.slice(0, tok.index).filter((t, i) => i && t.owner !== tokens[i - 1].owner).length
+      + (tok.index && tok.owner !== tokens[tok.index - 1].owner ? 1 : 0);
+    const x = (tok.index + before * 0.8) * gap - ((n - 1 + breaks * 0.8) * gap) / 2;
+    return { x: W / 2 + x, y: H - trayH / 2 };
   }
   function settle(tok) {
     const p = tok.slot ? { x: X(slotById.get(tok.slot).x), y: Y(slotById.get(tok.slot).y) } : homePos(tok);
@@ -74,7 +90,7 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
     const cx = (b.minX + b.maxX) / 2, cy = (b.minY + b.maxY) / 2;
     X = x => W / 2 + (x - cx) * u;
     Y = y => areaH / 2 - (y - cy) * u;
-    const n = tokens.length || 1;
+    const n = (tokens.length || 1) + 4;
     const gap = ionic ? 99 : Math.min(u * 0.8, (W * 0.84) / n);
     e = clamp(Math.min(u * 0.5, gap * 0.9), 20, 46);
     host.style.setProperty('--e', `${e}px`);
@@ -127,13 +143,17 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
 
   function spawn() {
     if (tokens.length) return;
-    const count = ionic ? model.tokens.length : model.tokens;
-    for (let i = 0; i < count; i++) {
+    const owners = ionic ? model.tokens.map(t => t.metal)
+      : model.kind === 'covalent' ? model.atoms.flatMap(a => Array(a.valence).fill(a.id))
+      : Array(model.tokens).fill(model.atoms[0].id);
+    for (let i = 0; i < owners.length; i++) {
       const el = div('electron lw-electron', host);
+      const atom = model.atoms.find(a => a.id === owners[i]);
       el.setAttribute('role', 'button');
-      el.setAttribute('aria-label', 'electron');
-      el.textContent = '';
-      const tok = { el, index: i, slot: null, homeSlot: ionic ? model.tokens[i].home : null, down: null };
+      el.setAttribute('aria-label', `electron from ${atom.el}`);
+      el.textContent = atom.el;
+      el.style.setProperty('--c', colourOf(model, atom.id).fill);
+      const tok = { el, index: i, owner: owners[i], slot: null, homeSlot: ionic ? model.tokens[i].home : null, down: null };
       tokens.push(tok);
       el.addEventListener('pointerdown', () => { tok.down = centre(el); });
       stops.push(makeDraggable(el, {
@@ -194,6 +214,8 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
   return {
     model,
     filled: () => new Set(occupant.keys()),
+    /** slot id → atom id the electron in it came from */
+    sources: () => new Map([...occupant].map(([id, t]) => [id, t.owner])),
     left: () => tokens.length - occupant.size,
     reset,
     unlock: spawn,
@@ -202,7 +224,10 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
       spawn();
       select(null);
       tokens.forEach(free);
-      model.answer.forEach((id, i) => put(tokens[i], slotById.get(id)));
+      const pools = new Map();
+      tokens.forEach(t => { if (!pools.has(t.owner)) pools.set(t.owner, []); pools.get(t.owner).push(t); });
+      if (ionic || model.kind === 'covalent') answerOwners(model).forEach(o => put(pools.get(o.owner).pop(), slotById.get(o.slot)));
+      else model.answer.forEach((id, i) => put(tokens[i], slotById.get(id)));
       onChange?.();
     },
     /** Draw [ ] brackets and charges around each ion. */
@@ -239,6 +264,7 @@ export function lewisSvg(model, ions = null) {
   const X = x => (x - b.minX) * S, Y = y => (b.maxY - y) * S;
   const answer = new Set(model.answer);
   const parts = [];
+  const giver = new Map(answerOwners(model).map(o => [o.slot, o.owner]));
   for (const bd of model.bonds) {
     const A = model.atoms.find(a => a.id === bd.a), B = model.atoms.find(a => a.id === bd.b);
     const ang = (bd.angle * Math.PI) / 180, d = { x: Math.cos(ang), y: Math.sin(ang) }, p = { x: -d.y, y: d.x };
@@ -246,12 +272,14 @@ export function lewisSvg(model, ions = null) {
       const off = (k - (bd.order - 1) / 2) * PAIR_HALF * 2;
       const x1 = A.x + d.x * 0.95 + p.x * off, y1 = A.y + d.y * 0.95 + p.y * off;
       const x2 = B.x - d.x * 0.95 + p.x * off, y2 = B.y - d.y * 0.95 + p.y * off;
-      parts.push(`<line x1="${X(x1)}" y1="${Y(y1)}" x2="${X(x2)}" y2="${Y(y2)}" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>`);
+      const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+      const line = (ax, ay, bx, by, c) => `<line x1="${X(ax)}" y1="${Y(ay)}" x2="${X(bx)}" y2="${Y(by)}" stroke="${c}" stroke-width="5" stroke-linecap="round"/>`;
+      parts.push(line(x1, y1, mx, my, colourOf(model, bd.a).ink) + line(mx, my, x2, y2, colourOf(model, bd.b).ink));
     }
   }
   for (const s of model.slots) {
     const dot = (model.kind === 'ionic' ? (s.prefilled || (s.type === 'lone' && !s.home && answer.has(s.id))) : s.type === 'lone' && answer.has(s.id));
-    if (dot) parts.push(`<circle cx="${X(s.x)}" cy="${Y(s.y)}" r="4.5" fill="currentColor"/>`);
+    if (dot) parts.push(`<circle cx="${X(s.x)}" cy="${Y(s.y)}" r="5.5" fill="${colourOf(model, s.prefilled ? s.owners[0] : giver.get(s.id) ?? s.owners[0]).ink}"/>`);
   }
   for (const a of model.atoms) {
     parts.push(`<text x="${X(a.x)}" y="${Y(a.y)}" text-anchor="middle" dominant-baseline="central" class="lw-svg-sym">${a.el}</text>`);

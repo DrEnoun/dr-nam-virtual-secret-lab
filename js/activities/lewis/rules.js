@@ -164,9 +164,10 @@ export function buildIonic(def, E) {
 
 /**
  * Check a build. `filled` is the Set of slot ids that hold an electron (covalent/atom) or that received a
- * transferred electron (ionic). Returns { ok } or { ok:false, code, ...values for the hint }.
+ * transferred electron (ionic). `source` (optional) maps each filled slot id to the atom its electron came from;
+ * when given, every shared pair must hold one electron from each of the two atoms. Returns { ok } or { ok:false, code, ...values for the hint }.
  */
-export function evaluate(model, filled) {
+export function evaluate(model, filled, source = null) {
   if (model.kind === 'atom') {
     const a = model.atoms[0], n = filled.size;
     if (n === a.valence) return { ok: true };
@@ -186,6 +187,17 @@ export function evaluate(model, filled) {
   for (const a of model.atoms) if (count.get(a.id) > a.target) return { ok: false, code: 'many', sym: a.el, got: count.get(a.id), target: a.target };
   if ([...groups.values()].some(n => n === 1)) return { ok: false, code: 'unpaired' };
   for (const a of model.atoms) if (count.get(a.id) < a.target) return { ok: false, code: 'few', sym: a.el, got: count.get(a.id), target: a.target };
+  if (source) {
+    const pairs = new Map();
+    for (const s of model.slots) if (s.type === 'bond' && filled.has(s.id)) pairs.set(s.group, [...(pairs.get(s.group) || []), source.get(s.id)]);
+    for (const [group, from] of pairs) {
+      if (from[0] === from[1]) {
+        const bond = model.slots.find(s => s.group === group);
+        const [a, b] = bond.owners.map(id => model.atoms.find(x => x.id === id).el);
+        return { ok: false, code: 'source', a, b };
+      }
+    }
+  }
   if (filled.size !== model.tokens) return { ok: false, code: 'few', sym: model.atoms[0].el, got: filled.size, target: model.tokens };
   return { ok: true };
 }
@@ -197,4 +209,17 @@ export const CHARGE_CHOICES = [1, 2, -1, -2];
 export function uniqueIons(model) {
   const seen = new Set();
   return model.ions.filter(i => (seen.has(i.el) ? false : seen.add(i.el))).sort((a, b) => b.charge - a.charge);
+}
+
+/**
+ * Which atom each answer electron comes from: a shared pair has one electron from each atom,
+ * a lone pair belongs to its atom. Returns [{ slot, owner }] in answer order (covalent and atom models).
+ */
+export function answerOwners(model) {
+  if (model.kind === 'ionic') return model.tokens.map(t => ({ slot: t.answer, owner: t.metal }));
+  const bySlot = new Map(model.slots.map(s => [s.id, s]));
+  return model.answer.map(id => {
+    const s = bySlot.get(id);
+    return { slot: id, owner: s.type === 'bond' ? s.owners[Number(id.slice(-1))] : s.owners[0] };
+  });
 }

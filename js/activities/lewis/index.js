@@ -125,7 +125,7 @@ export default function mount(host, ctx) {
     q('.lw-score span').textContent = t('lewis.score');
     ui.timer.hidden = run.stage !== 'challenge';
     ui.note.hidden = false;
-    ui.note.textContent = t('lewis.touchhint') + (ctx.players === 'duo' ? ' ' + t('lewis.duo') : '');
+    ui.note.textContent = t('lewis.colorhint') + ' ' + t('lewis.touchhint') + (ctx.players === 'duo' ? ' ' + t('lewis.duo') : '');
     renderProgress();
   }
 
@@ -248,12 +248,12 @@ export default function mount(host, ctx) {
   // --- Check the build
   function onCheck() {
     if (phase !== 'build') return;
-    const r = evaluate(model, board.filled());
+    const r = evaluate(model, board.filled(), board.sources());
     if (!r.ok) {
       wrong++;
       board.setState('bad');
       sound.wrong();
-      const key = { 'atom-many': 'lewis.hint.atom.many', 'atom-few': 'lewis.hint.atom.few', many: 'lewis.hint.many', few: 'lewis.hint.few', unpaired: 'lewis.hint.unpaired', 'ion-left': 'lewis.hint.ion' }[r.code];
+      const key = { 'atom-many': 'lewis.hint.atom.many', 'atom-few': 'lewis.hint.atom.few', many: 'lewis.hint.many', few: 'lewis.hint.few', unpaired: 'lewis.hint.unpaired', source: 'lewis.hint.source', 'ion-left': 'lewis.hint.ion' }[r.code];
       setFeedback('bad', t('lewis.bad'), t(key, r));
       if (wrong === 2) buildActions();
       return;
