@@ -1,0 +1,102 @@
+/* Hybridization Lab — layout classes (lw-*) come from lewis.css; this file adds the lab-specific parts. */
+.hy-stage { position: absolute; inset: 0; border-radius: var(--radius-md); background: var(--glass-fill); border: 3px solid var(--glass-edge); box-shadow: var(--shadow-lift); overflow: hidden; }
+.hy-stage__body { position: absolute; inset: 0; }
+.hy-counter { position: absolute; left: 16px; top: 12px; z-index: 5; font-family: var(--font-display); font-weight: 800; font-size: max(20px, calc(var(--u) * 2.6)); background: var(--spark-400); color: var(--on-spark); border: 3px solid var(--sticker-ink); border-radius: var(--radius-pill); padding: 2px 16px; }
+
+/* 2D structure */
+.hy-diagram { position: absolute; inset: 0; }
+.hy-diagram__inner, .hy-diagram__layer, .hy-diagram__lines { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hy-diagram__layer { pointer-events: none; }
+.hy-diagram__layer > * { pointer-events: auto; }
+.hy-bond { stroke: var(--ink); stroke-width: 4; stroke-linecap: round; }
+.hy-atom {
+  position: absolute; border-radius: 50%; display: grid; place-items: center; user-select: none;
+  background: radial-gradient(circle at 30% 30%, var(--sphere-hi), var(--sphere-base) 55%, var(--royal-700)); color: #fff;
+  font-family: var(--font-display); font-weight: 800; text-shadow: 0 2px 2px rgba(0,0,0,.45); box-shadow: var(--shadow-bevel), var(--shadow-contact);
+  pointer-events: none !important;
+}
+:root[data-theme="day"] .hy-atom { color: var(--badge-ink); text-shadow: none; }
+.hy-atom.is-central { outline: 5px solid var(--spark-400); outline-offset: 3px; box-shadow: var(--shadow-spark); }
+.hy-atom.is-bare { background: none; box-shadow: none; text-shadow: none; }
+.hy-atom.is-marked { pointer-events: auto !important; cursor: pointer; background: var(--sticker-fill); color: var(--sticker-ink); text-shadow: none; border: 3px solid var(--sticker-ink); }
+.hy-atom.is-marked.is-bare { background: var(--sticker-fill); box-shadow: var(--sticker-shadow); }
+.hy-atom.is-selected { outline: 5px solid var(--spark-400); outline-offset: 3px; }
+.hy-atom__num { position: absolute; left: -16px; top: -16px; z-index: 2; width: 26px; height: 26px; border-radius: 50%; background: var(--spark-400); color: var(--on-spark); border: 2px solid var(--sticker-ink); font-size: 15px; display: grid; place-items: center; }
+.hy-atom__label { position: absolute; inset: -3px; border-radius: 50%; display: grid; place-items: center; font-size: max(15px, .78em); background: var(--sticker-fill); color: var(--sticker-ink); border: 3px solid var(--sticker-ink); pointer-events: none; }
+.hy-atom__label:empty { display: none; }
+.hy-atom[data-state="ok"] .hy-atom__label { background: var(--spark-400); }
+.hy-atom[data-state="bad"] .hy-atom__label { background: var(--coral-400); }
+.hy-atom[data-state="bad"] { outline: 4px solid var(--coral-400); outline-offset: 3px; }
+.hy-line { position: absolute; transform-origin: center; cursor: pointer; border-radius: 8px; background: color-mix(in srgb, var(--title-accent) 18%, transparent); border: 2px dashed var(--title-accent); }
+.hy-line:hover, .hy-line.is-aimed { background: color-mix(in srgb, var(--spark-400) 35%, transparent); }
+.hy-line.is-picked { background: color-mix(in srgb, var(--spark-400) 70%, transparent); border: 2px solid var(--sticker-ink); }
+.hy-lp { position: absolute; display: grid; place-items: center; border-radius: 50%; }
+.hy-lp i { position: absolute; width: 11px; height: 11px; border-radius: 50%; background: var(--coral-400); border: 2px solid var(--sticker-ink); }
+.hy-lp.is-target { cursor: pointer; border: 2px dashed var(--coral-400); }
+.hy-lp.is-target.is-picked { background: color-mix(in srgb, var(--spark-400) 70%, transparent); border: 2px solid var(--sticker-ink); }
+.hy-lp.is-target.is-aimed, .hy-lp.is-target:hover { background: color-mix(in srgb, var(--spark-400) 35%, transparent); }
+.hy-chip { position: absolute; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; font-family: var(--font-display); font-weight: 800; font-size: 24px; background: var(--sticker-fill); color: var(--sticker-ink); border: 3px solid var(--sticker-ink); box-shadow: 3px 3px 0 var(--spark-400); }
+.hy-chip[data-v="sigma"] { background: var(--spark-400); }
+.hy-chip[data-v="pi"] { background: var(--bright-blue-400); }
+.hy-ps { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; color: var(--title-accent); }
+.hy-ps__p { width: 22px; height: 56px; border-radius: 50%; border: 3px dashed var(--bright-blue-400); }
+
+/* Orbital mixer */
+.hy-mixer { position: absolute; inset: 0; }
+.hy-mixer__zone { position: absolute; border-radius: 50%; border: 4px dashed var(--title-accent); display: grid; place-items: center; text-align: center; padding: 20%; transition: box-shadow .2s; }
+.hy-mixer__zone.is-over { border-style: solid; box-shadow: var(--shadow-glow); }
+.hy-mixer__label { font-family: var(--font-display); font-weight: 700; color: var(--title-accent); font-size: max(16px, calc(var(--u) * 2)); }
+.hy-mixer__tray { position: absolute; left: 0; right: 0; bottom: 0; border-top: 2px dashed var(--glass-edge); background: color-mix(in srgb, var(--surface-000) 55%, transparent); }
+.hy-orb { position: absolute; width: var(--orb, 64px); height: var(--orb, 64px); display: grid; place-items: center; cursor: grab; touch-action: none; user-select: none; z-index: 3; border-radius: 50%; background: var(--sticker-fill); border: 3px solid var(--sticker-ink); box-shadow: 3px 3px 0 var(--spark-400); transition: opacity .6s, transform .6s; }
+.hy-orb svg { position: absolute; inset: 4px; width: calc(100% - 8px); height: calc(100% - 8px); }
+.hy-orb b { position: absolute; bottom: -2px; right: 2px; font-size: 14px; color: var(--sticker-ink); font-family: var(--font-display); }
+.hy-orb.is-dragging { z-index: 6; cursor: grabbing; box-shadow: var(--shadow-spark); }
+.hy-orb__s { fill: #9db4ff; stroke: var(--sticker-ink); stroke-width: 3; }
+.hy-orb__p ellipse { fill: #fc7a7a; stroke: var(--sticker-ink); stroke-width: 3; }
+.hy-orb__d ellipse { fill: #ffb938; stroke: var(--sticker-ink); stroke-width: 3; }
+.hy-orb.is-blending { opacity: 0; transform: scale(.3); }
+.hy-orb.is-glowing { box-shadow: var(--shadow-glow); border-color: var(--bright-blue-400); animation: hy-glow 1.2s ease-in-out infinite; }
+@keyframes hy-glow { 50% { transform: scale(1.12); } }
+.hy-mixer__result { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.hy-lobe path { fill: color-mix(in srgb, var(--spark-400) 78%, transparent); stroke: var(--sticker-ink); stroke-width: 3; }
+.hy-lobe { transform-box: fill-box; opacity: 0; animation: hy-lobe .6s var(--ease-out) forwards; }
+.hy-lobe.is-front path { fill: color-mix(in srgb, var(--spark-400) 45%, transparent); stroke-dasharray: 6 4; }
+@keyframes hy-lobe { from { opacity: 0; } to { opacity: 1; } }
+.hy-mixer__name { font-family: var(--font-display); font-weight: 800; font-size: 34px; fill: var(--title-accent); }
+
+/* 3D viewer */
+.hy-viewer { position: absolute; inset: 0; }
+.hy-viewer__canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+.hy-viewer__angle { position: absolute; transform: translateX(-50%); pointer-events: none; font-family: var(--font-display); font-weight: 800; font-size: max(22px, calc(var(--u) * 3)); background: var(--spark-400); color: var(--on-spark); border: 3px solid var(--sticker-ink); border-radius: var(--radius-pill); padding: 0 14px; }
+.hy-toggles { position: absolute; left: 12px; bottom: 12px; display: flex; flex-wrap: wrap; gap: 10px; z-index: 5; }
+.hy-toggles .sticker { --tilt: 0deg; min-height: calc(var(--u) * 5); }
+.hy-toggles .sticker[aria-pressed="true"] { background: var(--spark-400); color: var(--on-spark); }
+.hy-viewer__hint { position: absolute; right: 14px; top: 10px; font-size: max(15px, calc(var(--u) * 1.7)); opacity: .85; z-index: 5; max-width: 60%; text-align: right; }
+
+/* Side panel */
+.hy-lecturer { margin-top: 8px; font-weight: 700; color: #3d6600; background: var(--spark-400); border-radius: 10px; padding: 2px 10px; }
+.hy-pick { display: grid; gap: 10px; }
+.hy-pick__q { font-size: max(18px, calc(var(--u) * 2)); }
+.hy-info { justify-items: stretch; text-align: left; }
+.hy-info__text { font-size: max(16px, calc(var(--u) * 1.8)); }
+.hy-info__list { margin: 0; padding-left: 20px; font-size: max(15px, calc(var(--u) * 1.7)); }
+.hy-why { border-top: 2px dashed var(--sticker-ink); padding-top: 6px; display: grid; gap: 4px; font-size: max(15px, calc(var(--u) * 1.7)); }
+.hy-why h4 { font-size: max(16px, calc(var(--u) * 1.8)); }
+.hy-why p { margin: 0; }
+.hy-why__limit { font-weight: 700; }
+.hy-table-card { padding: calc(var(--u) * 1) calc(var(--u) * 1.4); }
+.hy-table { width: 100%; border-collapse: collapse; font-size: max(15px, calc(var(--u) * 1.6)); }
+.hy-table caption { font-family: var(--font-display); font-weight: 800; text-align: left; color: #3d6600; text-transform: uppercase; letter-spacing: .05em; padding-bottom: 4px; }
+.hy-table th { text-align: left; font-family: var(--font-display); font-weight: 700; padding: 2px 6px; border-bottom: 2px solid var(--sticker-ink); }
+.hy-table td { padding: 2px 6px; }
+.hy-table tr.is-answer td { background: var(--spark-400); font-weight: 700; }
+.hy-limits { font-size: max(18px, calc(var(--u) * 2)) !important; max-width: 60ch; }
+.hy .lw-formula-choice[aria-checked="true"] { background: var(--spark-400); }
+
+@media (max-width: 860px), (max-aspect-ratio: 1/1) {
+  .hy-stage { position: absolute; inset: 0; }
+  .hy-counter { font-size: 18px; }
+  .hy-viewer__hint { display: none; }
+}
+.hy-diagram__layer > .hy-lp:not(.is-target) { pointer-events: none; }
+.hy .lw-feedback { white-space: pre-line; }
