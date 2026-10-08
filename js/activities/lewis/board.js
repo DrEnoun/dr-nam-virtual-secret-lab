@@ -27,9 +27,10 @@ const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
  * Returns { filled(), left(), reset(), reveal(), unlock(), setState(s), showIons(ions), destroy() }.
  * The board knows nothing about scoring — index.js calls evaluate() from rules.js on filled().
  */
-export function createBoard(host, model, { sound, onChange, locked = false } = {}) {
+export function createBoard(host, model, { sound, onChange, locked = false, hidden = false, spares = 0 } = {}) {
   host.innerHTML = '';
   host.classList.add('lw-board');
+  host.classList.toggle('lw-board--hidden', hidden);
   host.dataset.state = '';
   const ionic = model.kind === 'ionic';
   const slotEls = new Map();
@@ -58,7 +59,8 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
   }
   const isTarget = s => !s.prefilled && !s.home;
   const slotById = new Map(model.slots.map(s => [s.id, s]));
-  if (!ionic) {
+  const hasTray = !ionic || spares > 0;
+  if (hasTray) {
     tray = div('lw-tray', host);
     tray.innerHTML = '<span class="lw-tray__label" aria-hidden="true">e⁻</span>';
   }
@@ -67,13 +69,13 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
   const setPos = (el, cx, cy, size) => { el.style.left = `${cx - size / 2}px`; el.style.top = `${cy - size / 2}px`; };
 
   function homePos(tok) {
-    if (ionic) { const s = slotById.get(tok.homeSlot); return { x: X(s.x), y: Y(s.y) }; }
-    const n = tokens.length;
-    const breaks = tokens.filter((t, i) => i && t.owner !== tokens[i - 1].owner).length;
+    if (tok.homeSlot) { const s = slotById.get(tok.homeSlot); return { x: X(s.x), y: Y(s.y) }; }
+    const list = tokens.filter(t => !t.homeSlot);
+    const n = list.length, k = list.indexOf(tok);
+    const breaks = list.filter((t, i) => i && t.owner !== list[i - 1].owner).length;
     const gap = Math.min(e * 1.5, (W * 0.84) / Math.max(n + breaks * 0.8, 1));
-    const before = tokens.slice(0, tok.index).filter((t, i) => i && t.owner !== tokens[i - 1].owner).length
-      + (tok.index && tok.owner !== tokens[tok.index - 1].owner ? 1 : 0);
-    const x = (tok.index + before * 0.8) * gap - ((n - 1 + breaks * 0.8) * gap) / 2;
+    const before = list.slice(0, k).filter((t, i) => i && t.owner !== list[i - 1].owner).length + (k && tok.owner !== list[k - 1].owner ? 1 : 0);
+    const x = (k + before * 0.8) * gap - ((n - 1 + breaks * 0.8) * gap) / 2;
     return { x: W / 2 + x, y: H - trayH / 2 };
   }
   function settle(tok) {
@@ -84,14 +86,14 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
   function layout() {
     W = host.clientWidth; H = host.clientHeight;
     if (!W || !H) return;
-    trayH = ionic ? 0 : Math.max(64, H * 0.17);
+    trayH = hasTray ? Math.max(64, H * 0.17) : 0;
     const areaH = H - trayH, b = model.bounds;
     u = Math.min((W * 0.97) / (b.maxX - b.minX), (areaH * 0.97) / (b.maxY - b.minY), 84);
     const cx = (b.minX + b.maxX) / 2, cy = (b.minY + b.maxY) / 2;
     X = x => W / 2 + (x - cx) * u;
     Y = y => areaH / 2 - (y - cy) * u;
-    const n = (tokens.length || 1) + 4;
-    const gap = ionic ? 99 : Math.min(u * 0.8, (W * 0.84) / n);
+    const n = (tokens.filter(t => !t.homeSlot).length || 1) + 4;
+    const gap = hasTray ? Math.min(u * 0.8, (W * 0.84) / n) : 99;
     e = clamp(Math.min(u * 0.5, gap * 0.9), 20, 46);
     host.style.setProperty('--e', `${e}px`);
     for (const a of model.atoms) {
@@ -107,17 +109,24 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
   }
 
   const snapRange = () => Math.max(e * 1.3, u * 0.75);
-  function nearestFree(tok) {
-    const c = centre(tok.el);
-    let best = null, bd = snapRange();
-    for (const s of model.slots) {
-      if (!isTarget(s) || occupant.has(s.id)) continue;
-      const sc = centre(slotEls.get(s.id));
-      const d = Math.hypot(sc.x - c.x, sc.y - c.y);
-      if (d < bd) { bd = d; best = s; }
+  const atomPx = a => ({ x: X(a.x), y: Y(a.y) });
+  /** Nearest empty target slot to a screen point. Hidden boards are forgiving: dropping anywhere around an atom's shell counts. */
+  function nearestFreeAt(c) {
+    const free = model.slots.filter(s => isTarget(s) && !occupant.has(s.id));
+    const dist = s => { const sc = centre(slotEls.get(s.id)); return Math.hypot(sc.x - c.x, sc.y - c.y); };
+    const best = list => list.reduce((b, s) => (!b || dist(s) < dist(b) ? s : b), null);
+    if (hidden && model.kind !== 'covalent') {
+      const br = host.getBoundingClientRect();
+      const zoneAtoms = model.kind === 'ionic' ? model.atoms.filter(a => !a.metal) : model.atoms;
+      const hit = zoneAtoms.filter(a => { const p = atomPx(a); return Math.hypot(br.left + p.x - c.x, br.top + p.y - c.y) < (SITE_DIST + 1.5) * u; })
+        .sort((p, q) => Math.hypot(br.left + atomPx(p).x - c.x, br.top + atomPx(p).y - c.y) - Math.hypot(br.left + atomPx(q).x - c.x, br.top + atomPx(q).y - c.y))[0];
+      return hit ? best(free.filter(s => s.owners[0] === hit.id)) : null;
     }
-    return best;
+    const range = hidden ? Math.max(e * 1.7, u * 1.25) : snapRange();
+    const s = best(free);
+    return s && dist(s) < range ? s : null;
   }
+  const nearestFree = tok => nearestFreeAt(centre(tok.el));
   function highlight(slot) {
     slotEls.forEach((el, id) => el.classList.toggle('is-near', !!slot && id === slot.id));
   }
@@ -143,17 +152,23 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
 
   function spawn() {
     if (tokens.length) return;
-    const owners = ionic ? model.tokens.map(t => t.metal)
+    const owners = (ionic ? model.tokens.map(t => t.metal)
       : model.kind === 'covalent' ? model.atoms.flatMap(a => Array(a.valence).fill(a.id))
-      : Array(model.tokens).fill(model.atoms[0].id);
+      : Array(model.tokens).fill(model.atoms[0].id)).concat(Array(spares).fill('spare'));
     for (let i = 0; i < owners.length; i++) {
       const el = div('electron lw-electron', host);
       const atom = model.atoms.find(a => a.id === owners[i]);
       el.setAttribute('role', 'button');
-      el.setAttribute('aria-label', `electron from ${atom.el}`);
-      el.textContent = atom.el;
-      el.style.setProperty('--c', colourOf(model, atom.id).fill);
-      const tok = { el, index: i, owner: owners[i], slot: null, homeSlot: ionic ? model.tokens[i].home : null, down: null };
+      if (atom) {
+        el.setAttribute('aria-label', `electron from ${atom.el}`);
+        el.textContent = atom.el;
+        el.style.setProperty('--c', colourOf(model, atom.id).fill);
+      } else { // a spare (decoy) electron that belongs to no atom
+        el.setAttribute('aria-label', 'spare electron');
+        el.textContent = 'e⁻';
+        el.classList.add('lw-electron--spare');
+      }
+      const tok = { el, index: i, owner: owners[i], slot: null, homeSlot: ionic && model.tokens[i] ? model.tokens[i].home : null, down: null };
       tokens.push(tok);
       el.addEventListener('pointerdown', () => { tok.down = centre(el); });
       stops.push(makeDraggable(el, {
@@ -206,6 +221,16 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
     });
   }
 
+  if (hidden) {
+    host.addEventListener('click', ev => {
+      if (!selected || ev.target.closest('.lw-electron')) return;
+      const slot = nearestFreeAt({ x: ev.clientX, y: ev.clientY });
+      if (!slot) return;
+      const tok = selected;
+      select(null); free(tok); put(tok, slot); sound?.pop(); onChange?.();
+    });
+  }
+
   const ro = new ResizeObserver(layout);
   ro.observe(host);
   layout();
@@ -213,6 +238,15 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
 
   return {
     model,
+    /** Where each electron sits (slot id or null), so a question can be left and resumed. */
+    snapshot: () => tokens.map(t => t.slot),
+    restore(snap) {
+      spawn();
+      select(null);
+      tokens.forEach(free);
+      (snap || []).forEach((id, i) => { if (id && tokens[i]) put(tokens[i], slotById.get(id)); });
+      onChange?.();
+    },
     filled: () => new Set(occupant.keys()),
     /** slot id → atom id the electron in it came from */
     sources: () => new Map([...occupant].map(([id, t]) => [id, t.owner])),

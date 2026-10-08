@@ -1,5 +1,5 @@
 {
-  "_about": "Which items appear at each level. 'atom:X' = fill the valence electrons of element X; 'mol:ID' = a molecule or compound from molecules.json. countQuestion = ask for the total valence electrons first; chargeStep = ask for each ion's charge after the transfer. challenge.items is a pool: 'count' items are drawn at random each time.",
+  "_about": "Which items appear at each level. 'atom:X' = fill the valence electrons of element X; 'mol:ID' = a molecule or compound from molecules.json. countQuestion = ask for the total valence electrons first; chargeStep = ask for each ion's charge after the transfer; hidden = no guide marks for where electrons go; spares = decoy electrons that belong to no atom; thinking = ionic items start with 'choose the atoms' (with distractor atoms) and end with 'choose the formula'; seconds = time limit for the stage. challenge.items is a pool: 'count' items are drawn at random each time.",
   "easy": {
     "items": [
       "atom:H",
@@ -35,20 +35,26 @@
     ]
   },
   "hard": {
+    "hidden": true,
+    "thinking": true,
+    "spares": 3,
+    "seconds": 600,
     "chargeStep": true,
     "items": [
       "mol:NaCl",
-      "mol:MgO",
       "mol:MgCl2",
       "mol:Na2O",
-      "mol:CaO",
-      "mol:CaCl2",
-      "mol:MgF2",
-      "mol:AlCl3"
+      "mol:CaF2",
+      "mol:K2S",
+      "mol:AlCl3",
+      "mol:Na3N",
+      "mol:MgO"
     ],
     "challenge": {
       "seconds": 300,
       "count": 8,
+      "hidden": true,
+      "spares": 3,
       "items": [
         "atom:O",
         "atom:Cl",
@@ -73,7 +79,10 @@
         "mol:AlCl3",
         "mol:Na2S",
         "mol:LiF",
-        "mol:KCl"
+        "mol:KCl",
+        "mol:K2S",
+        "mol:CaF2",
+        "mol:Na3N"
       ]
     }
   }

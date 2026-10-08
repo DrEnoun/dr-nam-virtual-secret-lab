@@ -1501,5 +1501,107 @@
       "en": "Pharmacy link: aluminium salts are used in some antiperspirants.",
       "ms": "Kaitan farmasi: garam aluminium digunakan dalam sesetengah antiperspiran."
     }
+  },
+  "Na3N": {
+    "kind": "ionic",
+    "formula": "Na3N",
+    "name": {
+      "en": "Sodium nitride",
+      "ms": "Natrium nitrida"
+    },
+    "atoms": [
+      {
+        "id": "m1",
+        "el": "Na",
+        "x": -5.4,
+        "y": 0
+      },
+      {
+        "id": "x",
+        "el": "N",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "m2",
+        "el": "Na",
+        "x": 5.4,
+        "y": 0
+      },
+      {
+        "id": "m3",
+        "el": "Na",
+        "x": 0,
+        "y": 5.4
+      }
+    ],
+    "why": {
+      "en": "N needs 3 electrons to reach 8 and each Na gives only 1, so three Na atoms are needed: 3 Na⁺ and N³⁻, formula Na₃N.",
+      "ms": "N perlu 3 elektron untuk mencapai 8 dan setiap Na hanya memberi 1, jadi tiga atom Na diperlukan: 3 Na⁺ dan N³⁻, formula Na₃N."
+    }
+  },
+  "CaF2": {
+    "kind": "ionic",
+    "formula": "CaF2",
+    "name": {
+      "en": "Calcium fluoride",
+      "ms": "Kalsium fluorida"
+    },
+    "atoms": [
+      {
+        "id": "x1",
+        "el": "F",
+        "x": -5.4,
+        "y": 0
+      },
+      {
+        "id": "m",
+        "el": "Ca",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "x2",
+        "el": "F",
+        "x": 5.4,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "Ca gives 2 electrons but each F needs only 1, so two F atoms are needed: Ca²⁺ and 2 F⁻, formula CaF₂.",
+      "ms": "Ca memberi 2 elektron tetapi setiap F hanya perlu 1, jadi dua atom F diperlukan: Ca²⁺ dan 2 F⁻, formula CaF₂."
+    }
+  },
+  "K2S": {
+    "kind": "ionic",
+    "formula": "K2S",
+    "name": {
+      "en": "Potassium sulfide",
+      "ms": "Kalium sulfida"
+    },
+    "atoms": [
+      {
+        "id": "m1",
+        "el": "K",
+        "x": -5.4,
+        "y": 0
+      },
+      {
+        "id": "x",
+        "el": "S",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "m2",
+        "el": "K",
+        "x": 5.4,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "S needs 2 electrons and each K gives 1, so two K atoms are needed: 2 K⁺ and S²⁻, formula K₂S.",
+      "ms": "S perlu 2 elektron dan setiap K memberi 1, jadi dua atom K diperlukan: 2 K⁺ dan S²⁻, formula K₂S."
+    }
   }
 }

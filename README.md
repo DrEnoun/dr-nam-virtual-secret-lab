@@ -41,9 +41,11 @@ Drag electrons from the tray into the slots (mouse, touch, or pinch-and-open-han
 |---|---|
 | **Easy** | Fill the valence electrons of H, C, N, O, F, Na, Mg, Cl; then build H₂, Cl₂, HCl with single bonds. |
 | **Medium** (14 items) | Count total valence electrons first, then build H₂O, NH₃, CH₄, HF, F₂, H₂S, PH₃ (lone pairs) and O₂, N₂, CO₂, HCN, C₂H₄, C₂H₂, CH₂O (double/triple bonds). |
-| **Hard** (8 items + challenge) | Ionic bonding: move electrons from the metal to the non-metal (NaCl, MgO, MgCl₂, Na₂O, CaO, CaCl₂, MgF₂, AlCl₃), then pick each ion's charge and see the brackets. Finish with a **5-minute mixed challenge**: 8 items drawn at random from a pool of 24 atoms, covalent molecules and ionic compounds. |
+| **Hard** (8 items, 10-minute timer, then a 5-minute challenge) | Ionic bonding with no guide marks. For each compound students **choose the atoms** from tiles that include distractors (the formula is hidden), **move the electrons** with no marked slots and with grey **decoy electrons** that belong to no atom, give each ion's **charge**, then choose the **formula**. Then a **mixed challenge**: 8 items drawn at random from a pool of 27 atoms, covalent molecules and ionic compounds, all without guide marks and with decoy electrons. |
 
 Each atom's electrons have their own colour (and carry the element letter), the atom's ring matches, and every shared pair must be built from one electron of each atom, so students see where the sharing comes from. The final structure is drawn in the same colours.
+
+**Moving around:** every level has Back / Next buttons and clickable question numbers, so students can leave a question and come back. Each question keeps its own progress (placed electrons, chosen atoms, the step it was on); finished questions show their answer. The Hard level and the challenge are timed.
 
 Scoring: 10 points for a first-try answer, 7 after one mistake, 4 after two, 2 after more; 0 if the answer is shown (offered after two mistakes). The best score per level is remembered on the device. In 2-player mode the activity runs on one board for now (take turns); split-screen Race/Co-op comes in Phase 5.
 
