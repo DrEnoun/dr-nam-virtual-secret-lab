@@ -38,8 +38,8 @@ Drag electrons from the tray into the slots (mouse, touch, or pinch-and-open-han
 | Level | What students do |
 |---|---|
 | **Easy** | Fill the valence electrons of H, C, N, O, F, Na, Mg, Cl; then build H₂, Cl₂, HCl with single bonds. |
-| **Medium** | Count total valence electrons first, then build H₂O, NH₃, CH₄ (lone pairs) and O₂, N₂, CO₂ (double/triple bonds). |
-| **Hard** | Ionic bonding: move electrons from the metal to the non-metal (NaCl, MgO, MgCl₂), then pick each ion's charge and see the brackets. Finish with a **4-minute mixed timed challenge**. |
+| **Medium** (14 items) | Count total valence electrons first, then build H₂O, NH₃, CH₄, HF, F₂, H₂S, PH₃ (lone pairs) and O₂, N₂, CO₂, HCN, C₂H₄, C₂H₂, CH₂O (double/triple bonds). |
+| **Hard** (8 items + challenge) | Ionic bonding: move electrons from the metal to the non-metal (NaCl, MgO, MgCl₂, Na₂O, CaO, CaCl₂, MgF₂, AlCl₃), then pick each ion's charge and see the brackets. Finish with a **5-minute mixed challenge**: 8 items drawn at random from a pool of 24 atoms, covalent molecules and ionic compounds. |
 
 Each atom's electrons have their own colour (and carry the element letter), the atom's ring matches, and every shared pair must be built from one electron of each atom, so students see where the sharing comes from. The final structure is drawn in the same colours.
 

@@ -60,7 +60,7 @@ export default function mount(host, ctx) {
   function startChallenge() {
     const c = run.cfg.challenge;
     run.stage = 'challenge';
-    run.items = shuffle(c.items).map(resolve);
+    run.items = shuffle(c.items).slice(0, c.count ?? c.items.length).map(resolve);
     run.idx = 0;
     run.results = [];
     run.max += run.items.length * 10;
@@ -350,7 +350,7 @@ export default function mount(host, ctx) {
     const c = run.cfg.challenge;
     host.innerHTML = '';
     const card = el('section', 'lw-center glass');
-    card.append(el('h2', '', t('lewis.challenge.title')), el('p', '', t('lewis.challenge.intro', { n: c.items.length, s: c.seconds })));
+    card.append(el('h2', '', t('lewis.challenge.title')), el('p', '', t('lewis.challenge.intro', { n: c.count ?? c.items.length, s: c.seconds })));
     const actions = el('div', 'lw-actions');
     actions.append(button(t('lewis.challenge.start'), startChallenge, 'btn-start btn-start--small'));
     card.appendChild(actions);
