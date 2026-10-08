@@ -112,3 +112,15 @@ Molecule data should live in JSON files (see BRIEF.md §10), not in code.
 2. If it uses a new element, add it to `data/lewis/elements.json`.
 3. Add `"mol:<id>"` to a level in `data/lewis/levels.json`.
 4. Run `npm test` — it builds every item, checks the answer is accepted, that any missing or extra electron is rejected, and that BM/English text exists. Then `node tools/build-sw.mjs`.
+
+---
+
+## Compounding Technique Monitor (prototype)
+
+Open `compounding-monitor/index.html` (same web-address rule as the games). A webcam watches the student's hands during a step-by-step procedure and flags technique problems live, then exports a CSV/JSON report.
+
+**What it detects today (hand tracking only, no extra training):** hands leaving the aseptic work zone (drag on the video to redraw it), unsteady/shaking hands, moving too fast, wrong hand angle (e.g. syringe not tip-up), too few hands on the task, hands out of camera view, and steps finished too quickly or too slowly.
+
+**What it cannot detect yet:** the syringe, needle, vial or plunger themselves (wrong volume, bevel orientation, touching the needle). That needs an object-detection model trained on photos of your own apparatus.
+
+Edit `compounding-monitor/data/protocol.json` to change steps and thresholds. The shipped values are an **example**; tune them against your lab SOP before using it for assessment. Tests: `node tools/test-compounding.mjs`.
