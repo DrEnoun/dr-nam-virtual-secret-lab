@@ -92,6 +92,8 @@ No build step: plain HTML, CSS and JavaScript modules. Serve the folder with any
 4. Make every clickable thing a `<button data-target>` so it works with gestures and the mouse.
 5. Run `node tools/build-sw.mjs`.
 
+**Language:** every new visit opens in English; students switch to Bahasa Malaysia with the Language buttons (kept while the tab stays open, not remembered for the next visit).
+
 Molecule data should live in JSON files (see BRIEF.md §10), not in code.
 
 ### Add a molecule to the Lewis Structure Builder
