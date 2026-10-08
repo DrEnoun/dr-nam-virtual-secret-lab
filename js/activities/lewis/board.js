@@ -29,6 +29,7 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
   const ionEls = [];
   let u = 40, e = 28, W = 0, H = 0, X = x => x, Y = y => y, trayH = 0, ionList = null;
   let tray = null;
+  let selected = null; // token picked by a tap, waiting for a slot
 
   for (const a of model.atoms) {
     const el = div('lw-atom', host);
@@ -117,6 +118,13 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
     settle(tok);
   }
 
+  function select(tok) {
+    if (selected) selected.el.classList.remove('is-selected');
+    selected = tok;
+    tok?.el.classList.add('is-selected');
+    host.classList.toggle('has-selection', !!tok);
+  }
+
   function spawn() {
     if (tokens.length) return;
     const count = ionic ? model.tokens.length : model.tokens;
@@ -125,16 +133,29 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
       el.setAttribute('role', 'button');
       el.setAttribute('aria-label', 'electron');
       el.textContent = '';
-      const tok = { el, index: i, slot: null, homeSlot: ionic ? model.tokens[i].home : null };
+      const tok = { el, index: i, slot: null, homeSlot: ionic ? model.tokens[i].home : null, down: null };
       tokens.push(tok);
+      el.addEventListener('pointerdown', () => { tok.down = centre(el); });
       stops.push(makeDraggable(el, {
         grabRadius: 8,
         onMove: () => {
-          if (tok.slot) { free(tok); onChange?.(); }
+          if (tok.slot) { free(tok); tok.wasPlaced = true; onChange?.(); }
           highlight(nearestFree(tok));
         },
         onDrop: () => {
           highlight(null);
+          const c = centre(el);
+          if (tok.down && Math.hypot(c.x - tok.down.x, c.y - tok.down.y) < 8) {
+            // A tap, not a drag: pick this electron up (tap a slot next), or put it back in the tray.
+            tok.down = null;
+            settle(tok);
+            select(selected === tok || tok.wasPlaced ? null : tok);
+            tok.wasPlaced = false;
+            sound?.tick();
+            onChange?.();
+            return;
+          }
+          select(null);
           const slot = nearestFree(tok);
           if (slot) { put(tok, slot); sound?.pop(); } else { settle(tok); sound?.tick(); }
           onChange?.();
@@ -145,9 +166,24 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
   }
 
   function reset() {
+    select(null);
     tokens.forEach(t => { free(t); settle(t); });
     host.dataset.state = '';
     onChange?.();
+  }
+
+  // Tap a slot to drop the picked-up electron into it.
+  for (const s of model.slots) {
+    if (!isTarget(s)) continue;
+    slotEls.get(s.id).addEventListener('click', () => {
+      if (!selected || occupant.has(s.id)) return;
+      const tok = selected;
+      select(null);
+      free(tok);
+      put(tok, s);
+      sound?.pop();
+      onChange?.();
+    });
   }
 
   const ro = new ResizeObserver(layout);
@@ -164,6 +200,7 @@ export function createBoard(host, model, { sound, onChange, locked = false } = {
     setState(s) { host.dataset.state = s || ''; },
     reveal() {
       spawn();
+      select(null);
       tokens.forEach(free);
       model.answer.forEach((id, i) => put(tokens[i], slotById.get(id)));
       onChange?.();

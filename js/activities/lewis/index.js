@@ -124,7 +124,8 @@ export default function mount(host, ctx) {
     q('.lw-title .tag').textContent = t(`level.${run.level}`);
     q('.lw-score span').textContent = t('lewis.score');
     ui.timer.hidden = run.stage !== 'challenge';
-    if (ctx.players === 'duo') { ui.note.hidden = false; ui.note.textContent = t('lewis.duo'); }
+    ui.note.hidden = false;
+    ui.note.textContent = t('lewis.touchhint') + (ctx.players === 'duo' ? ' ' + t('lewis.duo') : '');
     renderProgress();
   }
 

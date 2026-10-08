@@ -17,6 +17,8 @@ The full plan is in [BRIEF.md](BRIEF.md). **This version is Phase 2**: Phase 1 (
 
 > Opening `index.html` directly will not work — browsers only allow the webcam on a proper web address or `localhost`. Use one of the options above.
 
+**No camera? No problem.** Everything works with a mouse, a touch screen (tablet, phone, touch laptop) or a pen. Tap buttons; in the Lewis activity either *drag* an electron into a slot, or *tap* an electron and then *tap* a slot (tap a placed electron to take it back). The camera is optional.
+
 **Camera tips:** good lighting, one hand in front of the camera, about an arm's length away. Turn the camera on with the **Turn on camera** button. The video never leaves the device.
 
 **Gestures**

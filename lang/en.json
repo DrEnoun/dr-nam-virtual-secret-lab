@@ -129,5 +129,6 @@
   "lewis.timeup": "Time's up!",
   "lewis.bonus": "Time bonus: {n}",
   "lewis.duo": "2 Players: split-screen play arrives in Phase 5. For now, take turns.",
-  "lewis.error": "Could not load the molecule data."
+  "lewis.error": "Could not load the molecule data.",
+  "lewis.touchhint": "No camera needed: drag electrons with your finger or mouse, or tap an electron and then tap a slot. Tap a placed electron to take it back."
 }

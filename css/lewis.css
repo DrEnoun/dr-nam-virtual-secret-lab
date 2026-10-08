@@ -124,3 +124,9 @@
   .lw-bubble .drnam-says__avatar { width: 52px; height: 52px; }
 }
 .lw-feedback:empty { display: none; }
+
+/* Tap-to-place: the picked electron glows and empty slots invite a tap */
+.lw-electron.is-selected { transform: scale(1.25); box-shadow: var(--shadow-spark); z-index: 5; }
+.lw-board.has-selection .lw-slot:not(.is-filled):not(.lw-slot--static):not(.lw-slot--home) { cursor: pointer; border-style: solid; animation: lw-invite 1s ease-in-out infinite; }
+@keyframes lw-invite { 50% { background: color-mix(in srgb, var(--spark-400) 35%, transparent); } }
+.lw-slot { cursor: default; }

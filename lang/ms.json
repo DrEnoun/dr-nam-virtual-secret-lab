@@ -129,5 +129,6 @@
   "lewis.timeup": "Masa tamat!",
   "lewis.bonus": "Bonus masa: {n}",
   "lewis.duo": "2 Pemain: skrin terbahagi akan hadir dalam Fasa 5. Buat masa ini, main bergilir.",
-  "lewis.error": "Data molekul tidak dapat dimuatkan."
+  "lewis.error": "Data molekul tidak dapat dimuatkan.",
+  "lewis.touchhint": "Tidak perlu kamera: seret elektron dengan jari atau tetikus, atau ketik satu elektron kemudian ketik satu petak. Ketik elektron yang telah diletak untuk mengambilnya semula."
 }
