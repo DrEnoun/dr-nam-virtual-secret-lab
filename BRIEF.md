@@ -1,6 +1,6 @@
-# PHD115 Chemistry Gesture Game — Project Brief
+# Chemistry Gesture Game — Project Brief
 
-Build a browser-based chemistry learning game for first-year Diploma in Pharmacy students (course PHD115, Fundamental of Chemistry, UiTM). It must run on a laptop with a webcam, with no login, and work offline except for the online multiplayer mode. Build it in phases (see Build Plan at the end) and design it so new activities can be added later.
+Build a browser-based chemistry learning game for general use (any student or learner of introductory chemistry). It must run on a laptop with a webcam, with no login, and work offline except for the online multiplayer mode. Build it in phases (see Build Plan at the end) and design it so new activities can be added later.
 
 ---
 
