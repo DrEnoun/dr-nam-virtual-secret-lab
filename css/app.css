@@ -3,7 +3,7 @@
 
 :root {
   --u: min(1vh, 0.56vw);
-  --topbar-h: calc(var(--u) * 9);
+  --topbar-h: calc(var(--u) * 11);
   --p1: var(--spark-400);
   --p2: var(--bright-blue-400);
   --tilt: 0deg;
@@ -71,6 +71,7 @@ p { margin: 0; }
   height: calc(var(--u) * 6.4);
   display: flex; align-items: center;
 }
+.logo-plate--lockup { height: calc(var(--u) * 8.6); padding: calc(var(--u) * .5) calc(var(--u) * 1.2); }
 .logo-plate img { height: 100%; width: auto; object-fit: contain; }
 .logo-missing {
   font: 600 13px/1.2 var(--font-body);
@@ -519,6 +520,7 @@ p { margin: 0; }
   body { overflow: auto; font-size: 16px; }
   .topbar { height: auto; flex-wrap: wrap; padding: 10px 16px; }
   .logo-plate { height: 44px; }
+  .logo-plate--lockup { height: 56px; }
   .screen { height: auto; min-height: calc(100dvh - 80px); }
   .screen--landing {
     grid-template-columns: 1fr;
