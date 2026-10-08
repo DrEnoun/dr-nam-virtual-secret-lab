@@ -160,7 +160,6 @@ p { margin: 0; }
   margin-bottom: calc(var(--u) * 1.2);
 }
 .hero__tagline { font-size: calc(var(--u) * 2.2); }
-.hero__course { font-size: max(14px, calc(var(--u) * 1.7)); color: var(--title-accent); margin-top: calc(var(--u) * .6); }
 
 /* Glass panel */
 .glass {

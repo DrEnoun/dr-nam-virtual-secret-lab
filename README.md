@@ -1,6 +1,6 @@
 # Dr. NAM Virtual Secret Lab
 
-Gesture-controlled chemistry games for **PHD115 Fundamental of Chemistry** (Diploma in Pharmacy, UiTM Cawangan Pulau Pinang).
+Gesture-controlled chemistry games by **Chemistry with Dr. NAM**, for general use.
 Students aim with a finger, "shoot" to select, and pinch to grab — or simply use a mouse or touch screen.
 
 The full plan is in [BRIEF.md](BRIEF.md). **This version is Phase 2**: Phase 1 (branding, landing page, BM/English, gesture engine, mouse fallback, offline) plus **Activity 1 — Lewis Structure Builder** at Easy, Medium and Hard. Activities 2 and 3 arrive in Phases 3–4.

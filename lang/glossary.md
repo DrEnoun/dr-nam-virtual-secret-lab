@@ -35,7 +35,6 @@ Edit wording in `lang/ms.json` and `lang/en.json` — no code changes needed.
 | Absorption (drug) | Penyerapan | |
 | Stability | Kestabilan | |
 | Salt (drug salt form) | Garam | |
-| Fundamental of Chemistry | Asas Kimia | Course title — please confirm official BM name |
 | Periodic table | Jadual berkala | Phase 2 |
 | Group / Period | Kumpulan / Kala | Phase 2 |
 | Atomic mass | Jisim atom | Phase 2 |

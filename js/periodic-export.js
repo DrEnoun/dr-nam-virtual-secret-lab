@@ -40,7 +40,7 @@ export async function renderPoster(elements) {
   c.font = `800 190px ${D}`; c.fillText(t('pt.title'), 660, 330);
   c.fillStyle = '#c8f53d'; c.fillRect(660, 365, 420, 24); // lime title rule
   c.fillStyle = INK; c.font = `400 56px ${B}`; c.fillText(t('app.tagline'), 660, 480);
-  c.font = `400 46px ${B}`; c.fillText(`${t('app.brand')}  ·  ${t('app.course')}`, 660, 545);
+  c.font = `400 46px ${B}`; c.fillText(t('app.brand'), 660, 545);
 
   // Legend (font shrinks so all ten chips fit on one row)
   const ly2 = 650, maxRow = W - 380;

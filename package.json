@@ -1,7 +1,7 @@
 {
   "name": "drnam-chem-games",
   "version": "1.0.0",
-  "description": "Chemistry with Dr. NAM — gesture chemistry games for PHD115",
+  "description": "Chemistry with Dr. NAM — gesture chemistry games",
   "scripts": {
     "tokens": "node tools/make-tokens-css.mjs",
     "test": "node tools/test-classify.mjs && node tools/test-lewis.mjs && node tools/test-periodic.mjs",
