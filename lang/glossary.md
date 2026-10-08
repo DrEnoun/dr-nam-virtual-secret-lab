@@ -36,3 +36,12 @@ Edit wording in `lang/ms.json` and `lang/en.json` — no code changes needed.
 | Stability | Kestabilan | |
 | Salt (drug salt form) | Garam | |
 | Fundamental of Chemistry | Asas Kimia | Course title — please confirm official BM name |
+| Periodic table | Jadual berkala | Phase 2 |
+| Group / Period | Kumpulan / Kala | Phase 2 |
+| Atomic mass | Jisim atom | Phase 2 |
+| Alkali metals / Alkaline earth metals | Logam alkali / Logam alkali bumi | Phase 2 |
+| Transition metals | Logam peralihan | Phase 2 |
+| Halogens / Noble gases | Halogen / Gas adi | Phase 2 |
+| Metalloids | Metaloid | Phase 2 |
+| Lanthanides / Actinides | Lantanida / Aktinida | Phase 2 |
+| Element names (all 118) | see `data/periodic.json` | Please check, e.g. Ferum (Besi), Kuprum (Tembaga), Argentum (Perak), Aurum (Emas), Raksa (Merkuri), Plumbum (Timbal), Stanum (Timah) |

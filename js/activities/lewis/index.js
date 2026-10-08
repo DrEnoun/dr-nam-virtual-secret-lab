@@ -180,6 +180,7 @@ export default function mount(host, ctx) {
     const countFirst = run.cfg.countQuestion && run.stage === 'main' && item.type === 'molecule';
     phase = countFirst ? 'count' : 'build';
 
+    document.body.dataset.ptHighlight = [...new Set(model.atoms.map(a => a.el))].join(',');
     const sym = item.type === 'atom' ? item.element : null;
     ui.formula.textContent = item.type === 'atom' ? sym : subscript(item.mol.formula);
     ui.task.textContent = t(`lewis.task.${item.type === 'atom' ? 'atom' : item.type}`, {
@@ -388,5 +389,5 @@ export default function mount(host, ctx) {
     sound.correct();
   }
 
-  return () => { alive = false; stopTimer(); board?.destroy(); host.innerHTML = ''; };
+  return () => { alive = false; stopTimer(); board?.destroy(); host.innerHTML = ''; delete document.body.dataset.ptHighlight; };
 }
