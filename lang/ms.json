@@ -152,5 +152,13 @@
   "pt.cat.noble": "Gas adi",
   "pt.cat.lanthanide": "Lantanida",
   "pt.cat.actinide": "Aktinida",
-  "pt.tip": "Petua: bagi atom kumpulan utama, nombor kumpulan memberitahu elektron valens (kumpulan 1 = 1, kumpulan 17 = 7)."
+  "pt.tip": "Petua: bagi atom kumpulan utama, nombor kumpulan memberitahu elektron valens (kumpulan 1 = 1, kumpulan 17 = 7).",
+  "pt.download.png": "Muat turun gambar (PNG)",
+  "pt.download.pdf": "Muat turun untuk cetakan (PDF)",
+  "pt.preparing": "Menyediakan jadual berkala anda…",
+  "pt.downloaded": "Disimpan dalam muat turun anda.",
+  "pt.poster.key": "Cara membaca satu kotak",
+  "pt.poster.key.z": "Kiri atas: nombor atom (proton).",
+  "pt.poster.key.sym": "Huruf besar: simbol unsur, dengan namanya di bawah.",
+  "pt.poster.key.mass": "Bawah: jisim atom. Kurungan bermaksud isotop paling stabil."
 }

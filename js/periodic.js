@@ -2,6 +2,8 @@
 // Elements named in document.body.dataset.ptHighlight (comma list, set by an activity) get a ring.
 import { t, lang } from './i18n.js';
 import { sound } from './sound.js';
+import { toast, guardLogos } from './ui.js';
+import { downloadPoster } from './periodic-export.js';
 
 const CATS = ['alkali', 'alkaline', 'transition', 'post', 'metalloid', 'nonmetal', 'halogen', 'noble', 'lanthanide', 'actinide'];
 let data = null;
@@ -27,7 +29,20 @@ export async function openPeriodicTable() {
   title.id = 'pt-title';
   const close = el('button', 'sticker pt-close', t('pt.close'));
   close.type = 'button'; close.dataset.target = '';
-  head.append(title, close);
+  const badge = el('div', 'pt-badge');
+  badge.innerHTML = '<img src="brand/logos/chemistry-with-dr-nam-logo.jpg" alt="Chemistry with Dr. NAM" data-logo="Chemistry with Dr. NAM badge">';
+  const actions = el('div', 'pt-actions');
+  const dl = kind => {
+    const b = el('button', 'sticker pt-dl', t(`pt.download.${kind}`));
+    b.type = 'button'; b.dataset.target = '';
+    b.addEventListener('click', async () => {
+      sound.select(); b.disabled = true; toast(t('pt.preparing'), 2500);
+      try { await downloadPoster(elements, kind); toast(t('pt.downloaded'), 2500); } catch (err) { console.warn(err); } finally { b.disabled = false; }
+    });
+    return b;
+  };
+  actions.append(dl('png'), dl('pdf'), close);
+  head.append(badge, title, actions);
 
   const legend = el('div', 'pt-legend');
   const detail = el('div', 'pt-detail sticker-static');
@@ -95,6 +110,7 @@ export async function openPeriodicTable() {
   (matchMedia('(min-width: 861px) and (min-aspect-ratio: 1/1)').matches ? grid : box).appendChild(detail);
   legend.after(el('p', 'pt-tip', t('pt.tip')));
   document.body.appendChild(root);
+  guardLogos(root);
   const first = (mark.size && elements.find(e => mark.has(e.sym))) || elements[0];
   select(first);
 

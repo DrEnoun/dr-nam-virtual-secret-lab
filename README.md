@@ -27,7 +27,7 @@ The full plan is in [BRIEF.md](BRIEF.md). **This version is Phase 2**: Phase 1 (
 - **Grab / drop:** pinch thumb and index finger to grab; open your hand to drop. A quick pinch also selects.
 - **2 Players:** the player on the left of the room is Player 1 (lime), the right is Player 2 (teal).
 
-**Periodic table:** the **Periodic table** button in the top bar opens a full 118-element table on any screen (works offline, BM/English). Tap an element for its group, period, atomic mass and valence electrons; tap a group-type chip to highlight a family. Inside the Lewis activity it rings the atoms of the current question. Data: `data/periodic.json`.
+**Periodic table:** the **Periodic table** button in the top bar opens a full 118-element table on any screen (works offline, BM/English). Tap an element for its group, period, atomic mass and valence electrons; tap a group-type chip to highlight a family. Inside the Lewis activity it rings the atoms of the current question. Data: `data/periodic.json`. Two buttons save the table as a printable A4 poster with the Dr. NAM badge, in the current language: **PNG** (picture) or **PDF** (print). It is made on the device (`js/periodic-export.js`), so it works offline.
 
 **Hidden lecturer mode:** press **Shift + L**. In the Lewis Structure Builder it shows the correct Lewis structure beside every question.
 

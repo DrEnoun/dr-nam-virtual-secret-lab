@@ -152,5 +152,13 @@
   "pt.cat.noble": "Noble gases",
   "pt.cat.lanthanide": "Lanthanides",
   "pt.cat.actinide": "Actinides",
-  "pt.tip": "Tip: for main-group atoms, the group number tells you the valence electrons (group 1 = 1, group 17 = 7)."
+  "pt.tip": "Tip: for main-group atoms, the group number tells you the valence electrons (group 1 = 1, group 17 = 7).",
+  "pt.download.png": "Download picture (PNG)",
+  "pt.download.pdf": "Download for printing (PDF)",
+  "pt.preparing": "Preparing your periodic table…",
+  "pt.downloaded": "Saved to your downloads.",
+  "pt.poster.key": "How to read a box",
+  "pt.poster.key.z": "Top left: atomic number (protons).",
+  "pt.poster.key.sym": "Large letters: the element's symbol, with its name below.",
+  "pt.poster.key.mass": "Bottom: atomic mass. Brackets mean the most stable isotope."
 }
