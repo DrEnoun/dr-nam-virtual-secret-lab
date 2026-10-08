@@ -1,0 +1,18 @@
+{
+  "_about": "Which items appear at each level. 'atom:X' = fill the valence electrons of element X; 'mol:ID' = a molecule or compound from molecules.json. countQuestion = ask for the total valence electrons first; chargeStep = ask for each ion's charge after the transfer.",
+  "easy": {
+    "items": ["atom:H", "atom:C", "atom:N", "atom:O", "atom:F", "atom:Na", "atom:Mg", "atom:Cl", "mol:H2", "mol:Cl2", "mol:HCl"]
+  },
+  "medium": {
+    "countQuestion": true,
+    "items": ["mol:H2O", "mol:NH3", "mol:CH4", "mol:O2", "mol:N2", "mol:CO2"]
+  },
+  "hard": {
+    "chargeStep": true,
+    "items": ["mol:NaCl", "mol:MgO", "mol:MgCl2"],
+    "challenge": {
+      "seconds": 240,
+      "items": ["atom:O", "mol:HCl", "mol:H2O", "mol:NaCl", "mol:CO2", "mol:MgCl2"]
+    }
+  }
+}

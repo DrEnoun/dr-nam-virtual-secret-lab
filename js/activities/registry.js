@@ -8,9 +8,8 @@ export const activities = [
     id: 'lewis',
     topic: 'bonding',
     doodle: 'atom',
-    status: 'soon',
-    phase: 2,
-    // load: () => import('./lewis/index.js'),
+    status: 'ready',
+    load: () => import('./lewis/index.js'),
   },
   {
     id: 'hybrid',
