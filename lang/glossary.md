@@ -44,3 +44,14 @@ Edit wording in `lang/ms.json` and `lang/en.json` — no code changes needed.
 | Metalloids | Metaloid | Phase 2 |
 | Lanthanides / Actinides | Lantanida / Aktinida | Phase 2 |
 | Element names (all 118) | see `data/periodic.json` | Please check, e.g. Ferum (Besi), Kuprum (Tembaga), Argentum (Perak), Aurum (Emas), Raksa (Merkuri), Plumbum (Timbal), Stanum (Timah) |
+| Hybrid orbital | Orbital hibrid | Phase 3 |
+| sp, sp², sp³ hybridization | Penghibridan sp, sp², sp³ | Phase 3 |
+| Sigma (σ) bond / Pi (π) bond | Ikatan sigma (σ) / ikatan pi (π) | Phase 3 |
+| Electron group | Kumpulan elektron | Phase 3 |
+| Orbital mixer | Pencampur orbital | Phase 3 (game wording) |
+| Tetrahedral | Tetrahedron | Phase 3 |
+| Trigonal planar | Satah trigon | Phase 3 |
+| Trigonal pyramidal | Piramid trigon | Phase 3 |
+| Bent | Bengkok | Phase 3 |
+| Linear | Linear | Phase 3 |
+| Bond angle | Sudut ikatan | Phase 3 |

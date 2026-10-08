@@ -15,8 +15,8 @@ export const activities = [
     id: 'hybrid',
     topic: 'bonding',
     doodle: 'molecule',
-    status: 'soon',
-    phase: 3,
+    status: 'ready',
+    load: () => import('./hybrid/index.js'),
   },
   {
     id: 'crystal',

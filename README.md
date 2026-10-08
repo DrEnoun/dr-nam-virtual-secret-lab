@@ -3,7 +3,7 @@
 Gesture-controlled chemistry games by **Chemistry with Dr. NAM**, for general use.
 Students aim with a finger, "shoot" to select, and pinch to grab — or simply use a mouse or touch screen.
 
-The full plan is in [BRIEF.md](BRIEF.md). **This version is Phase 2**: Phase 1 (branding, landing page, BM/English, gesture engine, mouse fallback, offline) plus **Activity 1 — Lewis Structure Builder** at Easy, Medium and Hard. Activities 2 and 3 arrive in Phases 3–4.
+The full plan is in [BRIEF.md](BRIEF.md). **This version is Phase 3**: Phase 1 (branding, landing page, BM/English, gesture engine, mouse fallback, offline), **Activity 1 — Lewis Structure Builder** and **Activity 2 — Hybridization Lab**, each at Easy, Medium and Hard. Activity 3 arrives in Phase 4.
 
 ---
 
@@ -51,6 +51,25 @@ Scoring: 10 points for a first-try answer, 7 after one mistake, 4 after two, 2 a
 
 ---
 
+---
+
+## Activity 2 — Hybridization Lab
+
+Students learn that hybridization follows from **counting electron groups**. Every item walks through the same steps (you can go Back and Next at any time):
+
+1. **Count the groups** around the highlighted central atom: shoot every bond line and every lone pair. A double or triple bond counts once (shooting both lines is flagged). Other atoms' lone pairs are decoys.
+2. **Mix the orbitals:** drag (or tap) the right s and p orbitals into the **orbital mixer** (d orbitals are decoys), press **Mix!** and watch them blend into 2, 3 or 4 hybrid lobes. Leftover p orbitals glow.
+3. **Label σ and π:** tap each bond line to mark it σ or π; the leftover p orbitals make the π bonds.
+4. **See it in 3D:** rotate the molecule by dragging or grabbing with your hand; switch hybrid lobes, π orbitals and the bond angle on and off.
+
+| Level | Items |
+|---|---|
+| **Easy** | CH₄, C₂H₄, C₂H₂: carbon only, compare sp³, sp² and sp. |
+| **Medium** | NH₃, H₂O, BF₃, BeCl₂, CO₂, HCN: lone pairs count as groups; BF₃ and BeCl₂ show empty p orbitals. |
+| **Hard** | Drug molecules (paracetamol, aspirin): shoot each numbered atom and label it sp, sp² or sp³. A wrong answer shows that atom's group count and names what was missed (a lone pair, a hydrogen, or a multiple bond counted twice). |
+
+The **summary table** (groups → hybridization → shape and angle) is always on screen, a **Why?** button gives the three reasons, and the Hard level ends with the model's limits (e.g. S in H₂S, about 92°). Lecturer mode (Shift + L) shows each answer. Groups, hybridization, shape and angle are all worked out from the molecule data, never typed in.
+
 ## Put it on GitHub Pages (one time)
 
 1. Create a repository on GitHub and upload everything in this folder (including the hidden `.nojekyll` file).
@@ -84,6 +103,8 @@ No build step: plain HTML, CSS and JavaScript modules. Serve the folder with any
 | `js/activities/lewis/` | Lewis Structure Builder: `rules.js` (pure logic, no DOM), `board.js` (drag board + SVG answer), `index.js` (flow, scoring, timer) |
 | `css/lewis.css` | Styles for the Lewis activity (loaded by the activity itself) |
 | `js/periodic.js`, `data/periodic.json` | Periodic table overlay and its data (edit BM names here) |
+| `js/activities/hybrid/`, `css/hybrid.css` | Hybridization Lab: `rules.js` (logic), `diagram.js` (2D structure), `mixer.js` (orbital mixer), `viewer3d.js` (Three.js), `index.js` (flow, scoring) |
+| `data/hybrid/` | **Molecule data (JSON):** `molecules.json` (2D and 3D coordinates, lone pairs), `levels.json` |
 | `data/lewis/` | **Molecule data (JSON):** `elements.json`, `molecules.json`, `levels.json` |
 | `js/i18n.js`, `lang/` | Translations |
 | `sw.js` | Offline cache, **generated** → `node tools/build-sw.mjs` (run after adding or changing files) |
@@ -112,3 +133,9 @@ Molecule data should live in JSON files (see BRIEF.md §10), not in code.
 2. If it uses a new element, add it to `data/lewis/elements.json`.
 3. Add `"mol:<id>"` to a level in `data/lewis/levels.json`.
 4. Run `npm test` — it builds every item, checks the answer is accepted, that any missing or extra electron is rejected, and that BM/English text exists. Then `node tools/build-sw.mjs`.
+
+### Add a molecule to the Hybridization Lab
+
+1. Add it to `data/hybrid/molecules.json`: `atoms` (`id`, `el`, `xy` for the 2D drawing, `xyz` for the 3D view, `lp` lone pairs, `h` hidden hydrogens for skeletal drawings), `bonds` (`a`, `b`, `order`) and `central` (the atom to analyse). For a central atom with lone pairs add `lp3d` (their directions). For a Hard drug molecule, give atoms a `mark` number.
+2. Add `"mol:<id>"` (or `"drug:<id>"` for Hard) to a level in `data/hybrid/levels.json`.
+3. Run `npm test`: it checks groups, hybridization, shape, the counting and mixing logic, and that BM and English text exist.

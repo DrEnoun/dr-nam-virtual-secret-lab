@@ -1,0 +1,26 @@
+{
+ "_about": "Items per level. 'mol:ID' = analyse the central atom of a molecule (count groups, mix orbitals, label \u03c3/\u03c0, then view in 3D). 'drug:ID' = Hard: label each numbered atom as sp, sp2 or sp3.",
+ "easy": {
+  "items": [
+   "mol:CH4",
+   "mol:C2H4",
+   "mol:C2H2"
+  ]
+ },
+ "medium": {
+  "items": [
+   "mol:NH3",
+   "mol:H2O",
+   "mol:BF3",
+   "mol:BeCl2",
+   "mol:CO2",
+   "mol:HCN"
+  ]
+ },
+ "hard": {
+  "items": [
+   "drug:paracetamol",
+   "drug:aspirin"
+  ]
+ }
+}

@@ -158,3 +158,5 @@
 .lw-pick__empty { opacity: .75; font-size: max(16px, calc(var(--u) * 1.9)); }
 .lw-chip { --tilt: 0deg; min-height: calc(var(--u) * 5.4) !important; }
 .lw-formula-choice { font-size: max(20px, calc(var(--u) * 2.6)) !important; }
+
+.lw-progress li.is-current { color: var(--on-spark) !important; }
