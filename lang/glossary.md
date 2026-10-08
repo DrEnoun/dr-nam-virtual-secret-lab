@@ -11,6 +11,13 @@ Edit wording in `lang/ms.json` and `lang/en.json` — no code changes needed.
 | Lewis structure | Struktur Lewis | |
 | Chemical bonding | Ikatan kimia | |
 | Covalent bond | Ikatan kovalen | Used from Phase 2 |
+| Shared pair (bonding pair) | Pasangan kongsi / pasangan ikatan | Phase 2 |
+| Single / double / triple bond | Ikatan tunggal / ganda dua / ganda tiga | Phase 2 |
+| Metal / non-metal | Logam / bukan logam | Phase 2 |
+| Ion, cation, anion | Ion, kation, anion | Phase 2 |
+| Charge | Cas | Phase 2 |
+| Electron transfer | Pemindahan elektron | Phase 2 |
+| Full shell (duplet) | Petala penuh (duplet) | Phase 2 |
 | Ionic (electrovalent) bond | Ikatan ion (elektrovalen) | Used from Phase 2 |
 | Lone pair | Pasangan elektron bebas | Used from Phase 2 — please confirm preferred term |
 | Octet rule | Petua oktet | Used from Phase 2 |

@@ -1,5 +1,4 @@
-Put your 4 logo files here before uploading to GitHub:
-- chemistry-with-dr-nam-logo.jpg
-- uitm-cawangan-pulau-pinang-lockup.png
-- uitm-di-hatiku-motto.png
-- uitm-logo-full.png
+Logo files used by the game (same names):
+- chemistry-with-dr-nam-logo.jpg  (Dr. NAM badge)
+- uitm-logo-full.png              (UiTM, top-left)
+- uitm-di-hatiku-motto.png        (UiTM di hatiku, top-right)
