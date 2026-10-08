@@ -203,7 +203,7 @@ export function evaluate(model, filled, source = null) {
 }
 
 /** Charge choices offered in the ion-charge step. */
-export const CHARGE_CHOICES = [1, 2, -1, -2];
+export const CHARGE_CHOICES = [1, 2, 3, -1, -2, -3];
 
 /** Distinct ions (one per element) in the order they should be asked. */
 export function uniqueIons(model) {

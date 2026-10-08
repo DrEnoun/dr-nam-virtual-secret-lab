@@ -1,11 +1,136 @@
 {
   "_about": "Elements used by the Lewis Structure Builder. valence = outer electrons; shell = electrons the full outer shell holds (2 for H, 8 otherwise); metal = gives electrons away in ionic bonding; sites = where lone pairs may sit (default: top/right/bottom/left; 'opposite' = away from the bond, used for H).",
-  "H":  { "z": 1,  "valence": 1, "shell": 2, "sites": "opposite", "name": { "en": "Hydrogen",  "ms": "Hidrogen" } },
-  "C":  { "z": 6,  "valence": 4, "shell": 8, "name": { "en": "Carbon",    "ms": "Karbon" } },
-  "N":  { "z": 7,  "valence": 5, "shell": 8, "name": { "en": "Nitrogen",  "ms": "Nitrogen" } },
-  "O":  { "z": 8,  "valence": 6, "shell": 8, "name": { "en": "Oxygen",    "ms": "Oksigen" } },
-  "F":  { "z": 9,  "valence": 7, "shell": 8, "name": { "en": "Fluorine",  "ms": "Fluorin" } },
-  "Na": { "z": 11, "valence": 1, "shell": 8, "metal": true, "name": { "en": "Sodium",    "ms": "Natrium" } },
-  "Mg": { "z": 12, "valence": 2, "shell": 8, "metal": true, "name": { "en": "Magnesium", "ms": "Magnesium" } },
-  "Cl": { "z": 17, "valence": 7, "shell": 8, "name": { "en": "Chlorine",  "ms": "Klorin" } }
+  "H": {
+    "z": 1,
+    "valence": 1,
+    "shell": 2,
+    "sites": "opposite",
+    "name": {
+      "en": "Hydrogen",
+      "ms": "Hidrogen"
+    }
+  },
+  "C": {
+    "z": 6,
+    "valence": 4,
+    "shell": 8,
+    "name": {
+      "en": "Carbon",
+      "ms": "Karbon"
+    }
+  },
+  "N": {
+    "z": 7,
+    "valence": 5,
+    "shell": 8,
+    "name": {
+      "en": "Nitrogen",
+      "ms": "Nitrogen"
+    }
+  },
+  "O": {
+    "z": 8,
+    "valence": 6,
+    "shell": 8,
+    "name": {
+      "en": "Oxygen",
+      "ms": "Oksigen"
+    }
+  },
+  "F": {
+    "z": 9,
+    "valence": 7,
+    "shell": 8,
+    "name": {
+      "en": "Fluorine",
+      "ms": "Fluorin"
+    }
+  },
+  "Na": {
+    "z": 11,
+    "valence": 1,
+    "shell": 8,
+    "metal": true,
+    "name": {
+      "en": "Sodium",
+      "ms": "Natrium"
+    }
+  },
+  "Mg": {
+    "z": 12,
+    "valence": 2,
+    "shell": 8,
+    "metal": true,
+    "name": {
+      "en": "Magnesium",
+      "ms": "Magnesium"
+    }
+  },
+  "Cl": {
+    "z": 17,
+    "valence": 7,
+    "shell": 8,
+    "name": {
+      "en": "Chlorine",
+      "ms": "Klorin"
+    }
+  },
+  "Li": {
+    "z": 3,
+    "valence": 1,
+    "shell": 8,
+    "metal": true,
+    "name": {
+      "en": "Lithium",
+      "ms": "Litium"
+    }
+  },
+  "Al": {
+    "z": 13,
+    "valence": 3,
+    "shell": 8,
+    "metal": true,
+    "name": {
+      "en": "Aluminium",
+      "ms": "Aluminium"
+    }
+  },
+  "P": {
+    "z": 15,
+    "valence": 5,
+    "shell": 8,
+    "name": {
+      "en": "Phosphorus",
+      "ms": "Fosforus"
+    }
+  },
+  "S": {
+    "z": 16,
+    "valence": 6,
+    "shell": 8,
+    "name": {
+      "en": "Sulfur",
+      "ms": "Sulfur"
+    }
+  },
+  "K": {
+    "z": 19,
+    "valence": 1,
+    "shell": 8,
+    "metal": true,
+    "name": {
+      "en": "Potassium",
+      "ms": "Kalium"
+    }
+  },
+  "Ca": {
+    "z": 20,
+    "valence": 2,
+    "shell": 8,
+    "metal": true,
+    "name": {
+      "en": "Calcium",
+      "ms": "Kalsium"
+    }
+  }
 }
