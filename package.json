@@ -1,0 +1,19 @@
+{
+  "name": "drnam-chem-games",
+  "version": "1.0.0",
+  "description": "Chemistry with Dr. NAM — gesture chemistry games for PHD115",
+  "scripts": {
+    "tokens": "node tools/make-tokens-css.mjs",
+    "test": "node tools/test-classify.mjs",
+    "sw": "node tools/build-sw.mjs",
+    "serve": "python3 -m http.server 8080"
+  },
+  "author": "Dr. Nur 'Ainun Mokhtar (Chemistry with Dr. NAM)",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@mediapipe/hands": "^0.4.1675469240",
+    "three": "^0.186.1"
+  },
+  "private": true,
+  "type": "module"
+}

@@ -1,0 +1,5 @@
+Put your 4 logo files here before uploading to GitHub:
+- chemistry-with-dr-nam-logo.jpg
+- uitm-cawangan-pulau-pinang-lockup.png
+- uitm-di-hatiku-motto.png
+- uitm-logo-full.png

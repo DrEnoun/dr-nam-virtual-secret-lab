@@ -1,0 +1,16 @@
+{
+  "name": "Dr. NAM Virtual Secret Lab",
+  "short_name": "Secret Lab",
+  "description": "Gesture-controlled chemistry games for PHD115.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#060d1b",
+  "theme_color": "#060d1b",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ms" data-theme="night">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Dr. NAM Virtual Secret Lab</title>
+  <meta name="description" content="Gesture-controlled chemistry games for PHD115 by Chemistry with Dr. NAM (UiTM Cawangan Pulau Pinang).">
+  <meta name="theme-color" content="#060d1b">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script>
+    // Apply the saved theme before first paint
+    try {
+      var s = JSON.parse(localStorage.getItem('drnam-chem-games:v1') || '{}');
+      if (s.theme === 'day') document.documentElement.dataset.theme = 'day';
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <div class="bg" aria-hidden="true">
+    <div class="bg__doodles" id="bg-doodles"></div>
+  </div>
+
+  <!-- ===================== Top bar ===================== -->
+  <header class="topbar">
+    <div class="logo-plate logo-plate--lockup">
+      <img src="brand/logos/uitm-cawangan-pulau-pinang-lockup.png" alt="UiTM Cawangan Pulau Pinang" data-logo="UiTM Cawangan Pulau Pinang lockup">
+    </div>
+
+    <div class="toolbar" role="toolbar" aria-label="Settings">
+      <button class="chip chip--camera" id="btn-camera" data-target type="button" data-status="off">
+        <span class="chip__dot" aria-hidden="true"></span>
+        <span id="camera-label" data-i18n="toolbar.camera.off">Turn on camera</span>
+      </button>
+      <button class="chip" id="btn-theme" data-target type="button"></button>
+      <button class="chip" id="btn-sound" data-target type="button"></button>
+      <button class="chip" id="btn-home" data-target type="button" hidden data-i18n="toolbar.home">Home</button>
+      <span class="chip chip--lecturer" id="lecturer-badge" hidden data-i18n="toolbar.lecturer">Lecturer mode</span>
+    </div>
+
+    <div class="logo-plate logo-plate--motto">
+      <img src="brand/logos/uitm-di-hatiku-motto.png" alt="UiTM di hatiku" data-logo="UiTM di hatiku motto">
+    </div>
+  </header>
+
+  <!-- ===================== Landing ===================== -->
+  <main class="screen screen--landing" id="screen-landing">
+    <section class="hero">
+      <div class="badge-disc float">
+        <img src="brand/logos/chemistry-with-dr-nam-logo.jpg" alt="Chemistry with Dr. NAM" data-logo="Chemistry with Dr. NAM badge">
+      </div>
+      <div class="hero__text">
+        <p class="eyebrow" data-i18n="app.brand">Chemistry with Dr. NAM</p>
+        <h1 class="hero__title"><span class="lime-rule" aria-hidden="true"></span><span id="title-text" data-i18n="app.title">Dr. NAM Virtual Secret Lab</span></h1>
+        <p class="hero__tagline" data-i18n="app.tagline">Bringing everyday life into simple science, explained.</p>
+        <p class="hero__course" data-i18n="app.course">PHD115 · Fundamental of Chemistry</p>
+      </div>
+    </section>
+
+    <section class="settings glass" aria-label="Game settings">
+      <div class="setting">
+        <h2 class="setting__label" data-i18n="landing.language">Language</h2>
+        <div class="options" role="radiogroup" data-setting="language">
+          <button class="sticker opt" data-target data-value="ms" role="radio" type="button">Bahasa Malaysia</button>
+          <button class="sticker opt" data-target data-value="en" role="radio" type="button">English</button>
+        </div>
+      </div>
+      <div class="setting">
+        <h2 class="setting__label" data-i18n="landing.level">Level</h2>
+        <div class="options" role="radiogroup" data-setting="level">
+          <button class="sticker opt" data-target data-value="easy" role="radio" type="button" data-i18n="level.easy">Easy</button>
+          <button class="sticker opt" data-target data-value="medium" role="radio" type="button" data-i18n="level.medium">Medium</button>
+          <button class="sticker opt" data-target data-value="hard" role="radio" type="button" data-i18n="level.hard">Hard</button>
+        </div>
+      </div>
+      <div class="setting">
+        <h2 class="setting__label" data-i18n="landing.players">Players</h2>
+        <div class="options" role="radiogroup" data-setting="players">
+          <button class="sticker opt" data-target data-value="single" role="radio" type="button"><span data-i18n="players.single">1 Player</span></button>
+          <button class="sticker opt" data-target data-value="duo" role="radio" type="button"><span data-i18n="players.duo">2 Players</span><small data-i18n="players.duo.note">Same screen</small></button>
+          <button class="sticker opt opt--soon" data-target data-value="battle" role="radio" type="button"><span data-i18n="players.battle">Class Battle</span><small data-i18n="players.battle.note">Online</small></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="activities" aria-labelledby="act-heading">
+      <h2 class="section-title" id="act-heading"><span class="num-disc" aria-hidden="true">✦</span><span data-i18n="landing.activity">Choose an activity</span></h2>
+      <div class="activity-grid" id="activity-grid" role="radiogroup" aria-labelledby="act-heading"></div>
+    </section>
+
+    <section class="actions">
+      <button class="btn-start" id="btn-start" data-target type="button">
+        <span data-i18n="landing.start">Start</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z" fill="currentColor"/></svg>
+      </button>
+      <button class="sticker btn-howto" id="btn-howto" data-target type="button" data-i18n="landing.howto">How to play</button>
+    </section>
+
+    <aside class="drnam-says" aria-live="polite">
+      <div class="drnam-says__avatar"><img src="brand/logos/chemistry-with-dr-nam-logo.jpg" alt="" data-logo="Dr. NAM"></div>
+      <div class="drnam-says__bubble sticker-static">
+        <p class="drnam-says__name" data-i18n="drnam.says">Dr. NAM says</p>
+        <p class="drnam-says__text" id="drnam-tip"></p>
+      </div>
+    </aside>
+  </main>
+
+  <!-- ===================== Activity screen ===================== -->
+  <main class="screen screen--activity" id="screen-activity" hidden>
+    <div class="activity-host" id="activity-host"></div>
+  </main>
+
+  <!-- ===================== Tutorial overlay ===================== -->
+  <div class="overlay" id="tutorial" hidden role="dialog" aria-modal="true" aria-labelledby="tut-title">
+    <div class="tutorial glass">
+      <div class="tutorial__head">
+        <span class="tag" id="tut-step"></span>
+        <h2 class="tutorial__title" id="tut-title"></h2>
+        <p class="tutorial__body" id="tut-body"></p>
+        <p class="tutorial__hint" data-i18n="tutorial.mouse">Using a mouse? Click the targets and drag the electron.</p>
+      </div>
+      <div class="tutorial__stage" id="tut-stage"></div>
+      <div class="tutorial__foot">
+        <button class="sticker" id="tut-skip" data-target type="button" data-i18n="tutorial.skip">Skip</button>
+        <div class="dots" id="tut-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+        <button class="btn-start btn-start--small" id="tut-next" data-target type="button" data-i18n="tutorial.next">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== Camera, cursors, toasts ===================== -->
+  <div class="cam" id="cam" hidden>
+    <canvas id="cam-preview" width="200" height="150" aria-hidden="true"></canvas>
+    <p class="cam__privacy" data-i18n="privacy.notice">Your camera video stays on this device.</p>
+  </div>
+  <video id="cam-video" playsinline muted hidden></video>
+  <div class="cursor-layer" id="cursor-layer" aria-hidden="true"></div>
+  <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

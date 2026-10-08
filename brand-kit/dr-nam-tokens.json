@@ -1,0 +1,642 @@
+{
+ "name": "Dr. NAM Science Decks",
+ "version": 1,
+ "color": {
+  "themes": [
+   {
+    "id": "dark",
+    "name": "Night — teal & navy"
+   },
+   {
+    "id": "light",
+    "name": "Day — sky blue"
+   }
+  ],
+  "tokens": [
+   {
+    "name": "surface-000",
+    "value": {
+     "dark": "#0d1d33",
+     "light": "#ffffff"
+    },
+    "usage": "Brightest ground: the white end of the slide gradient and inner panels. Dark: raised navy panel and the navy end of the navy→teal gradient."
+   },
+   {
+    "name": "surface-050",
+    "value": {
+     "dark": "#060d1b",
+     "light": "#f0f6ff"
+    },
+    "usage": "Default slide/page ground. Night (default): near-black navy (`ink` 16.5:1). Day: pale blue from your PPTX (`ink` 10.3:1)."
+   },
+   {
+    "name": "surface-100",
+    "value": {
+     "dark": "#0a1a2c",
+     "light": "#e5f4ff"
+    },
+    "usage": "Ground for the light half of a split slide opposite `cobalt-600`. Dark: navy-teal."
+   },
+   {
+    "name": "sky-200",
+    "value": {
+     "dark": "#1b4068",
+     "light": "#cadcff"
+    },
+    "usage": "Soft card fill for outlined 'research' cards; carries `title-accent` titles and `ink-strong` body (≥6:1 in both themes)."
+   },
+   {
+    "name": "sky-300",
+    "value": {
+     "dark": "#12495a",
+     "light": "#99c2ea"
+    },
+    "usage": "Title card and contents-pill fill; `ink` text on it (6.0:1 light, 8.4:1 dark). `indigo-500` titles on it only 24px+ in light."
+   },
+   {
+    "name": "sky-400",
+    "value": {
+     "dark": "#0f5f6c",
+     "light": "#95b9ff"
+    },
+    "usage": "Deep end of the signature gradient — sky in light, dark teal in dark. Never a text colour; `ink` reads on it (≥5.6:1)."
+   },
+   {
+    "name": "periwinkle-300",
+    "value": {
+     "dark": "#1c3b5e",
+     "light": "#98abd2"
+    },
+    "usage": "Side-navigation topic pills (inactive). `ink-strong` text on it (7.1:1 light, 10.6:1 dark)."
+   },
+   {
+    "name": "indigo-500",
+    "value": {
+     "dark": "#0d7f74",
+     "light": "#55619c"
+    },
+    "usage": "Primary brand hue. Light: indigo display titles (5.4:1 on `surface-050`) and solid Idea cards. Dark: deep teal fill for solid cards and the active pill, white text on it (5.5:1); as a title on navy, 24px+ only (3.3:1) — prefer `title-accent`."
+   },
+   {
+    "name": "navy-600",
+    "value": {
+     "dark": "#0d5c63",
+     "light": "#38548c"
+    },
+    "usage": "Eyebrow-tag fill and the dark end of solid-card gradients; white text on it (7.7:1 light, 7.7:1 dark)."
+   },
+   {
+    "name": "cobalt-600",
+    "value": {
+     "dark": "#0b4f6c",
+     "light": "#0063ab"
+    },
+    "usage": "Bold block colour for split/illustrated slides (cobalt in light, deep teal-blue in dark); `on-block` text on it (≥5.5:1)."
+   },
+   {
+    "name": "royal-700",
+    "value": {
+     "dark": "#040b17",
+     "light": "#1f4a99"
+    },
+    "usage": "Bottom of image-caption fades and the dark end of spheres; white text on it (8.4:1 light, 18.5:1 dark)."
+   },
+   {
+    "name": "bright-blue-400",
+    "value": {
+     "dark": "#2dd4bf",
+     "light": "#6599ff"
+    },
+    "usage": "Illustration accent (molecules, rings) — blue in light, bright teal in dark. Decorative only, not for text."
+   },
+   {
+    "name": "coral-400",
+    "value": {
+     "dark": "#fc7a7a",
+     "light": "#fc7a7a"
+    },
+    "usage": "Warm illustration accent paired with `bright-blue-400` (DNA, microscope, icons in white discs). Decorative only: 2.6:1 on white, never text or the only signal."
+   },
+   {
+    "name": "indigo-400",
+    "value": {
+     "dark": "#138076",
+     "light": "#626ea9"
+    },
+    "usage": "Lighter start of the solid Idea-card gradient (top-left highlight); white text on it ≥4.5:1 in both themes."
+   },
+   {
+    "name": "cobalt-500",
+    "value": {
+     "dark": "#0f6a80",
+     "light": "#1170b8"
+    },
+    "usage": "Lit top-left of a cobalt block's radial fill (NumberBadge stage). `on-block` text 24px+ on it."
+   },
+   {
+    "name": "title-accent",
+    "value": {
+     "dark": "#5eead4",
+     "light": "{navy-600}"
+    },
+    "usage": "Accent titles, eyebrows and secondary numbers: electric aqua at night (13.1:1 on `surface-050`, 7.2:1 on `sky-200`), navy by day (6.1:1 on `sky-200`)."
+   },
+   {
+    "name": "on-block",
+    "value": {
+     "dark": "#e6f7f5",
+     "light": "{surface-100}"
+    },
+    "usage": "Text on `cobalt-600` blocks (5.5:1 light, 8.1:1 dark)."
+   },
+   {
+    "name": "sphere-hi",
+    "value": {
+     "dark": "#b9f3ea",
+     "light": "{surface-000}"
+    },
+    "usage": "Highlight (top-left) of glossy number spheres."
+   },
+   {
+    "name": "sphere-base",
+    "value": {
+     "dark": "#2fb3a8",
+     "light": "{sky-300}"
+    },
+    "usage": "Body colour of glossy number spheres."
+   },
+   {
+    "name": "badge-ink",
+    "value": {
+     "dark": "#062a2b",
+     "light": "{cobalt-600}"
+    },
+    "usage": "Numeral on a sphere (≥3.3:1 light at 26px bold, 5.9:1 dark)."
+   },
+   {
+    "name": "teal-400",
+    "value": {
+     "dark": "#2fb3a8",
+     "light": "#2fb3a8"
+    },
+    "usage": "Teal accent for icons, chart highlights and the dark theme's glow. Decorative or 24px+ only on light grounds."
+   },
+   {
+    "name": "spark-400",
+    "value": {
+     "dark": "#d4ff3a",
+     "light": "#c8f53d"
+    },
+    "usage": "Electric-lime CONTRAST accent, used often but in small doses: numbering, rules under titles, buttons, chips, highlighter marks, progress bars, the hero stat. Text on dark grounds and dark fills (16.8:1 on the night ground; 4.2:1 on night `indigo-500` — 24px+ there). By day, never as text on light grounds — use `spark-ink`."
+   },
+   {
+    "name": "on-spark",
+    "value": {
+     "dark": "#0a1628",
+     "light": "#0a1628"
+    },
+    "usage": "Text and icons on `spark-400` fills (14.3:1 light, 15.7:1 dark)."
+   },
+   {
+    "name": "spark-ink",
+    "value": {
+     "dark": "{spark-400}",
+     "light": "#3d6600"
+    },
+    "usage": "Text-safe version of the contrast accent: deep lime-green on light grounds (6.2:1 on `surface-050`, 4.9:1 on `sky-200`); pure lime in dark."
+   },
+   {
+    "name": "capsule-shell",
+    "value": {
+     "dark": "#e8eef6",
+     "light": "#f4f7fb"
+    },
+    "usage": "White half of the 3D capsule motif (the other half is `spark-400` or `sky-300`). Decorative only."
+   },
+   {
+    "name": "sticker-fill",
+    "value": {
+     "dark": "#eef6ff",
+     "light": "#ffffff"
+    },
+    "usage": "Paper-white fill of playful sticker cards, bubbles and doodle discs — stays light even at night so stickers pop off the navy."
+   },
+   {
+    "name": "sticker-ink",
+    "value": {
+     "dark": "#231f20",
+     "light": "#231f20"
+    },
+    "usage": "Outline and text colour on stickers and doodles (thick 3px cartoon line). 16:1 on `sticker-fill`."
+   },
+   {
+    "name": "ink",
+    "value": {
+     "dark": "#e3eef8",
+     "light": "#3b365f"
+    },
+    "usage": "Default text: titles and body on `surface-050`, `surface-000`, `sky-200`, `sky-300`, `sky-400` — dark ink in light, pale ice in dark."
+   },
+   {
+    "name": "ink-deep",
+    "value": {
+     "dark": "#ffffff",
+     "light": "#222366"
+    },
+    "usage": "Emphasis text and dark rules on light grounds."
+   },
+   {
+    "name": "ink-strong",
+    "value": {
+     "dark": "#f1f7fb",
+     "light": "#231f20"
+    },
+    "usage": "Card outlines (4px) and bold labels on `sky-200`/`periwinkle-300`: near-black in light, near-white in dark."
+   },
+   {
+    "name": "slate-400",
+    "value": {
+     "dark": "#4a6b80",
+     "light": "#94aab8"
+    },
+    "usage": "Hairline rules, decorative strokes and soft dividers. Not for text."
+   },
+   {
+    "name": "uitm-purple",
+    "value": "#90267f",
+    "usage": "UiTM logo ink — appears only inside the supplied logo files. Do not use as a UI colour."
+   },
+   {
+    "name": "uitm-navy",
+    "value": "#20356b",
+    "usage": "UiTM logo ink (crest field). Logo-only."
+   },
+   {
+    "name": "uitm-gold",
+    "value": "#febe10",
+    "usage": "UiTM logo ink (crest, 'di hatiku' tab). Logo-only."
+   },
+   {
+    "name": "drnam-green",
+    "value": "#6b9f30",
+    "usage": "Chemistry with Dr. NAM logo ink (leaf/flask green). Logo-only — the system's accent stays `spark-400` lime."
+   },
+   {
+    "name": "drnam-navy",
+    "value": "#011627",
+    "usage": "Chemistry with Dr. NAM logo ink (banner navy). Logo-only; close to the Night ground, so the logo always sits on a white disc."
+   },
+   {
+    "name": "glass-fill",
+    "value": {
+     "dark": "rgba(16, 35, 61, 0.55)",
+     "light": "rgba(255, 255, 255, 0.55)"
+    },
+    "usage": "Frosted fill of a GlowPanel over the gradient ground or a photo. Text on it is `ink` (it sits over light grounds only)."
+   },
+   {
+    "name": "glass-edge",
+    "value": {
+     "dark": "rgba(111, 214, 200, 0.45)",
+     "light": "rgba(255, 255, 255, 0.85)"
+    },
+    "usage": "1.5px rim of glass panels and the top highlight of 3D surfaces."
+   },
+   {
+    "name": "glow-blue",
+    "value": {
+     "dark": "rgba(45, 212, 191, 0.5)",
+     "light": "rgba(101, 153, 255, 0.55)"
+    },
+    "usage": "Halo colour behind glowing panels, active pills and key numbers. Light only — never text."
+   },
+   {
+    "name": "glow-white",
+    "value": {
+     "dark": "rgba(255, 255, 255, 0.35)",
+     "light": "rgba(255, 255, 255, 0.9)"
+    },
+    "usage": "Inner highlight that makes clay-style 3D shapes look lit from above."
+   },
+   {
+    "name": "depth-shade",
+    "value": {
+     "dark": "rgba(0, 0, 0, 0.45)",
+     "light": "rgba(31, 74, 153, 0.35)"
+    },
+    "usage": "Bottom inner shade of 3D shapes (from `royal-700`)."
+   }
+  ]
+ },
+ "type": {
+  "fonts": [
+   {
+    "family": "League Spartan",
+    "file": "fonts/league-spartan-latin-400-normal.woff2",
+    "weight": "400"
+   },
+   {
+    "family": "League Spartan",
+    "file": "fonts/league-spartan-latin-700-normal.woff2",
+    "weight": "700"
+   },
+   {
+    "family": "League Spartan",
+    "file": "fonts/league-spartan-latin-800-normal.woff2",
+    "weight": "800"
+   },
+   {
+    "family": "Questrial",
+    "file": "fonts/questrial-latin-400-normal.woff2",
+    "weight": "400"
+   }
+  ],
+  "families": {
+   "display": "\"League Spartan\", \"Glacial Indifference\", system-ui, sans-serif",
+   "body": "Questrial, \"Glacial Indifference\", system-ui, sans-serif"
+  },
+  "groups": [
+   {
+    "name": "Display",
+    "family": "display",
+    "styles": [
+     {
+      "name": "display",
+      "fontSize": "120px",
+      "lineHeight": 0.95,
+      "fontWeight": 800,
+      "letterSpacing": "-2px",
+      "sample": "MEDICINE Pharma+",
+      "usage": "Cover and section-opener titles. Heavy, tight, big. Put 1–3 key words in a lime highlighter or lime text (night)."
+     },
+     {
+      "name": "title",
+      "fontSize": "72px",
+      "lineHeight": 1.0,
+      "fontWeight": 800,
+      "sample": "Natural Products",
+      "usage": "Slide titles, with a short `spark-400` rule (64×6px, pill) above or below.",
+      "letterSpacing": "-1px"
+     },
+     {
+      "name": "heading",
+      "fontSize": "44px",
+      "lineHeight": 1.1,
+      "fontWeight": 700,
+      "sample": "Vitamin C",
+      "usage": "Section and panel headings."
+     },
+     {
+      "name": "card-title",
+      "fontSize": "30px",
+      "lineHeight": 1.2,
+      "fontWeight": 700,
+      "sample": "Idea 1",
+      "usage": "Card headings, topic pills, numbered list labels."
+     }
+    ]
+   },
+   {
+    "name": "Text",
+    "family": "body",
+    "styles": [
+     {
+      "name": "subtitle",
+      "fontSize": "28px",
+      "lineHeight": 1.3,
+      "fontWeight": 400,
+      "sample": "Exploring Molecular Reactions in Sustainable Environments",
+      "usage": "Subtitles under titles, presenter and institution lines."
+     },
+     {
+      "name": "body",
+      "fontSize": "22px",
+      "lineHeight": 1.5,
+      "fontWeight": 400,
+      "sample": "In silico tools bridge the gap, enabling rapid identification of promising candidates.",
+      "usage": "Slide body copy; left-aligned (avoid the source's full justification on narrow columns)."
+     },
+     {
+      "name": "caption",
+      "fontSize": "16px",
+      "lineHeight": 1.4,
+      "fontWeight": 400,
+      "sample": "Source: https://doi.org/10.1016/j.foodchem.2024.141009",
+      "usage": "Figure sources, references, footers."
+     }
+    ]
+   }
+  ]
+ },
+ "spacing": {
+  "tokens": [
+   {
+    "name": "space-1",
+    "value": "8px",
+    "usage": "Gap between an icon and its label."
+   },
+   {
+    "name": "space-2",
+    "value": "16px",
+    "usage": "Gap between stacked lines of a card."
+   },
+   {
+    "name": "space-3",
+    "value": "24px",
+    "usage": "Gap between cards in a grid."
+   },
+   {
+    "name": "space-4",
+    "value": "32px",
+    "usage": "Card inner padding."
+   },
+   {
+    "name": "space-6",
+    "value": "48px",
+    "usage": "Gap between a title and the content below."
+   },
+   {
+    "name": "space-8",
+    "value": "64px",
+    "usage": "Slide safe margin (on a 1920×1080 slide)."
+   }
+  ]
+ },
+ "radius": {
+  "tokens": [
+   {
+    "name": "radius-sm",
+    "value": "16px",
+    "usage": "Image frames inside cards, small chips."
+   },
+   {
+    "name": "radius-md",
+    "value": "32px",
+    "usage": "Idea cards, image-caption cards, illustration panels."
+   },
+   {
+    "name": "radius-lg",
+    "value": "48px",
+    "usage": "Large title cards and the main content panel."
+   },
+   {
+    "name": "radius-pill",
+    "value": "999px",
+    "usage": "Topic pills, eyebrow tags, number badges (fully rounded)."
+   }
+  ]
+ },
+ "shadow": {
+  "note": "Light comes from the top-left. Every raised thing gets a contact shadow plus a soft spread; glow is reserved for the one thing to look at.",
+  "tokens": [
+   {
+    "name": "shadow-contact",
+    "value": {
+     "dark": "0 2px 4px rgba(0, 0, 0, 0.5)",
+     "light": "0 2px 4px rgba(59, 54, 95, 0.18)"
+    },
+    "usage": "Tight shadow under small things: badges, tags, pills at rest."
+   },
+   {
+    "name": "shadow-float",
+    "value": {
+     "dark": "0 24px 48px rgba(0, 0, 0, 0.45)",
+     "light": "0 24px 48px rgba(59, 54, 95, 0.22)"
+    },
+    "usage": "Soft lift under title cards and contents pills (Medicine deck)."
+   },
+   {
+    "name": "shadow-lift",
+    "value": {
+     "dark": "0 2px 4px rgba(0, 0, 0, 0.4), 0 12px 24px rgba(0, 0, 0, 0.35), 0 32px 64px rgba(2, 10, 24, 0.55)",
+     "light": "0 2px 4px rgba(59, 54, 95, 0.16), 0 12px 24px rgba(59, 54, 95, 0.18), 0 32px 64px rgba(31, 74, 153, 0.22)"
+    },
+    "usage": "Layered 3D lift for cards and panels that sit above the slide: Idea cards, image cards, the main content panel."
+   },
+   {
+    "name": "shadow-glow",
+    "value": {
+     "dark": "0 0 0 1.5px rgba(111, 214, 200, 0.6), 0 0 24px rgba(45, 212, 191, 0.45), 0 0 64px rgba(45, 212, 191, 0.25)",
+     "light": "0 0 0 1.5px rgba(255, 255, 255, 0.85), 0 0 24px rgba(101, 153, 255, 0.55), 0 0 64px rgba(101, 153, 255, 0.35)"
+    },
+    "usage": "Glowing halo for the ONE focus element per slide: a GlowPanel, the active topic pill, a key result. Blue in light, teal in dark."
+   },
+   {
+    "name": "shadow-spark",
+    "value": {
+     "dark": "0 0 0 1.5px rgba(212, 255, 79, 0.85), 0 0 32px rgba(212, 255, 79, 0.45)",
+     "light": "0 0 0 1.5px rgba(200, 245, 61, 0.9), 0 0 28px rgba(200, 245, 61, 0.55)"
+    },
+    "usage": "Lime halo for a `spark-400` element that must pull the eye (a key stat, the CTA). Counts as the slide's one glow."
+   },
+   {
+    "name": "shadow-bevel",
+    "value": {
+     "dark": "inset 0 2px 0 rgba(255, 255, 255, 0.25), inset 0 -8px 16px rgba(0, 0, 0, 0.35)",
+     "light": "inset 0 2px 0 rgba(255, 255, 255, 0.9), inset 0 -8px 16px rgba(31, 74, 153, 0.35)"
+    },
+    "usage": "Clay/3D bevel inside solid shapes (Idea cards, pills, badges): bright top rim, shaded bottom. Combine with `shadow-lift` or `shadow-contact`."
+   },
+   {
+    "name": "shadow-bevel-soft",
+    "value": {
+     "dark": "inset 0 2px 0 rgba(255, 255, 255, 0.18), inset 0 -6px 12px rgba(0, 0, 0, 0.3)",
+     "light": "inset 0 2px 0 rgba(255, 255, 255, 0.9), inset 0 -6px 12px rgba(31, 74, 153, 0.18)"
+    },
+    "usage": "Gentler bevel for light fills (`sky-200`, `sky-300`, `periwinkle-300`)."
+   },
+   {
+    "name": "shadow-sticker",
+    "value": {
+     "dark": "6px 6px 0 #d4ff3a",
+     "light": "6px 6px 0 #231f20"
+    },
+    "usage": "Hard cartoon offset shadow (no blur) for playful stickers: ink by day, lime at night."
+   },
+   {
+    "name": "shadow-none",
+    "value": "none",
+    "usage": "Flat outlined cards (Nature style) and anything on a photo."
+   }
+  ]
+ },
+ "border": {
+  "tokens": [
+   {
+    "name": "stroke-card",
+    "value": "4px",
+    "usage": "Outline width for 'research' cards, drawn in `ink-strong`."
+   },
+   {
+    "name": "stroke-rule",
+    "value": "3px",
+    "usage": "Vertical divider between text columns, in `indigo-500`."
+   },
+   {
+    "name": "stroke-doodle",
+    "value": "3px",
+    "usage": "Cartoon outline on stickers, bubbles and doodle icons, in `sticker-ink`."
+   }
+  ]
+ },
+ "effect": {
+  "note": "Filters and blur for glass and 3D shapes; pair with the shadow tokens.",
+  "tokens": [
+   {
+    "name": "blur-glass",
+    "value": "16px",
+    "usage": "backdrop-filter blur behind GlowPanels (use `blur(var(--blur-glass))`)."
+   },
+   {
+    "name": "filter-lift",
+    "value": "drop-shadow(0 10px 14px rgba(59, 54, 95, 0.28))",
+    "usage": "Drop shadow for cut-out shapes and illustrations (3D capsules, PNG cut-outs, SVG blocks) — follows the shape's outline."
+   },
+   {
+    "name": "filter-glow",
+    "value": "drop-shadow(0 0 18px rgba(101, 153, 255, 0.7))",
+    "usage": "Glow around a cut-out icon or molecule that is the focus of the slide."
+   }
+  ]
+ },
+ "interaction": {
+  "note": "Subtle hover and float for on-screen decks, web pages and kiosks. Static exports (PDF/PowerPoint) simply show the resting state. Respect prefers-reduced-motion: switch all of this off.",
+  "tokens": [
+   {
+    "name": "hover-lift",
+    "value": "translateY(-6px)",
+    "usage": "Cards, tiles and pills rise this much on hover; their shadow steps up from `shadow-float`/`shadow-contact` to `shadow-lift`."
+   },
+   {
+    "name": "hover-tilt",
+    "value": "6deg",
+    "usage": "Maximum 3D tilt (rotateX/rotateY, perspective 900px) of a card following the pointer. Use on Idea cards, KeyStat tiles and GlowPanels only."
+   },
+   {
+    "name": "float-distance",
+    "value": "10px",
+    "usage": "Idle 'hovering' bob of decorative 3D objects (capsules, orbs), up and down."
+   },
+   {
+    "name": "duration-hover",
+    "value": "220ms",
+    "usage": "Hover transitions."
+   },
+   {
+    "name": "duration-float",
+    "value": "6s",
+    "usage": "One full idle float cycle — slow enough to feel alive, not busy."
+   },
+   {
+    "name": "ease-out",
+    "value": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+    "usage": "Easing for every hover and reveal."
+   },
+   {
+    "name": "wiggle-angle",
+    "value": "3deg",
+    "usage": "Playful style only: stickers sit slightly tilted (±2–3°) and wiggle to straight on hover; doodles wobble this much."
+   }
+  ]
+ }
+}
