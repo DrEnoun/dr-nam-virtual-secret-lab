@@ -130,5 +130,7 @@
   "lewis.bonus": "Bonus masa: {n}",
   "lewis.duo": "2 Pemain: skrin terbahagi akan hadir dalam Fasa 5. Buat masa ini, main bergilir.",
   "lewis.error": "Data molekul tidak dapat dimuatkan.",
-  "lewis.touchhint": "Tidak perlu kamera: seret elektron dengan jari atau tetikus, atau ketik satu elektron kemudian ketik satu petak. Ketik elektron yang telah diletak untuk mengambilnya semula."
+  "lewis.touchhint": "Tidak perlu kamera: seret elektron dengan jari atau tetikus, atau ketik satu elektron kemudian ketik satu petak. Ketik elektron yang telah diletak untuk mengambilnya semula.",
+  "lewis.colorhint": "Elektron setiap atom mempunyai warna tersendiri. Perhatikan bagaimana pasangan kongsi dibentuk daripada dua atom yang berbeza.",
+  "lewis.hint.source": "Pasangan kongsi dibentuk oleh satu elektron daripada setiap atom. Letakkan satu elektron {a} dan satu elektron {b} dalam ikatan ini."
 }

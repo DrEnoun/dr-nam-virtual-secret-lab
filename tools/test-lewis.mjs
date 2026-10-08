@@ -1,7 +1,7 @@
 // Checks the Lewis data files and logic. Run: node tools/test-lewis.mjs
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { buildAtom, buildCovalent, buildIonic, evaluate, uniqueIons } from '../js/activities/lewis/rules.js';
+import { buildAtom, buildCovalent, buildIonic, evaluate, uniqueIons, answerOwners } from '../js/activities/lewis/rules.js';
 
 const read = p => JSON.parse(readFileSync(new URL('../' + p, import.meta.url), 'utf8'));
 const E = read('data/lewis/elements.json');
@@ -39,6 +39,12 @@ for (const ref of refs) {
       assert.equal(evaluate(model, more).ok, false, `${ref}: extra ${s.id} accepted`);
     }
   }
+  // Each atom supplies exactly its valence electrons to the answer (so the colours add up).
+  if (model.kind !== 'atom') {
+    const give = {};
+    answerOwners(model).forEach(o => { give[o.owner] = (give[o.owner] || 0) + 1; });
+    for (const a of model.atoms.filter(a => model.kind === 'covalent' || a.metal)) assert.equal(give[a.id], a.valence, `${ref}: ${a.id} supplies ${give[a.id]} electrons, valence ${a.valence}`);
+  }
   console.log('ok', ref);
 }
 
@@ -61,4 +67,13 @@ assert.equal(evaluate(co2, new Set(co2.answer.filter(id => id.startsWith('b'))))
 const h2 = build('mol:H2');
 assert.equal(evaluate(h2, new Set([h2.answer[0]])).code, 'unpaired');
 assert.equal(evaluate(buildAtom('Na', E), new Set(['a:0:0', 'a:90:0'])).code, 'atom-many');
+// Sharing: a bond pair filled by two electrons from the same atom is rejected; one from each is accepted.
+{
+  const hcl = build('mol:HCl');
+  const own = new Map(answerOwners(hcl).map(o => [o.slot, o.owner]));
+  assert.deepEqual(evaluate(hcl, new Set(hcl.answer), own), { ok: true });
+  const bonds = hcl.answer.filter(id => id.startsWith('b'));
+  const bad = new Map(own); bonds.forEach(id => bad.set(id, 'b')); // both electrons from Cl
+  assert.equal(evaluate(hcl, new Set(hcl.answer), bad).code, 'source');
+}
 console.log('All Lewis checks passed');
