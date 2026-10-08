@@ -6,6 +6,7 @@ import { GestureEngine } from './gestures/engine.js';
 import { activities, byId } from './activities/registry.js';
 import { doodles } from './doodles.js';
 import { openTutorial } from './tutorial.js';
+import { openPeriodicTable } from './periodic.js';
 import { toast, pressFlash, guardLogos } from './ui.js';
 
 const $ = sel => document.querySelector(sel);
@@ -165,6 +166,7 @@ function wireToolbar() {
     updateToolbarTexts();
   });
   $('#btn-home').addEventListener('click', () => { location.hash = ''; });
+  $('#btn-pt').addEventListener('click', () => { sound.select(); openPeriodicTable(); });
 
   document.addEventListener('gesture-status', e => {
     const { status, hands } = e.detail;

@@ -1,6 +1,6 @@
 # Dr. NAM Virtual Secret Lab
 
-Gesture-controlled chemistry games for **PHD115 Fundamental of Chemistry** (Diploma in Pharmacy, UiTM Cawangan Pulau Pinang).
+Gesture-controlled chemistry games by **Chemistry with Dr. NAM**, for general use.
 Students aim with a finger, "shoot" to select, and pinch to grab — or simply use a mouse or touch screen.
 
 The full plan is in [BRIEF.md](BRIEF.md). **This version is Phase 2**: Phase 1 (branding, landing page, BM/English, gesture engine, mouse fallback, offline) plus **Activity 1 — Lewis Structure Builder** at Easy, Medium and Hard. Activities 2 and 3 arrive in Phases 3–4.
@@ -26,6 +26,8 @@ The full plan is in [BRIEF.md](BRIEF.md). **This version is Phase 2**: Phase 1 (
 - **Shoot (select):** finger gun — index out, thumb up, then drop your thumb onto your finger.
 - **Grab / drop:** pinch thumb and index finger to grab; open your hand to drop. A quick pinch also selects.
 - **2 Players:** the player on the left of the room is Player 1 (lime), the right is Player 2 (teal).
+
+**Periodic table:** the **Periodic table** button in the top bar opens a full 118-element table on any screen (works offline, BM/English). Tap an element for its group, period, atomic mass and valence electrons; tap a group-type chip to highlight a family. Inside the Lewis activity it rings the atoms of the current question. Data: `data/periodic.json`. Two buttons save the table as a printable A4 poster with the Dr. NAM badge, in the current language: **PNG** (picture) or **PDF** (print). It is made on the device (`js/periodic-export.js`), so it works offline.
 
 **Hidden lecturer mode:** press **Shift + L**. In the Lewis Structure Builder it shows the correct Lewis structure beside every question.
 
@@ -79,6 +81,7 @@ No build step: plain HTML, CSS and JavaScript modules. Serve the folder with any
 | `js/activities/registry.js` | **List of activities.** Add an entry here to add an activity |
 | `js/activities/lewis/` | Lewis Structure Builder: `rules.js` (pure logic, no DOM), `board.js` (drag board + SVG answer), `index.js` (flow, scoring, timer) |
 | `css/lewis.css` | Styles for the Lewis activity (loaded by the activity itself) |
+| `js/periodic.js`, `data/periodic.json` | Periodic table overlay and its data (edit BM names here) |
 | `data/lewis/` | **Molecule data (JSON):** `elements.json`, `molecules.json`, `levels.json` |
 | `js/i18n.js`, `lang/` | Translations |
 | `sw.js` | Offline cache, **generated** → `node tools/build-sw.mjs` (run after adding or changing files) |

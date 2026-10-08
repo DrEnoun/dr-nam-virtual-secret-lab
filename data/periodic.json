@@ -1,0 +1,1657 @@
+{
+ "_about": "Periodic table for the reference overlay. row/col place each cell on the 18-column grid (rows 9-10 are the lanthanide and actinide rows). valence = outer electrons for main-group elements (null for transition and f-block metals). mass in brackets = most stable isotope. Edit BM names here.",
+ "elements": [
+  {
+   "z": 1,
+   "sym": "H",
+   "name": {
+    "en": "Hydrogen",
+    "ms": "Hidrogen"
+   },
+   "mass": "1.008",
+   "row": 1,
+   "col": 1,
+   "group": 1,
+   "cat": "nonmetal",
+   "valence": 1
+  },
+  {
+   "z": 2,
+   "sym": "He",
+   "name": {
+    "en": "Helium",
+    "ms": "Helium"
+   },
+   "mass": "4.0026",
+   "row": 1,
+   "col": 18,
+   "group": 18,
+   "cat": "noble",
+   "valence": 2
+  },
+  {
+   "z": 3,
+   "sym": "Li",
+   "name": {
+    "en": "Lithium",
+    "ms": "Litium"
+   },
+   "mass": "6.94",
+   "row": 2,
+   "col": 1,
+   "group": 1,
+   "cat": "alkali",
+   "valence": 1
+  },
+  {
+   "z": 4,
+   "sym": "Be",
+   "name": {
+    "en": "Beryllium",
+    "ms": "Berilium"
+   },
+   "mass": "9.0122",
+   "row": 2,
+   "col": 2,
+   "group": 2,
+   "cat": "alkaline",
+   "valence": 2
+  },
+  {
+   "z": 5,
+   "sym": "B",
+   "name": {
+    "en": "Boron",
+    "ms": "Boron"
+   },
+   "mass": "10.81",
+   "row": 2,
+   "col": 13,
+   "group": 13,
+   "cat": "metalloid",
+   "valence": 3
+  },
+  {
+   "z": 6,
+   "sym": "C",
+   "name": {
+    "en": "Carbon",
+    "ms": "Karbon"
+   },
+   "mass": "12.011",
+   "row": 2,
+   "col": 14,
+   "group": 14,
+   "cat": "nonmetal",
+   "valence": 4
+  },
+  {
+   "z": 7,
+   "sym": "N",
+   "name": {
+    "en": "Nitrogen",
+    "ms": "Nitrogen"
+   },
+   "mass": "14.007",
+   "row": 2,
+   "col": 15,
+   "group": 15,
+   "cat": "nonmetal",
+   "valence": 5
+  },
+  {
+   "z": 8,
+   "sym": "O",
+   "name": {
+    "en": "Oxygen",
+    "ms": "Oksigen"
+   },
+   "mass": "15.999",
+   "row": 2,
+   "col": 16,
+   "group": 16,
+   "cat": "nonmetal",
+   "valence": 6
+  },
+  {
+   "z": 9,
+   "sym": "F",
+   "name": {
+    "en": "Fluorine",
+    "ms": "Fluorin"
+   },
+   "mass": "18.998",
+   "row": 2,
+   "col": 17,
+   "group": 17,
+   "cat": "halogen",
+   "valence": 7
+  },
+  {
+   "z": 10,
+   "sym": "Ne",
+   "name": {
+    "en": "Neon",
+    "ms": "Neon"
+   },
+   "mass": "20.180",
+   "row": 2,
+   "col": 18,
+   "group": 18,
+   "cat": "noble",
+   "valence": 8
+  },
+  {
+   "z": 11,
+   "sym": "Na",
+   "name": {
+    "en": "Sodium",
+    "ms": "Natrium"
+   },
+   "mass": "22.990",
+   "row": 3,
+   "col": 1,
+   "group": 1,
+   "cat": "alkali",
+   "valence": 1
+  },
+  {
+   "z": 12,
+   "sym": "Mg",
+   "name": {
+    "en": "Magnesium",
+    "ms": "Magnesium"
+   },
+   "mass": "24.305",
+   "row": 3,
+   "col": 2,
+   "group": 2,
+   "cat": "alkaline",
+   "valence": 2
+  },
+  {
+   "z": 13,
+   "sym": "Al",
+   "name": {
+    "en": "Aluminium",
+    "ms": "Aluminium"
+   },
+   "mass": "26.982",
+   "row": 3,
+   "col": 13,
+   "group": 13,
+   "cat": "post",
+   "valence": 3
+  },
+  {
+   "z": 14,
+   "sym": "Si",
+   "name": {
+    "en": "Silicon",
+    "ms": "Silikon"
+   },
+   "mass": "28.085",
+   "row": 3,
+   "col": 14,
+   "group": 14,
+   "cat": "metalloid",
+   "valence": 4
+  },
+  {
+   "z": 15,
+   "sym": "P",
+   "name": {
+    "en": "Phosphorus",
+    "ms": "Fosforus"
+   },
+   "mass": "30.974",
+   "row": 3,
+   "col": 15,
+   "group": 15,
+   "cat": "nonmetal",
+   "valence": 5
+  },
+  {
+   "z": 16,
+   "sym": "S",
+   "name": {
+    "en": "Sulfur",
+    "ms": "Sulfur"
+   },
+   "mass": "32.06",
+   "row": 3,
+   "col": 16,
+   "group": 16,
+   "cat": "nonmetal",
+   "valence": 6
+  },
+  {
+   "z": 17,
+   "sym": "Cl",
+   "name": {
+    "en": "Chlorine",
+    "ms": "Klorin"
+   },
+   "mass": "35.45",
+   "row": 3,
+   "col": 17,
+   "group": 17,
+   "cat": "halogen",
+   "valence": 7
+  },
+  {
+   "z": 18,
+   "sym": "Ar",
+   "name": {
+    "en": "Argon",
+    "ms": "Argon"
+   },
+   "mass": "39.948",
+   "row": 3,
+   "col": 18,
+   "group": 18,
+   "cat": "noble",
+   "valence": 8
+  },
+  {
+   "z": 19,
+   "sym": "K",
+   "name": {
+    "en": "Potassium",
+    "ms": "Kalium"
+   },
+   "mass": "39.098",
+   "row": 4,
+   "col": 1,
+   "group": 1,
+   "cat": "alkali",
+   "valence": 1
+  },
+  {
+   "z": 20,
+   "sym": "Ca",
+   "name": {
+    "en": "Calcium",
+    "ms": "Kalsium"
+   },
+   "mass": "40.078",
+   "row": 4,
+   "col": 2,
+   "group": 2,
+   "cat": "alkaline",
+   "valence": 2
+  },
+  {
+   "z": 21,
+   "sym": "Sc",
+   "name": {
+    "en": "Scandium",
+    "ms": "Skandium"
+   },
+   "mass": "44.956",
+   "row": 4,
+   "col": 3,
+   "group": 3,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 22,
+   "sym": "Ti",
+   "name": {
+    "en": "Titanium",
+    "ms": "Titanium"
+   },
+   "mass": "47.867",
+   "row": 4,
+   "col": 4,
+   "group": 4,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 23,
+   "sym": "V",
+   "name": {
+    "en": "Vanadium",
+    "ms": "Vanadium"
+   },
+   "mass": "50.942",
+   "row": 4,
+   "col": 5,
+   "group": 5,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 24,
+   "sym": "Cr",
+   "name": {
+    "en": "Chromium",
+    "ms": "Kromium"
+   },
+   "mass": "51.996",
+   "row": 4,
+   "col": 6,
+   "group": 6,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 25,
+   "sym": "Mn",
+   "name": {
+    "en": "Manganese",
+    "ms": "Mangan"
+   },
+   "mass": "54.938",
+   "row": 4,
+   "col": 7,
+   "group": 7,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 26,
+   "sym": "Fe",
+   "name": {
+    "en": "Iron",
+    "ms": "Ferum (Besi)"
+   },
+   "mass": "55.845",
+   "row": 4,
+   "col": 8,
+   "group": 8,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 27,
+   "sym": "Co",
+   "name": {
+    "en": "Cobalt",
+    "ms": "Kobalt"
+   },
+   "mass": "58.933",
+   "row": 4,
+   "col": 9,
+   "group": 9,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 28,
+   "sym": "Ni",
+   "name": {
+    "en": "Nickel",
+    "ms": "Nikel"
+   },
+   "mass": "58.693",
+   "row": 4,
+   "col": 10,
+   "group": 10,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 29,
+   "sym": "Cu",
+   "name": {
+    "en": "Copper",
+    "ms": "Kuprum (Tembaga)"
+   },
+   "mass": "63.546",
+   "row": 4,
+   "col": 11,
+   "group": 11,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 30,
+   "sym": "Zn",
+   "name": {
+    "en": "Zinc",
+    "ms": "Zink"
+   },
+   "mass": "65.38",
+   "row": 4,
+   "col": 12,
+   "group": 12,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 31,
+   "sym": "Ga",
+   "name": {
+    "en": "Gallium",
+    "ms": "Galium"
+   },
+   "mass": "69.723",
+   "row": 4,
+   "col": 13,
+   "group": 13,
+   "cat": "post",
+   "valence": 3
+  },
+  {
+   "z": 32,
+   "sym": "Ge",
+   "name": {
+    "en": "Germanium",
+    "ms": "Germanium"
+   },
+   "mass": "72.630",
+   "row": 4,
+   "col": 14,
+   "group": 14,
+   "cat": "metalloid",
+   "valence": 4
+  },
+  {
+   "z": 33,
+   "sym": "As",
+   "name": {
+    "en": "Arsenic",
+    "ms": "Arsenik"
+   },
+   "mass": "74.922",
+   "row": 4,
+   "col": 15,
+   "group": 15,
+   "cat": "metalloid",
+   "valence": 5
+  },
+  {
+   "z": 34,
+   "sym": "Se",
+   "name": {
+    "en": "Selenium",
+    "ms": "Selenium"
+   },
+   "mass": "78.971",
+   "row": 4,
+   "col": 16,
+   "group": 16,
+   "cat": "nonmetal",
+   "valence": 6
+  },
+  {
+   "z": 35,
+   "sym": "Br",
+   "name": {
+    "en": "Bromine",
+    "ms": "Bromin"
+   },
+   "mass": "79.904",
+   "row": 4,
+   "col": 17,
+   "group": 17,
+   "cat": "halogen",
+   "valence": 7
+  },
+  {
+   "z": 36,
+   "sym": "Kr",
+   "name": {
+    "en": "Krypton",
+    "ms": "Kripton"
+   },
+   "mass": "83.798",
+   "row": 4,
+   "col": 18,
+   "group": 18,
+   "cat": "noble",
+   "valence": 8
+  },
+  {
+   "z": 37,
+   "sym": "Rb",
+   "name": {
+    "en": "Rubidium",
+    "ms": "Rubidium"
+   },
+   "mass": "85.468",
+   "row": 5,
+   "col": 1,
+   "group": 1,
+   "cat": "alkali",
+   "valence": 1
+  },
+  {
+   "z": 38,
+   "sym": "Sr",
+   "name": {
+    "en": "Strontium",
+    "ms": "Stronsium"
+   },
+   "mass": "87.62",
+   "row": 5,
+   "col": 2,
+   "group": 2,
+   "cat": "alkaline",
+   "valence": 2
+  },
+  {
+   "z": 39,
+   "sym": "Y",
+   "name": {
+    "en": "Yttrium",
+    "ms": "Itrium"
+   },
+   "mass": "88.906",
+   "row": 5,
+   "col": 3,
+   "group": 3,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 40,
+   "sym": "Zr",
+   "name": {
+    "en": "Zirconium",
+    "ms": "Zirkonium"
+   },
+   "mass": "91.224",
+   "row": 5,
+   "col": 4,
+   "group": 4,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 41,
+   "sym": "Nb",
+   "name": {
+    "en": "Niobium",
+    "ms": "Niobium"
+   },
+   "mass": "92.906",
+   "row": 5,
+   "col": 5,
+   "group": 5,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 42,
+   "sym": "Mo",
+   "name": {
+    "en": "Molybdenum",
+    "ms": "Molibdenum"
+   },
+   "mass": "95.95",
+   "row": 5,
+   "col": 6,
+   "group": 6,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 43,
+   "sym": "Tc",
+   "name": {
+    "en": "Technetium",
+    "ms": "Teknetium"
+   },
+   "mass": "(98)",
+   "row": 5,
+   "col": 7,
+   "group": 7,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 44,
+   "sym": "Ru",
+   "name": {
+    "en": "Ruthenium",
+    "ms": "Rutenium"
+   },
+   "mass": "101.07",
+   "row": 5,
+   "col": 8,
+   "group": 8,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 45,
+   "sym": "Rh",
+   "name": {
+    "en": "Rhodium",
+    "ms": "Rodium"
+   },
+   "mass": "102.91",
+   "row": 5,
+   "col": 9,
+   "group": 9,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 46,
+   "sym": "Pd",
+   "name": {
+    "en": "Palladium",
+    "ms": "Paladium"
+   },
+   "mass": "106.42",
+   "row": 5,
+   "col": 10,
+   "group": 10,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 47,
+   "sym": "Ag",
+   "name": {
+    "en": "Silver",
+    "ms": "Argentum (Perak)"
+   },
+   "mass": "107.87",
+   "row": 5,
+   "col": 11,
+   "group": 11,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 48,
+   "sym": "Cd",
+   "name": {
+    "en": "Cadmium",
+    "ms": "Kadmium"
+   },
+   "mass": "112.41",
+   "row": 5,
+   "col": 12,
+   "group": 12,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 49,
+   "sym": "In",
+   "name": {
+    "en": "Indium",
+    "ms": "Indium"
+   },
+   "mass": "114.82",
+   "row": 5,
+   "col": 13,
+   "group": 13,
+   "cat": "post",
+   "valence": 3
+  },
+  {
+   "z": 50,
+   "sym": "Sn",
+   "name": {
+    "en": "Tin",
+    "ms": "Stanum (Timah)"
+   },
+   "mass": "118.71",
+   "row": 5,
+   "col": 14,
+   "group": 14,
+   "cat": "post",
+   "valence": 4
+  },
+  {
+   "z": 51,
+   "sym": "Sb",
+   "name": {
+    "en": "Antimony",
+    "ms": "Antimoni"
+   },
+   "mass": "121.76",
+   "row": 5,
+   "col": 15,
+   "group": 15,
+   "cat": "metalloid",
+   "valence": 5
+  },
+  {
+   "z": 52,
+   "sym": "Te",
+   "name": {
+    "en": "Tellurium",
+    "ms": "Telurium"
+   },
+   "mass": "127.60",
+   "row": 5,
+   "col": 16,
+   "group": 16,
+   "cat": "metalloid",
+   "valence": 6
+  },
+  {
+   "z": 53,
+   "sym": "I",
+   "name": {
+    "en": "Iodine",
+    "ms": "Iodin"
+   },
+   "mass": "126.90",
+   "row": 5,
+   "col": 17,
+   "group": 17,
+   "cat": "halogen",
+   "valence": 7
+  },
+  {
+   "z": 54,
+   "sym": "Xe",
+   "name": {
+    "en": "Xenon",
+    "ms": "Xenon"
+   },
+   "mass": "131.29",
+   "row": 5,
+   "col": 18,
+   "group": 18,
+   "cat": "noble",
+   "valence": 8
+  },
+  {
+   "z": 55,
+   "sym": "Cs",
+   "name": {
+    "en": "Caesium",
+    "ms": "Sesium"
+   },
+   "mass": "132.91",
+   "row": 6,
+   "col": 1,
+   "group": 1,
+   "cat": "alkali",
+   "valence": 1
+  },
+  {
+   "z": 56,
+   "sym": "Ba",
+   "name": {
+    "en": "Barium",
+    "ms": "Barium"
+   },
+   "mass": "137.33",
+   "row": 6,
+   "col": 2,
+   "group": 2,
+   "cat": "alkaline",
+   "valence": 2
+  },
+  {
+   "z": 57,
+   "sym": "La",
+   "name": {
+    "en": "Lanthanum",
+    "ms": "Lantanum"
+   },
+   "mass": "138.91",
+   "row": 9,
+   "col": 3,
+   "group": null,
+   "cat": "lanthanide",
+   "valence": null
+  },
+  {
+   "z": 58,
+   "sym": "Ce",
+   "name": {
+    "en": "Cerium",
+    "ms": "Serium"
+   },
+   "mass": "140.12",
+   "row": 9,
+   "col": 4,
+   "group": null,
+   "cat": "lanthanide",
+   "valence": null
+  },
+  {
+   "z": 59,
+   "sym": "Pr",
+   "name": {
+    "en": "Praseodymium",
+    "ms": "Praseodimium"
+   },
+   "mass": "140.91",
+   "row": 9,
+   "col": 5,
+   "group": null,
+   "cat": "lanthanide",
+   "valence": null
+  },
+  {
+   "z": 60,
+   "sym": "Nd",
+   "name": {
+    "en": "Neodymium",
+    "ms": "Neodimium"
+   },
+   "mass": "144.24",
+   "row": 9,
+   "col": 6,
+   "group": null,
+   "cat": "lanthanide",
+   "valence": null
+  },
+  {
+   "z": 61,
+   "sym": "Pm",
+   "name": {
+    "en": "Promethium",
+    "ms": "Prometium"
+   },
+   "mass": "(145)",
+   "row": 9,
+   "col": 7,
+   "group": null,
+   "cat": "lanthanide",
+   "valence": null
+  },
+  {
+   "z": 62,
+   "sym": "Sm",
+   "name": {
+    "en": "Samarium",
+    "ms": "Samarium"
+   },
+   "mass": "150.36",
+   "row": 9,
+   "col": 8,
+   "group": null,
+   "cat": "lanthanide",
+   "valence": null
+  },
+  {
+   "z": 63,
+   "sym": "Eu",
+   "name": {
+    "en": "Europium",
+    "ms": "Europium"
+   },
+   "mass": "151.96",
+   "row": 9,
+   "col": 9,
+   "group": null,
+   "cat": "lanthanide",
+   "valence": null
+  },
+  {
+   "z": 64,
+   "sym": "Gd",
+   "name": {
+    "en": "Gadolinium",
+    "ms": "Gadolinium"
+   },
+   "mass": "157.25",
+   "row": 9,
+   "col": 10,
+   "group": null,
+   "cat": "lanthanide",
+   "valence": null
+  },
+  {
+   "z": 65,
+   "sym": "Tb",
+   "name": {
+    "en": "Terbium",
+    "ms": "Terbium"
+   },
+   "mass": "158.93",
+   "row": 9,
+   "col": 11,
+   "group": null,
+   "cat": "lanthanide",
+   "valence": null
+  },
+  {
+   "z": 66,
+   "sym": "Dy",
+   "name": {
+    "en": "Dysprosium",
+    "ms": "Disprosium"
+   },
+   "mass": "162.50",
+   "row": 9,
+   "col": 12,
+   "group": null,
+   "cat": "lanthanide",
+   "valence": null
+  },
+  {
+   "z": 67,
+   "sym": "Ho",
+   "name": {
+    "en": "Holmium",
+    "ms": "Holmium"
+   },
+   "mass": "164.93",
+   "row": 9,
+   "col": 13,
+   "group": null,
+   "cat": "lanthanide",
+   "valence": null
+  },
+  {
+   "z": 68,
+   "sym": "Er",
+   "name": {
+    "en": "Erbium",
+    "ms": "Erbium"
+   },
+   "mass": "167.26",
+   "row": 9,
+   "col": 14,
+   "group": null,
+   "cat": "lanthanide",
+   "valence": null
+  },
+  {
+   "z": 69,
+   "sym": "Tm",
+   "name": {
+    "en": "Thulium",
+    "ms": "Tulium"
+   },
+   "mass": "168.93",
+   "row": 9,
+   "col": 15,
+   "group": null,
+   "cat": "lanthanide",
+   "valence": null
+  },
+  {
+   "z": 70,
+   "sym": "Yb",
+   "name": {
+    "en": "Ytterbium",
+    "ms": "Iterbium"
+   },
+   "mass": "173.05",
+   "row": 9,
+   "col": 16,
+   "group": null,
+   "cat": "lanthanide",
+   "valence": null
+  },
+  {
+   "z": 71,
+   "sym": "Lu",
+   "name": {
+    "en": "Lutetium",
+    "ms": "Lutetium"
+   },
+   "mass": "174.97",
+   "row": 9,
+   "col": 17,
+   "group": null,
+   "cat": "lanthanide",
+   "valence": null
+  },
+  {
+   "z": 72,
+   "sym": "Hf",
+   "name": {
+    "en": "Hafnium",
+    "ms": "Hafnium"
+   },
+   "mass": "178.49",
+   "row": 6,
+   "col": 4,
+   "group": 4,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 73,
+   "sym": "Ta",
+   "name": {
+    "en": "Tantalum",
+    "ms": "Tantalum"
+   },
+   "mass": "180.95",
+   "row": 6,
+   "col": 5,
+   "group": 5,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 74,
+   "sym": "W",
+   "name": {
+    "en": "Tungsten",
+    "ms": "Tungsten"
+   },
+   "mass": "183.84",
+   "row": 6,
+   "col": 6,
+   "group": 6,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 75,
+   "sym": "Re",
+   "name": {
+    "en": "Rhenium",
+    "ms": "Renium"
+   },
+   "mass": "186.21",
+   "row": 6,
+   "col": 7,
+   "group": 7,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 76,
+   "sym": "Os",
+   "name": {
+    "en": "Osmium",
+    "ms": "Osmium"
+   },
+   "mass": "190.23",
+   "row": 6,
+   "col": 8,
+   "group": 8,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 77,
+   "sym": "Ir",
+   "name": {
+    "en": "Iridium",
+    "ms": "Iridium"
+   },
+   "mass": "192.22",
+   "row": 6,
+   "col": 9,
+   "group": 9,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 78,
+   "sym": "Pt",
+   "name": {
+    "en": "Platinum",
+    "ms": "Platinum"
+   },
+   "mass": "195.08",
+   "row": 6,
+   "col": 10,
+   "group": 10,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 79,
+   "sym": "Au",
+   "name": {
+    "en": "Gold",
+    "ms": "Aurum (Emas)"
+   },
+   "mass": "196.97",
+   "row": 6,
+   "col": 11,
+   "group": 11,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 80,
+   "sym": "Hg",
+   "name": {
+    "en": "Mercury",
+    "ms": "Raksa (Merkuri)"
+   },
+   "mass": "200.59",
+   "row": 6,
+   "col": 12,
+   "group": 12,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 81,
+   "sym": "Tl",
+   "name": {
+    "en": "Thallium",
+    "ms": "Talium"
+   },
+   "mass": "204.38",
+   "row": 6,
+   "col": 13,
+   "group": 13,
+   "cat": "post",
+   "valence": 3
+  },
+  {
+   "z": 82,
+   "sym": "Pb",
+   "name": {
+    "en": "Lead",
+    "ms": "Plumbum (Timbal)"
+   },
+   "mass": "207.2",
+   "row": 6,
+   "col": 14,
+   "group": 14,
+   "cat": "post",
+   "valence": 4
+  },
+  {
+   "z": 83,
+   "sym": "Bi",
+   "name": {
+    "en": "Bismuth",
+    "ms": "Bismut"
+   },
+   "mass": "208.98",
+   "row": 6,
+   "col": 15,
+   "group": 15,
+   "cat": "post",
+   "valence": 5
+  },
+  {
+   "z": 84,
+   "sym": "Po",
+   "name": {
+    "en": "Polonium",
+    "ms": "Polonium"
+   },
+   "mass": "(209)",
+   "row": 6,
+   "col": 16,
+   "group": 16,
+   "cat": "post",
+   "valence": 6
+  },
+  {
+   "z": 85,
+   "sym": "At",
+   "name": {
+    "en": "Astatine",
+    "ms": "Astatin"
+   },
+   "mass": "(210)",
+   "row": 6,
+   "col": 17,
+   "group": 17,
+   "cat": "halogen",
+   "valence": 7
+  },
+  {
+   "z": 86,
+   "sym": "Rn",
+   "name": {
+    "en": "Radon",
+    "ms": "Radon"
+   },
+   "mass": "(222)",
+   "row": 6,
+   "col": 18,
+   "group": 18,
+   "cat": "noble",
+   "valence": 8
+  },
+  {
+   "z": 87,
+   "sym": "Fr",
+   "name": {
+    "en": "Francium",
+    "ms": "Fransium"
+   },
+   "mass": "(223)",
+   "row": 7,
+   "col": 1,
+   "group": 1,
+   "cat": "alkali",
+   "valence": 1
+  },
+  {
+   "z": 88,
+   "sym": "Ra",
+   "name": {
+    "en": "Radium",
+    "ms": "Radium"
+   },
+   "mass": "(226)",
+   "row": 7,
+   "col": 2,
+   "group": 2,
+   "cat": "alkaline",
+   "valence": 2
+  },
+  {
+   "z": 89,
+   "sym": "Ac",
+   "name": {
+    "en": "Actinium",
+    "ms": "Aktinium"
+   },
+   "mass": "(227)",
+   "row": 10,
+   "col": 3,
+   "group": null,
+   "cat": "actinide",
+   "valence": null
+  },
+  {
+   "z": 90,
+   "sym": "Th",
+   "name": {
+    "en": "Thorium",
+    "ms": "Torium"
+   },
+   "mass": "232.04",
+   "row": 10,
+   "col": 4,
+   "group": null,
+   "cat": "actinide",
+   "valence": null
+  },
+  {
+   "z": 91,
+   "sym": "Pa",
+   "name": {
+    "en": "Protactinium",
+    "ms": "Protaktinium"
+   },
+   "mass": "231.04",
+   "row": 10,
+   "col": 5,
+   "group": null,
+   "cat": "actinide",
+   "valence": null
+  },
+  {
+   "z": 92,
+   "sym": "U",
+   "name": {
+    "en": "Uranium",
+    "ms": "Uranium"
+   },
+   "mass": "238.03",
+   "row": 10,
+   "col": 6,
+   "group": null,
+   "cat": "actinide",
+   "valence": null
+  },
+  {
+   "z": 93,
+   "sym": "Np",
+   "name": {
+    "en": "Neptunium",
+    "ms": "Neptunium"
+   },
+   "mass": "(237)",
+   "row": 10,
+   "col": 7,
+   "group": null,
+   "cat": "actinide",
+   "valence": null
+  },
+  {
+   "z": 94,
+   "sym": "Pu",
+   "name": {
+    "en": "Plutonium",
+    "ms": "Plutonium"
+   },
+   "mass": "(244)",
+   "row": 10,
+   "col": 8,
+   "group": null,
+   "cat": "actinide",
+   "valence": null
+  },
+  {
+   "z": 95,
+   "sym": "Am",
+   "name": {
+    "en": "Americium",
+    "ms": "Amerisium"
+   },
+   "mass": "(243)",
+   "row": 10,
+   "col": 9,
+   "group": null,
+   "cat": "actinide",
+   "valence": null
+  },
+  {
+   "z": 96,
+   "sym": "Cm",
+   "name": {
+    "en": "Curium",
+    "ms": "Kurium"
+   },
+   "mass": "(247)",
+   "row": 10,
+   "col": 10,
+   "group": null,
+   "cat": "actinide",
+   "valence": null
+  },
+  {
+   "z": 97,
+   "sym": "Bk",
+   "name": {
+    "en": "Berkelium",
+    "ms": "Berkelium"
+   },
+   "mass": "(247)",
+   "row": 10,
+   "col": 11,
+   "group": null,
+   "cat": "actinide",
+   "valence": null
+  },
+  {
+   "z": 98,
+   "sym": "Cf",
+   "name": {
+    "en": "Californium",
+    "ms": "Kalifornium"
+   },
+   "mass": "(251)",
+   "row": 10,
+   "col": 12,
+   "group": null,
+   "cat": "actinide",
+   "valence": null
+  },
+  {
+   "z": 99,
+   "sym": "Es",
+   "name": {
+    "en": "Einsteinium",
+    "ms": "Einsteinium"
+   },
+   "mass": "(252)",
+   "row": 10,
+   "col": 13,
+   "group": null,
+   "cat": "actinide",
+   "valence": null
+  },
+  {
+   "z": 100,
+   "sym": "Fm",
+   "name": {
+    "en": "Fermium",
+    "ms": "Fermium"
+   },
+   "mass": "(257)",
+   "row": 10,
+   "col": 14,
+   "group": null,
+   "cat": "actinide",
+   "valence": null
+  },
+  {
+   "z": 101,
+   "sym": "Md",
+   "name": {
+    "en": "Mendelevium",
+    "ms": "Mendelevium"
+   },
+   "mass": "(258)",
+   "row": 10,
+   "col": 15,
+   "group": null,
+   "cat": "actinide",
+   "valence": null
+  },
+  {
+   "z": 102,
+   "sym": "No",
+   "name": {
+    "en": "Nobelium",
+    "ms": "Nobelium"
+   },
+   "mass": "(259)",
+   "row": 10,
+   "col": 16,
+   "group": null,
+   "cat": "actinide",
+   "valence": null
+  },
+  {
+   "z": 103,
+   "sym": "Lr",
+   "name": {
+    "en": "Lawrencium",
+    "ms": "Lawrensium"
+   },
+   "mass": "(266)",
+   "row": 10,
+   "col": 17,
+   "group": null,
+   "cat": "actinide",
+   "valence": null
+  },
+  {
+   "z": 104,
+   "sym": "Rf",
+   "name": {
+    "en": "Rutherfordium",
+    "ms": "Rutherfordium"
+   },
+   "mass": "(267)",
+   "row": 7,
+   "col": 4,
+   "group": 4,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 105,
+   "sym": "Db",
+   "name": {
+    "en": "Dubnium",
+    "ms": "Dubnium"
+   },
+   "mass": "(268)",
+   "row": 7,
+   "col": 5,
+   "group": 5,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 106,
+   "sym": "Sg",
+   "name": {
+    "en": "Seaborgium",
+    "ms": "Seaborgium"
+   },
+   "mass": "(269)",
+   "row": 7,
+   "col": 6,
+   "group": 6,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 107,
+   "sym": "Bh",
+   "name": {
+    "en": "Bohrium",
+    "ms": "Bohrium"
+   },
+   "mass": "(270)",
+   "row": 7,
+   "col": 7,
+   "group": 7,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 108,
+   "sym": "Hs",
+   "name": {
+    "en": "Hassium",
+    "ms": "Hasium"
+   },
+   "mass": "(277)",
+   "row": 7,
+   "col": 8,
+   "group": 8,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 109,
+   "sym": "Mt",
+   "name": {
+    "en": "Meitnerium",
+    "ms": "Meitnerium"
+   },
+   "mass": "(278)",
+   "row": 7,
+   "col": 9,
+   "group": 9,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 110,
+   "sym": "Ds",
+   "name": {
+    "en": "Darmstadtium",
+    "ms": "Darmstadtium"
+   },
+   "mass": "(281)",
+   "row": 7,
+   "col": 10,
+   "group": 10,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 111,
+   "sym": "Rg",
+   "name": {
+    "en": "Roentgenium",
+    "ms": "Roentgenium"
+   },
+   "mass": "(282)",
+   "row": 7,
+   "col": 11,
+   "group": 11,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 112,
+   "sym": "Cn",
+   "name": {
+    "en": "Copernicium",
+    "ms": "Kopernisium"
+   },
+   "mass": "(285)",
+   "row": 7,
+   "col": 12,
+   "group": 12,
+   "cat": "transition",
+   "valence": null
+  },
+  {
+   "z": 113,
+   "sym": "Nh",
+   "name": {
+    "en": "Nihonium",
+    "ms": "Nihonium"
+   },
+   "mass": "(286)",
+   "row": 7,
+   "col": 13,
+   "group": 13,
+   "cat": "post",
+   "valence": 3
+  },
+  {
+   "z": 114,
+   "sym": "Fl",
+   "name": {
+    "en": "Flerovium",
+    "ms": "Flerovium"
+   },
+   "mass": "(289)",
+   "row": 7,
+   "col": 14,
+   "group": 14,
+   "cat": "post",
+   "valence": 4
+  },
+  {
+   "z": 115,
+   "sym": "Mc",
+   "name": {
+    "en": "Moscovium",
+    "ms": "Moskovium"
+   },
+   "mass": "(290)",
+   "row": 7,
+   "col": 15,
+   "group": 15,
+   "cat": "post",
+   "valence": 5
+  },
+  {
+   "z": 116,
+   "sym": "Lv",
+   "name": {
+    "en": "Livermorium",
+    "ms": "Livermorium"
+   },
+   "mass": "(293)",
+   "row": 7,
+   "col": 16,
+   "group": 16,
+   "cat": "post",
+   "valence": 6
+  },
+  {
+   "z": 117,
+   "sym": "Ts",
+   "name": {
+    "en": "Tennessine",
+    "ms": "Tenesin"
+   },
+   "mass": "(294)",
+   "row": 7,
+   "col": 17,
+   "group": 17,
+   "cat": "halogen",
+   "valence": 7
+  },
+  {
+   "z": 118,
+   "sym": "Og",
+   "name": {
+    "en": "Oganesson",
+    "ms": "Oganeson"
+   },
+   "mass": "(294)",
+   "row": 7,
+   "col": 18,
+   "group": 18,
+   "cat": "noble",
+   "valence": 8
+  }
+ ]
+}
