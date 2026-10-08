@@ -125,18 +125,29 @@ export function buildCovalent(def, E) {
 }
 
 /** Ionic compound: electrons move from the metal's shell into the empty slots of the non-metal(s). */
-export function buildIonic(def, E) {
+export function buildIonic(def, E, { decoys = false } = {}) {
   const atoms = def.atoms.map(a => atomOf(a.id, a.el, E, a.x, a.y));
   const metals = atoms.filter(a => a.metal), nons = atoms.filter(a => !a.metal);
   const slots = [], needs = [];
   for (const nm of nons) {
-    const near = metals.reduce((best, m) => (!best || Math.hypot(m.x - nm.x, m.y - nm.y) < Math.hypot(best.x - nm.x, best.y - nm.y) ? m : best), null);
-    const facing = Math.atan2(near.y - nm.y, near.x - nm.x) * 180 / Math.PI;
+    const dirTo = m => Math.atan2(m.y - nm.y, m.x - nm.x) * 180 / Math.PI;
+    const facingSet = [...new Set(metals.map(m => CARDINAL.reduce((best, a) => (angDiff(a, dirTo(m)) < angDiff(best, dirTo(m)) ? a : best), 0)))];
     const byAngle = Object.fromEntries(CARDINAL.map(a => [a, siteSlots(nm, a)]));
-    // Fill every site once, then pair up starting from the sides facing away from the metal,
-    // so the gap ends up on the side where the electron arrives.
-    const far = [...CARDINAL].sort((a, b) => angDiff(b, facing) - angDiff(a, facing));
+    // Fill every site once, then pair up starting from the sides facing away from the metal(s),
+    // so the gaps end up on the sides where electrons arrive.
+    const far = [...CARDINAL].sort((a, b) => {
+      const fa = facingSet.includes(a), fb = facingSet.includes(b);
+      if (fa !== fb) return fa ? 1 : -1;
+      return angDiff(b, facingSet[0]) - angDiff(a, facingSet[0]);
+    });
     const seq = [...CARDINAL.map(a => byAngle[a][0]), ...far.map(a => byAngle[a][1])];
+    if (decoys) {
+      // Hidden "overflow" positions on an outer ring, so a student CAN put too many electrons on an atom.
+      [45, 135, 225, 315].forEach(ang => {
+        const d = dir(ang);
+        slots.push({ id: `${nm.id}:over:${ang}`, type: 'over', owners: [nm.id], group: `${nm.id}:over:${ang}`, x: nm.x + d.x * (SITE_DIST + 1), y: nm.y + d.y * (SITE_DIST + 1) });
+      });
+    }
     seq.forEach((s, i) => {
       if (i < nm.valence) s.prefilled = true; else needs.push({ nm, slot: s });
       slots.push(s);
@@ -168,12 +179,18 @@ export function buildIonic(def, E) {
  * when given, every shared pair must hold one electron from each of the two atoms. Returns { ok } or { ok:false, code, ...values for the hint }.
  */
 export function evaluate(model, filled, source = null) {
+  if (source && [...filled].some(id => source.get(id) === 'spare')) return { ok: false, code: 'spare' };
   if (model.kind === 'atom') {
     const a = model.atoms[0], n = filled.size;
     if (n === a.valence) return { ok: true };
     return { ok: false, code: n > a.valence ? 'atom-many' : 'atom-few', sym: a.el, n: a.valence, got: n };
   }
   if (model.kind === 'ionic') {
+    for (const a of model.atoms.filter(x => !x.metal)) {
+      const need = model.slots.filter(s => s.owners[0] === a.id && s.type === 'lone' && !s.prefilled).length;
+      const got = model.slots.filter(s => s.owners[0] === a.id && filled.has(s.id)).length;
+      if (got > need) return { ok: false, code: 'ion-many', sym: a.el, got: a.valence + got, target: a.target };
+    }
     const left = model.tokens.length - filled.size;
     return left === 0 ? { ok: true } : { ok: false, code: 'ion-left', n: left };
   }
@@ -222,4 +239,32 @@ export function answerOwners(model) {
     const s = bySlot.get(id);
     return { slot: id, owner: s.type === 'bond' ? s.owners[Number(id.slice(-1))] : s.owners[0] };
   });
+}
+
+
+/** How many atoms of each element a compound needs, e.g. MgCl2 → { Mg: 1, Cl: 2 }. */
+export function atomCounts(def) {
+  const n = {};
+  def.atoms.forEach(a => { n[a.el] = (n[a.el] || 0) + 1; });
+  return n;
+}
+
+/** "MgCl2" style formula from counts, metal first. Works for one metal and one non-metal element. */
+export function formulaString(counts, E) {
+  const els = Object.keys(counts).sort((a, b) => (E[b].metal ? 1 : 0) - (E[a].metal ? 1 : 0));
+  return els.map(e => e + (counts[e] > 1 ? counts[e] : '')).join('');
+}
+
+/** Four formula choices for an ionic compound: the right one plus believable wrong ones (swapped, 1:1, off by one). */
+export function formulaChoices(def, E, rand = Math.random) {
+  const counts = atomCounts(def);
+  const [m, x] = Object.keys(counts).sort((a, b) => (E[b].metal ? 1 : 0) - (E[a].metal ? 1 : 0));
+  const right = [counts[m], counts[x]];
+  const cands = [[1, 1], [right[1], right[0]], [right[0] + 1, right[1]], [right[0], right[1] + 1], [2, 1], [1, 2], [2, 3], [3, 2]];
+  const key = p => p.join(',');
+  const wrong = [];
+  for (const c of cands) if (key(c) !== key(right) && !wrong.some(w => key(w) === key(c)) && c[0] > 0 && c[1] > 0) wrong.push(c);
+  const picks = [right, ...wrong.slice(0, 3)];
+  for (let i = picks.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [picks[i], picks[j]] = [picks[j], picks[i]]; }
+  return picks.map(p => ({ formula: formulaString({ [m]: p[0], [x]: p[1] }, E), correct: key(p) === key(right) }));
 }

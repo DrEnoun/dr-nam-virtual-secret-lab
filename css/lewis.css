@@ -133,3 +133,28 @@
 .lw-board.has-selection .lw-slot:not(.is-filled):not(.lw-slot--static):not(.lw-slot--home) { cursor: pointer; border-style: solid; animation: lw-invite 1s ease-in-out infinite; }
 @keyframes lw-invite { 50% { background: color-mix(in srgb, var(--spark-400) 35%, transparent); } }
 .lw-slot { cursor: default; }
+
+/* Hard mode: no guide marks. A slot only shows faintly while an electron is held right next to it. */
+.lw-board--hidden .lw-slot:not(.lw-slot--static) { opacity: 0; border-color: transparent; background: none; animation: none !important; }
+.lw-board--hidden .lw-slot.is-near:not(.lw-slot--static) { opacity: .6; border-color: var(--title-accent); }
+.lw-board--hidden.has-selection .lw-slot:not(.is-filled) { cursor: default; }
+.lw-electron--spare { --c: #b9c4cf; }
+
+/* Navigation between questions */
+.lw-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.lw-nav .sticker { min-height: calc(var(--u) * 5.2); font-size: max(16px, calc(var(--u) * 1.9)); --tilt: 0deg; }
+.lw-nav .sticker:disabled { opacity: .4; cursor: default; }
+.lw-nav__pos { font-family: var(--font-display); font-weight: 700; font-size: max(15px, calc(var(--u) * 1.8)); color: var(--title-accent); }
+.lw-progress li { cursor: pointer; }
+.lw-progress li.is-current { outline: 3px solid var(--ink-deep); outline-offset: 2px; }
+/* "Choose the atoms" step (Hard) */
+.lw-pick { position: absolute; inset: 0; border-radius: var(--radius-md); background: var(--glass-fill); border: 3px solid var(--glass-edge); box-shadow: var(--shadow-lift); padding: calc(var(--u) * 2.2); overflow: auto; display: grid; align-content: start; gap: calc(var(--u) * 1.2); }
+.lw-pick h3 { font-size: max(18px, calc(var(--u) * 2.2)); color: var(--title-accent); }
+.lw-pick__tiles { display: flex; flex-wrap: wrap; gap: calc(var(--u) * 1.4); }
+.lw-tile { min-width: calc(var(--u) * 12); min-height: calc(var(--u) * 11) !important; }
+.lw-tile b { font-size: calc(var(--u) * 4); line-height: 1; }
+.lw-tile small { font-size: max(14px, calc(var(--u) * 1.6)); }
+.lw-pick__bench { display: flex; flex-wrap: wrap; gap: calc(var(--u) * 1.2); min-height: calc(var(--u) * 6); align-items: center; }
+.lw-pick__empty { opacity: .75; font-size: max(16px, calc(var(--u) * 1.9)); }
+.lw-chip { --tilt: 0deg; min-height: calc(var(--u) * 5.4) !important; }
+.lw-formula-choice { font-size: max(20px, calc(var(--u) * 2.6)) !important; }

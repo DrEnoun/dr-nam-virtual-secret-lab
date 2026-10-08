@@ -1,7 +1,7 @@
 // Checks the Lewis data files and logic. Run: node tools/test-lewis.mjs
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { buildAtom, buildCovalent, buildIonic, evaluate, uniqueIons, answerOwners } from '../js/activities/lewis/rules.js';
+import { buildAtom, buildCovalent, buildIonic, evaluate, uniqueIons, answerOwners, atomCounts, formulaChoices } from '../js/activities/lewis/rules.js';
 
 const read = p => JSON.parse(readFileSync(new URL('../' + p, import.meta.url), 'utf8'));
 const E = read('data/lewis/elements.json');
@@ -75,5 +75,26 @@ assert.equal(evaluate(buildAtom('Na', E), new Set(['a:0:0', 'a:90:0'])).code, 'a
   const bonds = hcl.answer.filter(id => id.startsWith('b'));
   const bad = new Map(own); bonds.forEach(id => bad.set(id, 'b')); // both electrons from Cl
   assert.equal(evaluate(hcl, new Set(hcl.answer), bad).code, 'source');
+}
+// Hard mode: decoy slots let students overfill an atom; spare electrons are rejected; formula choices are sound.
+{
+  for (const [id, m] of Object.entries(M).filter(([id, m]) => !id.startsWith('_') && m.kind === 'ionic')) {
+    const model = buildIonic(m, E, { decoys: true });
+    const ans = new Set(model.answer);
+    assert.deepEqual(evaluate(model, ans), { ok: true }, `${id}: decoy model rejects the right answer`);
+    const over = model.slots.find(s => s.type === 'over');
+    assert.equal(evaluate(model, new Set([...ans, over.id])).code, 'ion-many', `${id}: overfilling accepted`);
+    const src = new Map(model.answer.map(sl => [sl, 'x']));
+    src.set(model.answer[0], 'spare');
+    assert.equal(evaluate(model, ans, src).code, 'spare', `${id}: spare electron accepted`);
+    const ch = formulaChoices(m, E);
+    assert.equal(ch.length, 4, `${id}: four formula choices`);
+    assert.equal(new Set(ch.map(c => c.formula)).size, 4, `${id}: duplicate formula choices`);
+    assert.equal(ch.filter(c => c.correct).length, 1);
+    assert.equal(ch.find(c => c.correct).formula, m.formula, `${id}: right choice is the data formula`);
+  }
+  assert.deepEqual(atomCounts(M.AlCl3), { Cl: 3, Al: 1 });
+  const hard = L.hard;
+  assert.ok(hard.hidden && hard.thinking && hard.seconds > 0, 'hard level settings');
 }
 console.log('All Lewis checks passed');
