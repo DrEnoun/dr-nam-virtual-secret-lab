@@ -4,7 +4,7 @@
   "description": "Chemistry with Dr. NAM — gesture chemistry games",
   "scripts": {
     "tokens": "node tools/make-tokens-css.mjs",
-    "test": "node tools/test-classify.mjs && node tools/test-lewis.mjs && node tools/test-periodic.mjs && node tools/test-hybrid.mjs",
+    "test": "node tools/test-classify.mjs && node tools/test-lewis.mjs && node tools/test-periodic.mjs && node tools/test-hybrid.mjs && node tools/test-crystal.mjs",
     "sw": "node tools/build-sw.mjs",
     "serve": "python3 -m http.server 8080"
   },
