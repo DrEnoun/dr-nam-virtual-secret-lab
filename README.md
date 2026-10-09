@@ -3,7 +3,7 @@
 Gesture-controlled chemistry games by **Chemistry with Dr. NAM**, for general use.
 Students aim with a finger, "shoot" to select, and pinch to grab — or simply use a mouse or touch screen.
 
-The full plan is in [BRIEF.md](BRIEF.md). **This version is Phase 3**: Phase 1 (branding, landing page, BM/English, gesture engine, mouse fallback, offline), **Activity 1 — Lewis Structure Builder** and **Activity 2 — Hybridization Lab**, each at Easy, Medium and Hard. Activity 3 arrives in Phase 4.
+The full plan is in [BRIEF.md](BRIEF.md). **This version is Phase 4**: Phase 1 (branding, landing page, BM/English, gesture engine, mouse fallback, offline) plus all three activities — **Lewis Structure Builder**, **Hybridization Lab** and **Crystal Lattice Builder** — each at Easy, Medium and Hard. Multiplayer arrives in Phases 5–6.
 
 ---
 
@@ -70,6 +70,20 @@ Students learn that hybridization follows from **counting electron groups**. Eve
 
 The **summary table** (groups → hybridization → shape and angle) is always on screen, a **Why?** button gives the three reasons, and the Hard level ends with the model's limits (e.g. S in H₂S, about 92°). Lecturer mode (Shift + L) shows each answer. Groups, hybridization, shape and angle are all worked out from the molecule data, never typed in.
 
+---
+
+## Activity 3 — Crystal Lattice Builder
+
+Students build unit cells in 3D by placing particles on the rings of a cube (tap or shoot a ring, or drag the particle from the tray). Rotate the cube by dragging or by grabbing with your hand. Then **repeat the cell** (1, 2×2×2 or 3×3×3) to see a lattice fill space, or **show neighbours** to see which particles touch.
+
+| Level | What students do |
+|---|---|
+| **Easy** | Build a **simple cubic** cell (8 corner rings), repeat it in 3D, then identify a lattice (SC, BCC or FCC) from its picture. |
+| **Medium** | Build **body-centred** and **face-centred** cubic cells from all 15 rings (corners, faces and centre), then work out **particles per unit cell** and the **coordination number**. |
+| **Hard** | Build **NaCl** from Na⁺ and Cl⁻ ions on all 27 rings, then **make a material** (match NaCl, diamond, graphite and a metal to their properties; one property is a decoy), then a **5-question quiz**. |
+
+Particles per cell (corner ⅛, edge ¼, face ½, centre 1) and the coordination number are **computed from the positions**, never typed in, so adding a lattice cannot give a wrong answer. Wording is in `data/crystal/*.json` and `lang/*.json`.
+
 ## Put it on GitHub Pages (one time)
 
 1. Create a repository on GitHub and upload everything in this folder (including the hidden `.nojekyll` file).
@@ -105,6 +119,8 @@ No build step: plain HTML, CSS and JavaScript modules. Serve the folder with any
 | `js/periodic.js`, `data/periodic.json` | Periodic table overlay and its data (edit BM names here) |
 | `js/activities/hybrid/`, `css/hybrid.css` | Hybridization Lab: `rules.js` (logic), `diagram.js` (2D structure), `mixer.js` (orbital mixer), `viewer3d.js` (Three.js), `index.js` (flow, scoring) |
 | `data/hybrid/` | **Molecule data (JSON):** `molecules.json` (2D and 3D coordinates, lone pairs), `levels.json` |
+| `js/activities/crystal/`, `css/crystal.css` | Crystal Lattice Builder: `rules.js` (logic), `scene.js` (Three.js scene and ring markers), `index.js` (flow, scoring) |
+| `data/crystal/` | `cells.json` (lattice names and notes), `materials.json` (structures, properties, quiz), `levels.json` |
 | `data/lewis/` | **Molecule data (JSON):** `elements.json`, `molecules.json`, `levels.json` |
 | `js/i18n.js`, `lang/` | Translations |
 | `sw.js` | Offline cache, **generated** → `node tools/build-sw.mjs` (run after adding or changing files) |

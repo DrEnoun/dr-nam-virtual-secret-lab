@@ -1,0 +1,258 @@
+{
+ "_about": "Hard level: 'make a material'. Match each structure to its properties, then answer the quiz. Edit the wording here; decoy properties describe something that is NOT a giant lattice.",
+ "structures": [
+  {
+   "id": "nacl",
+   "bonding": {
+    "en": "Ionic lattice",
+    "ms": "Kekisi ion"
+   },
+   "name": {
+    "en": "Sodium chloride (NaCl)",
+    "ms": "Natrium klorida (NaCl)"
+   },
+   "why": {
+    "en": "Strong attraction between oppositely charged ions gives a high melting point. The ions are locked in place, so the solid does not conduct; if the layers slip, like charges meet and repel, so the crystal is brittle. It conducts when molten or dissolved because the ions can move.",
+    "ms": "Tarikan kuat antara ion bercas bertentangan memberi takat lebur yang tinggi. Ion terkunci pada tempatnya, jadi pepejal tidak mengalirkan elektrik; jika lapisan tergelincir, cas yang sama bertemu dan menolak, jadi hablur rapuh. Ia mengalirkan elektrik apabila lebur atau terlarut kerana ion boleh bergerak."
+   }
+  },
+  {
+   "id": "diamond",
+   "bonding": {
+    "en": "Covalent network",
+    "ms": "Rangkaian kovalen"
+   },
+   "name": {
+    "en": "Diamond",
+    "ms": "Berlian"
+   },
+   "why": {
+    "en": "Every carbon is joined to 4 others by strong covalent bonds in a 3D network. Breaking it needs huge energy, so diamond is very hard with a very high melting point, and no electrons are free to carry current.",
+    "ms": "Setiap karbon bersambung dengan 4 karbon lain melalui ikatan kovalen yang kuat dalam rangkaian 3D. Memecahkannya memerlukan tenaga yang besar, jadi berlian sangat keras dengan takat lebur yang sangat tinggi, dan tiada elektron bebas untuk membawa arus."
+   }
+  },
+  {
+   "id": "graphite",
+   "bonding": {
+    "en": "Covalent network (layers)",
+    "ms": "Rangkaian kovalen (berlapis)"
+   },
+   "name": {
+    "en": "Graphite",
+    "ms": "Grafit"
+   },
+   "why": {
+    "en": "Each carbon bonds to 3 others in flat layers, leaving one electron free to move along the layer, so graphite conducts. Weak forces between the layers let them slide, so it is soft and slippery.",
+    "ms": "Setiap karbon berikat dengan 3 karbon lain dalam lapisan rata, meninggalkan satu elektron bebas bergerak di sepanjang lapisan, jadi grafit mengalirkan elektrik. Daya lemah antara lapisan membolehkannya tergelincir, jadi ia lembut dan licin."
+   }
+  },
+  {
+   "id": "metal",
+   "bonding": {
+    "en": "Metallic lattice",
+    "ms": "Kekisi logam"
+   },
+   "name": {
+    "en": "Copper (a metal)",
+    "ms": "Kuprum (sebuah logam)"
+   },
+   "why": {
+    "en": "Metal ions sit in a lattice surrounded by a sea of delocalised electrons. The free electrons carry current, and layers of ions can slide without breaking the bonding, so metals are malleable and ductile.",
+    "ms": "Ion logam berada dalam kekisi yang dikelilingi lautan elektron nyahsetempat. Elektron bebas membawa arus, dan lapisan ion boleh tergelincir tanpa memutuskan ikatan, jadi logam boleh ditempa dan diregang."
+   }
+  }
+ ],
+ "properties": [
+  {
+   "id": "p-nacl",
+   "for": "nacl",
+   "text": {
+    "en": "Brittle with a high melting point; conducts only when molten or dissolved",
+    "ms": "Rapuh dengan takat lebur tinggi; mengalirkan elektrik hanya apabila lebur atau terlarut"
+   }
+  },
+  {
+   "id": "p-diamond",
+   "for": "diamond",
+   "text": {
+    "en": "Extremely hard, very high melting point, does not conduct electricity",
+    "ms": "Sangat keras, takat lebur sangat tinggi, tidak mengalirkan elektrik"
+   }
+  },
+  {
+   "id": "p-graphite",
+   "for": "graphite",
+   "text": {
+    "en": "Soft and slippery layers, yet it conducts electricity",
+    "ms": "Lapisan lembut dan licin, namun mengalirkan elektrik"
+   }
+  },
+  {
+   "id": "p-metal",
+   "for": "metal",
+   "text": {
+    "en": "Malleable and ductile, and conducts electricity even as a solid",
+    "ms": "Boleh ditempa dan diregang, dan mengalirkan elektrik walaupun dalam keadaan pepejal"
+   }
+  },
+  {
+   "id": "p-decoy",
+   "for": null,
+   "text": {
+    "en": "Low melting point; made of small separate molecules held by weak forces",
+    "ms": "Takat lebur rendah; terdiri daripada molekul kecil yang berasingan dengan daya lemah"
+   },
+   "why": {
+    "en": "That describes a simple molecular solid (like ice or iodine), not a giant lattice.",
+    "ms": "Itu menerangkan pepejal molekul ringkas (seperti ais atau iodin), bukan kekisi gergasi."
+   }
+  }
+ ],
+ "quiz": [
+  {
+   "q": {
+    "en": "How many Cl⁻ ions touch each Na⁺ ion in the NaCl lattice?",
+    "ms": "Berapakah ion Cl⁻ yang menyentuh setiap ion Na⁺ dalam kekisi NaCl?"
+   },
+   "options": [
+    {
+     "en": "4",
+     "ms": "4"
+    },
+    {
+     "en": "6",
+     "ms": "6"
+    },
+    {
+     "en": "8",
+     "ms": "8"
+    },
+    {
+     "en": "12",
+     "ms": "12"
+    }
+   ],
+   "answer": 1,
+   "hint": {
+    "en": "Look at one Na⁺ in the middle: it has a Cl⁻ in front, behind, left, right, above and below.",
+    "ms": "Lihat satu Na⁺ di tengah: ia ada Cl⁻ di hadapan, belakang, kiri, kanan, atas dan bawah."
+   }
+  },
+  {
+   "q": {
+    "en": "How many Na⁺ and Cl⁻ ions belong to ONE NaCl unit cell?",
+    "ms": "Berapakah ion Na⁺ dan Cl⁻ yang dimiliki oleh SATU sel unit NaCl?"
+   },
+   "options": [
+    {
+     "en": "1 Na⁺ and 1 Cl⁻",
+     "ms": "1 Na⁺ dan 1 Cl⁻"
+    },
+    {
+     "en": "4 Na⁺ and 4 Cl⁻",
+     "ms": "4 Na⁺ dan 4 Cl⁻"
+    },
+    {
+     "en": "8 Na⁺ and 8 Cl⁻",
+     "ms": "8 Na⁺ dan 8 Cl⁻"
+    },
+    {
+     "en": "13 Na⁺ and 14 Cl⁻",
+     "ms": "13 Na⁺ dan 14 Cl⁻"
+    }
+   ],
+   "answer": 1,
+   "hint": {
+    "en": "Count shared ions as fractions: corner ⅛, edge ¼, face ½, centre 1. The 13 and 14 are the ions you DREW, but many are shared with neighbouring cells.",
+    "ms": "Kira ion yang dikongsi sebagai pecahan: bucu ⅛, tepi ¼, muka ½, tengah 1. 13 dan 14 ialah ion yang anda LUKIS, tetapi banyak yang dikongsi dengan sel jiran."
+   }
+  },
+  {
+   "q": {
+    "en": "Why is solid NaCl brittle?",
+    "ms": "Mengapa NaCl pepejal rapuh?"
+   },
+   "options": [
+    {
+     "en": "If layers slip, like charges meet and repel, so the crystal cracks",
+     "ms": "Jika lapisan tergelincir, cas yang sama bertemu dan menolak, jadi hablur retak"
+    },
+    {
+     "en": "Its ions are free to move around",
+     "ms": "Ionnya bebas bergerak"
+    },
+    {
+     "en": "It is made of small molecules",
+     "ms": "Ia terdiri daripada molekul kecil"
+    },
+    {
+     "en": "Its bonds are very weak",
+     "ms": "Ikatannya sangat lemah"
+    }
+   ],
+   "answer": 0,
+   "hint": {
+    "en": "Think about what happens to the charges when one layer moves by one ion.",
+    "ms": "Fikirkan apa yang berlaku kepada cas apabila satu lapisan bergerak sebanyak satu ion."
+   }
+  },
+  {
+   "q": {
+    "en": "Why can a metal be hammered into shape?",
+    "ms": "Mengapa logam boleh ditempa?"
+   },
+   "options": [
+    {
+     "en": "Layers of ions slide while the sea of electrons still holds them together",
+     "ms": "Lapisan ion tergelincir manakala lautan elektron masih menyatukannya"
+    },
+    {
+     "en": "Its atoms are held by weak forces between small molecules",
+     "ms": "Atomnya disatukan oleh daya lemah antara molekul kecil"
+    },
+    {
+     "en": "It has no electrons",
+     "ms": "Ia tiada elektron"
+    },
+    {
+     "en": "Like charges repel and push the layers apart",
+     "ms": "Cas yang sama menolak dan menolak lapisan berpisah"
+    }
+   ],
+   "answer": 0,
+   "hint": {
+    "en": "The electrons are not fixed to one ion, so the bonding is not broken when ions move.",
+    "ms": "Elektron tidak terikat pada satu ion, jadi ikatan tidak terputus apabila ion bergerak."
+   }
+  },
+  {
+   "q": {
+    "en": "Why does graphite conduct electricity but diamond does not?",
+    "ms": "Mengapa grafit mengalirkan elektrik tetapi berlian tidak?"
+   },
+   "options": [
+    {
+     "en": "In graphite each carbon has a free electron; in diamond all four electrons are held in bonds",
+     "ms": "Dalam grafit setiap karbon ada satu elektron bebas; dalam berlian kesemua empat elektron terikat dalam ikatan"
+    },
+    {
+     "en": "Graphite contains metal ions",
+     "ms": "Grafit mengandungi ion logam"
+    },
+    {
+     "en": "Diamond is too hard to conduct",
+     "ms": "Berlian terlalu keras untuk mengalirkan elektrik"
+    },
+    {
+     "en": "Graphite is ionic",
+     "ms": "Grafit bersifat ion"
+    }
+   ],
+   "answer": 0,
+   "hint": {
+    "en": "Carbon has 4 valence electrons. How many does each carbon use for bonds in graphite?",
+    "ms": "Karbon ada 4 elektron valens. Berapakah yang digunakan oleh setiap karbon untuk ikatan dalam grafit?"
+   }
+  }
+ ]
+}

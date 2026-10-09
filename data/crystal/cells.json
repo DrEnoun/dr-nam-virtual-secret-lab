@@ -1,0 +1,63 @@
+{
+ "_about": "Lattice types for the Crystal Lattice Builder. Which sites hold particles, particles per cell and coordination number are computed in rules.js from the site positions; only the wording lives here.",
+ "sc": {
+  "abbr": "SC",
+  "name": {
+   "en": "Simple cubic",
+   "ms": "Kubus ringkas"
+  },
+  "example": {
+   "en": "polonium",
+   "ms": "polonium"
+  },
+  "note": {
+   "en": "Particles sit only at the 8 corners. Each corner is shared by 8 cells, so one cell owns 8 × ⅛ = 1 particle. Each particle touches 6 neighbours.",
+   "ms": "Zarah hanya berada di 8 bucu. Setiap bucu dikongsi oleh 8 sel, jadi satu sel memiliki 8 × ⅛ = 1 zarah. Setiap zarah menyentuh 6 jiran."
+  }
+ },
+ "bcc": {
+  "abbr": "BCC",
+  "name": {
+   "en": "Body-centred cubic",
+   "ms": "Kubus berpusat jasad"
+  },
+  "example": {
+   "en": "iron (at room temperature), sodium",
+   "ms": "ferum (pada suhu bilik), natrium"
+  },
+  "note": {
+   "en": "Particles at the 8 corners plus 1 in the centre of the cube. One cell owns 8 × ⅛ + 1 = 2 particles. Each particle touches 8 neighbours.",
+   "ms": "Zarah di 8 bucu serta 1 di tengah kubus. Satu sel memiliki 8 × ⅛ + 1 = 2 zarah. Setiap zarah menyentuh 8 jiran."
+  }
+ },
+ "fcc": {
+  "abbr": "FCC",
+  "name": {
+   "en": "Face-centred cubic",
+   "ms": "Kubus berpusat muka"
+  },
+  "example": {
+   "en": "copper, aluminium, gold",
+   "ms": "kuprum, aluminium, emas"
+  },
+  "note": {
+   "en": "Particles at the 8 corners plus 1 in the middle of each of the 6 faces. A face is shared by 2 cells, so one cell owns 8 × ⅛ + 6 × ½ = 4 particles. Each particle touches 12 neighbours.",
+   "ms": "Zarah di 8 bucu serta 1 di tengah setiap 6 muka. Satu muka dikongsi oleh 2 sel, jadi satu sel memiliki 8 × ⅛ + 6 × ½ = 4 zarah. Setiap zarah menyentuh 12 jiran."
+  }
+ },
+ "nacl": {
+  "abbr": "NaCl",
+  "name": {
+   "en": "Sodium chloride (rock salt)",
+   "ms": "Natrium klorida (garam batu)"
+  },
+  "example": {
+   "en": "table salt",
+   "ms": "garam meja"
+  },
+  "note": {
+   "en": "Cl⁻ ions sit at the corners and face centres; Na⁺ ions sit at the edge centres and the middle. Ions of opposite charge alternate, so each ion touches 6 of the other kind. One cell owns 4 Na⁺ and 4 Cl⁻.",
+   "ms": "Ion Cl⁻ berada di bucu dan tengah muka; ion Na⁺ berada di tengah tepi dan di tengah kubus. Ion yang bercas bertentangan berselang-seli, jadi setiap ion menyentuh 6 ion jenis lain. Satu sel memiliki 4 Na⁺ dan 4 Cl⁻."
+  }
+ }
+}

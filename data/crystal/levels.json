@@ -1,0 +1,23 @@
+{
+ "_about": "Items per level. 'identify:' = look at a unit cell and name it; 'build:ID' = place the particles of lattice ID (sc, bcc, fcc, nacl); 'match' = Hard: match structures to properties; 'quiz' = Hard: short quiz. ask = after building, ask particles per cell and coordination number.",
+ "easy": {
+  "items": [
+   "build:sc",
+   "identify"
+  ]
+ },
+ "medium": {
+  "items": [
+   "build:bcc",
+   "build:fcc"
+  ],
+  "ask": true
+ },
+ "hard": {
+  "items": [
+   "build:nacl",
+   "match",
+   "quiz"
+  ]
+ }
+}

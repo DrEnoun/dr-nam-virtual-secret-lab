@@ -55,3 +55,16 @@ Edit wording in `lang/ms.json` and `lang/en.json` — no code changes needed.
 | Bent | Bengkok | Phase 3 |
 | Linear | Linear | Phase 3 |
 | Bond angle | Sudut ikatan | Phase 3 |
+| Unit cell | Sel unit | Phase 4 |
+| Crystal lattice | Kekisi hablur | Phase 4 |
+| Simple cubic (SC) | Kubus ringkas | Phase 4 |
+| Body-centred cubic (BCC) | Kubus berpusat jasad | Phase 4 |
+| Face-centred cubic (FCC) | Kubus berpusat muka | Phase 4 |
+| Coordination number | Nombor koordinasi | Phase 4 |
+| Particles per unit cell | Zarah bagi setiap sel unit | Phase 4 |
+| Ionic lattice | Kekisi ion | Phase 4 |
+| Covalent network (giant covalent) | Rangkaian kovalen (kovalen gergasi) | Phase 4 — please confirm |
+| Metallic lattice / sea of electrons | Kekisi logam / lautan elektron | Phase 4 |
+| Delocalised electrons | Elektron nyahsetempat | Phase 4 |
+| Brittle / malleable / ductile | Rapuh / boleh ditempa / boleh diregang | Phase 4 |
+| Diamond / graphite | Berlian / grafit | Phase 4 |

@@ -22,8 +22,8 @@ export const activities = [
     id: 'crystal',
     topic: 'solid',
     doodle: 'lattice',
-    status: 'soon',
-    phase: 4,
+    status: 'ready',
+    load: () => import('./crystal/index.js'),
   },
   {
     id: 'organic',
