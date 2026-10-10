@@ -103,14 +103,29 @@ Build Mode 1 before Mode 2. Keep the game logic separate from input and networki
 
 ## 5. Topic Groups on the Landing Page
 
-- **Chemical Bonding:** Activity 1 (Lewis Structure Builder), Activity 2 (Hybridization Lab), optional extra bonding activities
-- **Solid State:** Activity 3 (Crystal Lattice Builder)
-- **Organic Chemistry:** future
+- **PHD115 · Chemical Bonding (IC1 & IC2)** — the core activities, used in the class study:
+  - Molecule Shooter (section 5A) — ready
+  - Lewis Structure Builder (section 6)
+  - Shape & Polarity Lab (section 7)
+  - Intermolecular Forces Arena (section 8)
+- **STEM Tour** — enrichment and outreach, not tested and not part of the study (section 8A): Hybridization Lab, Crystal Lattice Builder, Organic Chemistry
 - **Pharmacy Applications:** future
 
-Recommended learning order: Lewis Structures → Hybridization → Crystal Lattice.
+Recommended learning order: Lewis Structures → Shape & Polarity → Intermolecular Forces, with Molecule Shooter as a quick review after each topic. The STEM Tour is for keen students, open days and outreach.
 
----
+Course alignment (PHD115 blueprint): IC1-LO1 to LO6 (octet rule, ion formation, formulas, ionic properties) and IC2-LO1 to LO6 (covalent bonds, Lewis structures, bond polarity, VSEPR shape and molecular polarity, intermolecular forces).
+
+## 5A. Molecule Shooter (ready)
+
+Dr. NAM calls a challenge at the top ("Shoot the polar molecule"). Molecules, ions or short answers float around the arena. Students aim and shoot the right one (finger gun), or click it.
+
+- **Question packs** live in `data/shooter/<pack>.json` (bilingual). The first pack, `ic.json`, covers IC1 and IC2: 12 Easy, 13 Medium and 13 Hard items, each tagged with its learning outcome, with an explanation, a hint and an error type for every wrong option.
+- **Easy:** 3 targets, slow, no timer, 8 challenges. **Medium:** 4 targets, 25 s each, 10 challenges. **Hard:** 5 targets, faster, 15 s each, 10 challenges.
+- **Scoring:** 100 for a first-try hit (plus up to 50 speed bonus when timed), 50 after a miss. A wrong shot crosses out that target and shows the hint. Results show stars, first-try score, best streak and a "Look again" list.
+- **2 Players:** the first correct shot wins the points; a wrong shot freezes that player for 1.2 s.
+- **Lecturer mode** (Shift + L) puts a star on the correct target.
+- **Study mode** logs `item_start`, `attempt` (answer, correct, errorType), `hint` and `level_complete`.
+- **New topics later** (e.g. Energy & Matter, Chemical Reactions, Solutions): add a new JSON pack and one registry line, `load: shooter('<pack>')`. No new code.
 
 ## 6. Activity 1 — Lewis Structure Builder
 
@@ -122,12 +137,34 @@ Show each atom's symbol with its valence shell as a ring of slots (8, or 2 for H
 
 Feedback: correct / too many or too few electrons / octet not satisfied, with a one-line hint. Show the correct Lewis structure at the end of each item.
 
-## 7. Activity 2 — Hybridization Lab
+## 7. Activity 2 — Shape & Polarity Lab (IC2-LO4, LO5)
+
+Start from a Lewis structure (reuse Lewis Builder molecules). Students grab bonding pairs and lone pairs and place them around the central atom; the 3D model springs into its VSEPR shape. Then they pull shared electrons toward the more electronegative atom and decide whether the molecule is polar.
+
+- **Easy:** shapes with no lone pairs: CO₂ (linear), BF₃ (trigonal planar), CH₄ (tetrahedral).
+- **Medium:** lone pairs change the shape: NH₃ (trigonal pyramidal, about 107°), H₂O (bent, about 104.5°). Compare CH₄ / NH₃ / H₂O side by side.
+- **Hard:** bond polarity (H–F vs H–Cl vs H–I) and molecular polarity: polar bonds that cancel (CO₂, CCl₄) vs polar bonds that do not (H₂O, NH₃, H₂S).
+
+Feedback: name the missed lone pair, show dipole arrows adding up or cancelling, and show the bond angle.
+
+## 8. Activity 3 — Intermolecular Forces Arena (IC2-LO6)
+
+Students drag molecules together and link them with the right force: hydrogen bond, dipole–dipole or London (dispersion) forces. Then they predict which substance boils first.
+
+- **Easy:** spot hydrogen bonding (H bonded to N, O or F): H₂O, NH₃, HF vs CH₄, H₂S.
+- **Medium:** rank boiling points (H₂O vs H₂S vs CH₄) and explain with the strongest force present.
+- **Hard:** forces between molecules vs bonds inside molecules (boiling water breaks hydrogen bonds, not O–H bonds); ionic compounds vs molecular substances (melting point, conducting when molten, dissolving into ions, brittleness).
+
+## 8A. STEM Tour (enrichment, not tested)
+
+These activities go beyond the PHD115 IC1/IC2 outcomes. Keep them for interested students, open days and outreach. They are not part of the class study.
+
+### Hybridization Lab
 
 **Goal:** students learn that hybridization follows from counting electron groups, and that π bonds keep p orbitals unhybridized. Hybridization is a model that explains observed molecular shapes; the shape comes first.
 
 Flow for each item:
-1. Show a Lewis structure (reuse Activity 1 molecules).
+1. Show a Lewis structure (reuse Lewis Builder molecules).
 2. **Count groups:** students shoot each bond and lone pair around the highlighted central atom. Double and triple bonds count once. A counter shows the total.
 3. **Mix orbitals:** students grab one s and the right number of p orbitals and drop them into an "orbital mixer". The animation shows them blend into hybrid lobes (sp3 = 4, sp2 = 3, sp = 2).
 4. Leftover p orbitals glow, then overlap side by side to form the π bond(s). Label σ and π bonds.
@@ -151,22 +188,22 @@ Feedback rules:
 - A "Why?" button explaining three points: forming more bonds makes the atom more stable; electron groups spread apart to reduce repulsion; π bonds need unmixed p orbitals, so each π bond leaves one p orbital out of the mix.
 - Note for Hard level: heavier atoms (e.g. S in H2S, about 92°) show little hybridization; the model works best for C, N, O and B.
 
-## 8. Activity 3 — Crystal Lattice Builder
+### Crystal Lattice Builder
 
 Students rotate the 3D view by grabbing and moving their hand.
 
 - **Easy:** build a simple cubic unit cell by placing particles at the corners, then repeat it in 3D to see a lattice fill space.
 - **Medium:** build body-centred and face-centred cubic unit cells. Show coordination number and particles per unit cell.
-- **Hard:** build NaCl from Na+ and Cl- ions (linked to Activity 1), then "make a material": match structures to properties, e.g. NaCl (ionic, brittle, high melting point), diamond vs graphite (covalent network), a metal (metallic lattice, conducts, malleable). End with a short quiz.
+- **Hard:** build NaCl from Na+ and Cl- ions (linked to the Lewis Builder), then "make a material": match structures to properties, e.g. NaCl (ionic, brittle, high melting point), diamond vs graphite (covalent network), a metal (metallic lattice, conducts, malleable). End with a short quiz.
+
+### Organic Chemistry
+See section 10 for module ideas (functional groups, chirality, isomers).
 
 ## 9. Optional Extra Bonding Activities (later phase)
 
 - **Electron Configuration Filler:** drag electrons into orbital boxes (Aufbau, Hund's rule, Pauli).
-- **Bond Type Shooter:** shoot flying molecules into ionic / covalent / metallic bins.
-- **Shape Builder (VSEPR):** pull bonds and lone pairs apart into 3D shapes and see bond angles.
-- **Electronegativity Tug-of-War:** pull shared electrons toward the more electronegative atom; decide polarity.
+- **Bond Type Sorter:** sort flying molecules into ionic / covalent / metallic bins (could be a Molecule Shooter pack).
 - **Ionic Formula Matcher:** combine ion tiles until charges balance.
-- **Intermolecular Forces Arena:** form H-bonds, dipole–dipole and London forces; predict boiling point and solubility.
 
 ---
 
@@ -209,13 +246,15 @@ Each pharmacy activity ends with a short "Why this matters in pharmacy" card in 
 ## 12. Build Plan
 
 1. **Phase 1:** Dr. NAM branding setup (fonts, tokens as CSS variables, logos, sticker components), landing page, language and level selection, gesture engine with tutorial, mouse fallback, and offline setup (bundled libraries, PWA caching, offline classroom copy).
-2. **Phase 2:** Activity 1 (Lewis Structure Builder), Easy level end to end, then Medium and Hard.
-3. **Phase 3:** Activity 2 (Hybridization Lab), all levels.
-4. **Phase 4:** Activity 3 (Crystal Lattice Builder), all levels.
-5. **Phase 5:** Multiplayer Mode 1 (2 players, same screen) for all three activities.
-6. **Phase 6:** Multiplayer Mode 2 (online class battle with room code and live leaderboard).
-7. **Phase 7 (optional):** extra bonding activities from section 9.
+   - **Done early:** Molecule Shooter with the IC1/IC2 question pack (section 5A), including 2 players.
+2. **Phase 2:** Lewis Structure Builder, Easy level end to end, then Medium and Hard.
+3. **Phase 3:** Shape & Polarity Lab, all levels.
+4. **Phase 4:** Intermolecular Forces Arena, all levels.
+5. **Phase 5:** Multiplayer Mode 1 (2 players, same screen) for the Phase 2–4 activities.
+6. **Phase 6:** Multiplayer Mode 2 (online class battle with room code and live leaderboard). Molecule Shooter is the first candidate.
+7. **Phase 7:** STEM Tour (section 8A): Hybridization Lab, then Crystal Lattice Builder. Optional extra bonding activities from section 9.
+8. **Later:** Molecule Shooter packs for other PHD115 topics; Organic and Pharmacy modules.
 
 Even in Phases 1–4, structure the code so multiplayer can be added without rewriting the activities.
 
-Test each phase in the browser before moving on. Organic and Pharmacy modules are for later sessions.
+Test each phase in the browser before moving on. Organic and Pharmacy modules are for later sessions. For the class study, Phases 2–4 come first; the STEM Tour must not replace them.

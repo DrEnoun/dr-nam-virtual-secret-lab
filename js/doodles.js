@@ -19,5 +19,10 @@ export const doodles = {
     <path d="M18.5 32.5 29.5 15.5" />`),
   testtube: svg(`<path d="M30 5 40 15M33 8 13 28a6.4 6.4 0 0 0 9 9l20-20"/><path d="M18 23h10"/>`),
   sparkle: svg(`<path d="M24 6v10M24 32v10M6 24h10M32 24h10M12 12l5 5M31 31l5 5M36 12l-5 5M17 31l-5 5"/>`),
+  target: svg(`<circle cx="24" cy="24" r="16"/><circle cx="24" cy="24" r="7"/>
+    <path d="M24 3v8M24 37v8M3 24h8M37 24h8"/><circle cx="24" cy="24" r="2" fill="currentColor"/>`),
+  forces: svg(`<circle cx="11" cy="17" r="6"/><circle cx="37" cy="31" r="6"/>
+    <path d="M16 21 20 24M28 27l4 3" /><path d="M22 25.5h0M25 27.5h0" stroke-width="4"/>
+    <path d="M6 33a5 5 0 0 0 8 3M34 12a5 5 0 0 1 8 3"/>`),
   electron: svg(`<circle cx="24" cy="24" r="9" fill="currentColor"/><path d="M20 24h8"/>`),
 };

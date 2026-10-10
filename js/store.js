@@ -5,7 +5,7 @@ const defaults = {
   language: 'ms',
   level: 'easy',
   players: 'single',
-  activity: 'lewis',
+  activity: 'shooter',
   theme: 'night',
   sound: true,
   tutorialDone: false,

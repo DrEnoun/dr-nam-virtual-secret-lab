@@ -7,10 +7,11 @@ import { activities, byId } from './activities/registry.js';
 import { doodles } from './doodles.js';
 import { openTutorial } from './tutorial.js';
 import { toast, pressFlash, guardLogos } from './ui.js';
+import { study } from './study.js';
 
 const $ = sel => document.querySelector(sel);
 const engine = new GestureEngine();
-if (new URLSearchParams(location.search).has('debug')) window.__engine = engine; // for testing
+if (new URLSearchParams(location.search).has('debug')) { window.__engine = engine; window.__study = study; } // for testing
 let activityCleanup = null;
 let tipTimer = null;
 
@@ -41,12 +42,20 @@ async function init() {
 
   // Lecturer mode: Shift + L (hidden from students)
   addEventListener('keydown', e => {
+    if (e.target.closest?.('input, textarea')) return;
     if (e.shiftKey && e.key.toLowerCase() === 'l') {
       settings.lecturer = !settings.lecturer;
-      $('#lecturer-badge').hidden = !settings.lecturer;
+      syncLecturer();
     }
   });
-  $('#lecturer-badge').hidden = !settings.lecturer;
+  syncLecturer();
+  wireStudy();
+
+  // An activity can restart itself, e.g. "Play again" or "Next level"
+  document.addEventListener('activity-restart', e => {
+    if (e.detail?.level) { settings.level = e.detail.level; syncSelections(); }
+    route();
+  });
 
   addEventListener('hashchange', route);
   route();
@@ -130,7 +139,11 @@ function wireLanding() {
     syncSelections();
   });
 
-  $('#btn-start').addEventListener('click', () => {
+  $('#btn-start').addEventListener('click', async () => {
+    if (study.enabled && !study.studentId) {
+      const ok = await askStudentId();
+      if (!ok) return;
+    }
     sound.correct();
     location.hash = `#/play/${settings.activity}`;
   });
@@ -187,6 +200,7 @@ function updateToolbarTexts() {
     s === 'loading' ? t('toolbar.camera.loading') :
     s === 'denied' ? t('toolbar.camera.denied') :
     s === 'error' ? t('toolbar.camera.error') : t('toolbar.camera.off');
+  syncStudy();
   $('#btn-theme').textContent = settings.theme === 'day' ? `☀ ${t('toolbar.theme.day')}` : `☾ ${t('toolbar.theme.night')}`;
   $('#btn-sound').textContent = settings.sound ? `♪ ${t('toolbar.sound.on')}` : `✕ ${t('toolbar.sound.off')}`;
 }
@@ -195,6 +209,83 @@ function applyTheme() {
   const day = settings.theme === 'day';
   document.documentElement.dataset.theme = day ? 'day' : 'night';
   document.querySelector('meta[name="theme-color"]').content = day ? '#f0f6ff' : '#060d1b';
+}
+
+// ---------------------------------------------------------------- study mode
+function syncLecturer() {
+  $('#lecturer-badge').hidden = !settings.lecturer;
+  $('#study-tools').hidden = !settings.lecturer;
+  syncStudy();
+}
+
+function syncStudy() {
+  const btn = $('#btn-student');
+  btn.hidden = !(study.enabled && study.studentId);
+  if (!btn.hidden) btn.textContent = t('study.student', { id: study.studentId });
+  $('#btn-study-mode').textContent = study.enabled ? t('study.on') : t('study.off');
+  $('#btn-study-export').textContent = t('study.export', { n: study.count() });
+}
+
+function wireStudy() {
+  study.inputFn = () => (engine.status === 'ready' ? 'camera' : 'mouse');
+  $('#btn-study-mode').addEventListener('click', () => {
+    study.enabled = !study.enabled;
+    if (!study.enabled) study.studentId = '';
+    toast(study.enabled ? t('study.modeOn') : t('study.modeOff'));
+    syncStudy();
+  });
+  $('#btn-study-export').addEventListener('click', () => { study.download(); });
+  $('#btn-study-clear').addEventListener('click', () => {
+    if (!confirm(t('study.clearConfirm'))) return;
+    study.clear();
+    toast(t('study.cleared'));
+    syncStudy();
+  });
+  const nextStudent = () => {
+    study.endSession();
+    study.studentId = '';
+    location.hash = '';
+    syncStudy();
+  };
+  $('#btn-study-newstudent').addEventListener('click', nextStudent);
+  $('#btn-student').addEventListener('click', async () => {
+    if (location.hash) return; // change ID only from the landing page
+    await askStudentId();
+  });
+  // Record when the input method changes mid-session
+  document.addEventListener('gesture-status', e => {
+    if (e.detail.status === 'ready' || e.detail.status === 'off') study.log('input_change');
+  });
+  addEventListener('pagehide', () => study.endSession());
+}
+
+function askStudentId() {
+  return new Promise(resolve => {
+    const dlg = $('#student-dialog');
+    const form = $('#student-form');
+    const input = $('#sid-input');
+    const err = $('#sid-error');
+    input.value = study.studentId;
+    err.hidden = true;
+    input.oninput = () => { err.hidden = true; };
+    dlg.hidden = false;
+    setTimeout(() => input.focus(), 50);
+    const done = ok => {
+      dlg.hidden = true;
+      form.onsubmit = null;
+      $('#sid-cancel').onclick = null;
+      syncStudy();
+      resolve(ok);
+    };
+    form.onsubmit = e => {
+      e.preventDefault();
+      if (!study.validId(input.value)) { err.hidden = false; sound.wrong(); input.focus(); return; }
+      study.studentId = input.value;
+      sound.select();
+      done(true);
+    };
+    $('#sid-cancel').onclick = () => done(false);
+  });
 }
 
 // ---------------------------------------------------------------- Dr. NAM tips
@@ -212,6 +303,7 @@ async function route() {
   const m = location.hash.match(/^#\/play\/([\w-]+)/);
   activityCleanup?.();
   activityCleanup = null;
+  study.endSession();
   const landing = $('#screen-landing');
   const screen = $('#screen-activity');
   const host = $('#activity-host');
@@ -228,6 +320,9 @@ async function route() {
   screen.hidden = false;
   $('#btn-home').hidden = false;
 
+  study.startSession({ activity: a?.id ?? m[1], level: settings.level, players: settings.players });
+  syncStudy();
+
   const context = {
     level: settings.level,
     players: settings.players,
@@ -236,6 +331,8 @@ async function route() {
     t,
     sound,
     engine,
+    // Activities call ctx.log(event, {item, answer, correct, errorType, hintUsed, durationMs})
+    log: (event, data) => study.log(event, data),
   };
 
   if (a?.status === 'ready' && a.load) {
