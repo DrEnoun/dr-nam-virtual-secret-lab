@@ -84,6 +84,18 @@ Students build unit cells in 3D by placing particles on the rings of a cube (tap
 
 Particles per cell (corner ⅛, edge ¼, face ½, centre 1) and the coordination number are **computed from the positions**, never typed in, so adding a lattice cannot give a wrong answer. Wording is in `data/crystal/*.json` and `lang/*.json`.
 
+## Activity 4 — Atom Blaster (shooting game)
+
+A target-practice game. Each round shows a prompt such as "Shoot the ionic compounds" and bubbles drift around the arena. **Shoot the right ones** (finger gun, mouse click or tap) before the timer ends; decoys cost points. Streaks give bonus points, and fast rounds earn a speed bonus. After every round the right answers are shown so students learn from misses.
+
+| Level | What students do |
+|---|---|
+| **Easy** | Noble gases, metals, Group 1, ionic vs covalent. |
+| **Medium** | Double and triple bonds, 8 valence electrons, sp³ centres, lone pairs. |
+| **Hard** | sp² and sp, incomplete and expanded octets, 24 valence electrons. Faster bubbles, 3 lives, bigger penalty. |
+
+In **2 Players** mode both players shoot the same bubbles (Player 2 uses the keyboard without a camera) and each keeps a score. Rounds live in `data/blaster/levels.json` (prompt in English and BM, a list of right targets and a list of decoys).
+
 ## Two-player mode (same screen)
 
 On the landing page choose **2 Players**, then a mode. Works in all three activities.
@@ -131,6 +143,7 @@ No build step: plain HTML, CSS and JavaScript modules. Serve the folder with any
 | `js/activities/crystal/`, `css/crystal.css` | Crystal Lattice Builder: `rules.js` (logic), `scene.js` (Three.js scene and ring markers), `index.js` (flow, scoring) |
 | `data/crystal/` | `cells.json` (lattice names and notes), `materials.json` (structures, properties, quiz), `levels.json` |
 | `data/lewis/` | **Molecule data (JSON):** `elements.json`, `molecules.json`, `levels.json` |
+| `js/activities/blaster/`, `css/blaster.css`, `data/blaster/` | Atom Blaster shooting game (`levels.json` holds the rounds), tested by `node tools/test-blaster.mjs` |
 | `js/duo.js`, `js/duo-logic.js`, `css/duo.css` | Two-player mode: `duo-logic.js` (pure Race scoring and Co-op roles, tested by `node tools/test-duo.mjs`), `duo.js` (split screen, keyboard Player 2). Activities expose `ctx.duo` hooks |
 | `js/i18n.js`, `lang/` | Translations |
 | `sw.js` | Offline cache, **generated** → `node tools/build-sw.mjs` (run after adding or changing files) |

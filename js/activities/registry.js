@@ -29,6 +29,13 @@ export const activities = [
     load: () => import('./crystal/index.js'),
   },
   {
+    id: 'blaster',
+    topic: 'bonding',
+    doodle: 'target',
+    status: 'ready',
+    load: () => import('./blaster/index.js'),
+  },
+  {
     id: 'organic',
     topic: 'organic',
     doodle: 'flask',

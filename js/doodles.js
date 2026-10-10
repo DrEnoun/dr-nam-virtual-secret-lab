@@ -18,6 +18,7 @@ export const doodles = {
   capsule: svg(`<rect x="7" y="17" width="34" height="14" rx="7" transform="rotate(-35 24 24)"/>
     <path d="M18.5 32.5 29.5 15.5" />`),
   testtube: svg(`<path d="M30 5 40 15M33 8 13 28a6.4 6.4 0 0 0 9 9l20-20"/><path d="M18 23h10"/>`),
+  target: svg(`<circle cx="24" cy="24" r="17"/><circle cx="24" cy="24" r="9"/><circle cx="24" cy="24" r="2.5" fill="currentColor"/><path d="M24 3v8M24 37v8M3 24h8M37 24h8"/>`),
   sparkle: svg(`<path d="M24 6v10M24 32v10M6 24h10M32 24h10M12 12l5 5M31 31l5 5M36 12l-5 5M17 31l-5 5"/>`),
   electron: svg(`<circle cx="24" cy="24" r="9" fill="currentColor"/><path d="M20 24h8"/>`),
 };
