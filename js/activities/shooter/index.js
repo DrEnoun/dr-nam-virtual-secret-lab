@@ -46,6 +46,7 @@ export default function mount(host, ctx) {
   let alive = true;
   let raf = 0;
   const timers = new Set();
+  if (duo) ctx.engine?.startKeyboard?.(2); // Player 2 can also aim with the keyboard
   const later = (fn, ms) => { const id = setTimeout(() => { timers.delete(id); if (alive) fn(); }, ms); timers.add(id); };
 
   host.innerHTML = `
@@ -393,6 +394,7 @@ export default function mount(host, ctx) {
     cancelAnimationFrame(raf);
     timers.forEach(clearTimeout);
     removeEventListener('keydown', onKey);
+    if (duo) ctx.engine?.stopKeyboard?.();
     host.innerHTML = '';
   };
 }

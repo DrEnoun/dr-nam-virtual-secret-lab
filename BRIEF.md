@@ -104,7 +104,8 @@ Build Mode 1 before Mode 2. Keep the game logic separate from input and networki
 ## 5. Topic Groups on the Landing Page
 
 - **Chemical Bonding (IC1 & IC2)** — the core activities, used in the class study:
-  - Molecule Shooter (section 5A) — ready
+  - Molecule Shooter (section 5A) — ready: learn mode, one answer per challenge, explanations, study logging
+  - Atom Blaster — ready: arcade mode, shoot every right bubble in a timed round (data/blaster/levels.json)
   - Lewis Structure Builder (section 6)
   - Shape & Polarity Lab (section 7)
   - Intermolecular Forces Arena (section 8)

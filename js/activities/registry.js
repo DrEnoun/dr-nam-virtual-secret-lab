@@ -1,6 +1,7 @@
 // Every activity is listed here. Add a new entry and it appears on the landing page.
 // status: 'ready' (playable) | 'soon' (shown with "Coming in Phase n", or "Coming soon" without a phase) | 'locked'
 // load(): returns the module; its default export is mount(container, context) → cleanup()
+// duo: true → in 2-player mode the activity runs inside the split-screen wrapper (js/duo.js)
 //
 // Topic groups
 //   bonding  — Chemical Bonding core (IC1/IC2 in the PHD115 class study)
@@ -17,12 +18,20 @@ export const activities = [
   {
     id: 'shooter',
     topic: 'bonding',
-    doodle: 'target',
+    doodle: 'aim',
     status: 'ready',
     load: shooter('ic'),
   },
   {
+    id: 'blaster',
+    topic: 'bonding',
+    doodle: 'target',
+    status: 'ready',
+    load: () => import('./blaster/index.js'),
+  },
+  {
     id: 'lewis',
+    duo: true,
     topic: 'bonding',
     doodle: 'atom',
     status: 'ready',
@@ -43,6 +52,7 @@ export const activities = [
   // ---- STEM Tour (enrichment, not part of the study)
   {
     id: 'hybrid',
+    duo: true,
     topic: 'stem',
     doodle: 'sparkle',
     status: 'ready',
@@ -50,6 +60,7 @@ export const activities = [
   },
   {
     id: 'crystal',
+    duo: true,
     topic: 'stem',
     doodle: 'lattice',
     status: 'ready',

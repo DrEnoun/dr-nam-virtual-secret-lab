@@ -3,11 +3,11 @@
 Gesture-controlled chemistry games by **Chemistry with Dr. NAM**, for general use.
 Students aim with a finger, "shoot" to select, and pinch to grab — or simply use a mouse or touch screen.
 
-The full plan is in [BRIEF.md](BRIEF.md). **This version** has Phase 1 (branding, landing page, BM/English, gesture engine, mouse fallback, offline) plus four activities, each at Easy, Medium and Hard:
-- **Chemical Bonding:** **Molecule Shooter** (quick-fire review, 1 or 2 players) and **Lewis Structure Builder**. Shape & Polarity Lab and Intermolecular Forces Arena come next.
+The full plan is in [BRIEF.md](BRIEF.md). **This version** has Phase 1 (branding, landing page, BM/English, gesture engine, mouse fallback, offline, study mode), the activities below (each at Easy, Medium and Hard) and Phase 5 two-player mode:
+- **Chemical Bonding:** **Molecule Shooter** (one answer per challenge, with hints and explanations; logs answers in study mode), **Atom Blaster** (fast arcade round: shoot all the right bubbles) and **Lewis Structure Builder**. Shape & Polarity Lab and Intermolecular Forces Arena come next.
 - **STEM Tour** (enrichment, not tested in the class study): **Hybridization Lab** and **Crystal Lattice Builder**; organic chemistry later.
 
-Multiplayer arrives in Phases 5–6.
+Online Class Battle arrives in Phase 6.
 
 ---
 
@@ -88,6 +88,27 @@ Students build unit cells in 3D by placing particles on the rings of a cube (tap
 
 Particles per cell (corner ⅛, edge ¼, face ½, centre 1) and the coordination number are **computed from the positions**, never typed in, so adding a lattice cannot give a wrong answer. Wording is in `data/crystal/*.json` and `lang/*.json`.
 
+## Activity 4 — Atom Blaster (shooting game)
+
+A target-practice game. Each round shows a prompt such as "Shoot the ionic compounds" and bubbles drift around the arena. **Shoot the right ones** (finger gun, mouse click or tap) before the timer ends; decoys cost points. Streaks give bonus points, and fast rounds earn a speed bonus. After every round the right answers are shown so students learn from misses.
+
+| Level | What students do |
+|---|---|
+| **Easy** | Noble gases, metals, Group 1, ionic vs covalent. |
+| **Medium** | Double and triple bonds, 8 valence electrons, sp³ centres, lone pairs. |
+| **Hard** | sp² and sp, incomplete and expanded octets, 24 valence electrons. Faster bubbles, 3 lives, bigger penalty. |
+
+In **2 Players** mode both players shoot the same bubbles (Player 2 uses the keyboard without a camera) and each keeps a score. Rounds live in `data/blaster/levels.json` (prompt in English and BM, a list of right targets and a list of decoys).
+
+## Two-player mode (same screen)
+
+On the landing page choose **2 Players**, then a mode. Works in all three activities.
+
+- **Race** — the screen splits in two. Both players get the **same question**; the first correct answer scores, then both move on together. Highest score wins.
+- **Co-op** — one shared molecule or cell. One player **builds**, the other **checks**; roles swap every question.
+
+**Controls (no camera needed):** Player 1 uses the mouse or touch. Player 2 uses the keyboard: arrow keys move, Space shoots, Enter grabs and drops. With the camera on, the left hand is Player 1 and the right hand is Player 2, each kept to their own half. Timers and the Challenge round are off in 2-player mode. Works offline.
+
 ## Put it on GitHub Pages (one time)
 
 1. Create a repository on GitHub and upload everything in this folder (including the hidden `.nojekyll` file).
@@ -126,6 +147,8 @@ No build step: plain HTML, CSS and JavaScript modules. Serve the folder with any
 | `js/activities/crystal/`, `css/crystal.css` | Crystal Lattice Builder: `rules.js` (logic), `scene.js` (Three.js scene and ring markers), `index.js` (flow, scoring) |
 | `data/crystal/` | `cells.json` (lattice names and notes), `materials.json` (structures, properties, quiz), `levels.json` |
 | `data/lewis/` | **Molecule data (JSON):** `elements.json`, `molecules.json`, `levels.json` |
+| `js/activities/blaster/`, `css/blaster.css`, `data/blaster/` | Atom Blaster shooting game (`levels.json` holds the rounds), tested by `node tools/test-blaster.mjs` |
+| `js/duo.js`, `js/duo-logic.js`, `css/duo.css` | Two-player mode: `duo-logic.js` (pure Race scoring and Co-op roles, tested by `node tools/test-duo.mjs`), `duo.js` (split screen, keyboard Player 2). Activities expose `ctx.duo` hooks |
 | `js/activities/shooter/`, `data/shooter/` | Molecule Shooter and its question packs (JSON) |
 | `js/study.js` | Study mode logging (lecturer tools → CSV) |
 | `js/i18n.js`, `lang/` | Translations |
