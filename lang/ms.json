@@ -294,5 +294,20 @@
   "crystal.repeat.title": "Sebuah kekisi!",
   "crystal.repeat.note": "Mengulang sel unit ke semua arah memenuhi ruang. Blok ini mempunyai {n} zarah.",
   "crystal.tip.done": "Tahukah anda? Kekisi hablur hanyalah satu sel unit yang diulang berkali-kali dalam 3D.",
-  "crystal.touchhint": "Tidak perlu kamera: ketik cincin untuk meletak atau mengalih keluar zarah, dan seret kubus dengan jari atau tetikus untuk memutarnya."
+  "crystal.touchhint": "Tidak perlu kamera: ketik cincin untuk meletak atau mengalih keluar zarah, dan seret kubus dengan jari atau tetikus untuk memutarnya.",
+  "landing.duomode": "Mod dua pemain",
+  "duo.race": "Perlumbaan",
+  "duo.race.note": "Jawapan betul pertama mendapat markah",
+  "duo.coop": "Kerjasama",
+  "duo.coop.note": "Bina dan semak bersama",
+  "duo.question": "Soalan {n} daripada {total}",
+  "duo.first": "Pemain {n} yang pertama! Soalan seterusnya menyusul…",
+  "duo.wins": "Pemain {n} menang!",
+  "duo.draw": "Seri!",
+  "duo.role.builder": "Pembina",
+  "duo.role.checker": "Penyemak",
+  "duo.coop.start": "Bina bersama-sama!",
+  "duo.swap": "Peranan bertukar!",
+  "duo.coop.help": "Pembina menggerakkan elektron, mengetik cincin dan menembak sasaran pada papan. Penyemak menekan Semak, menjawab soalan dan meneruskan. Peranan bertukar setiap soalan.",
+  "duo.help.kb": "Tiada kamera? Pemain 1 menggunakan tetikus atau sentuhan. Pemain 2 menggunakan papan kekunci: anak panah menggerak, Space menembak, Enter menggenggam dan melepas."
 }

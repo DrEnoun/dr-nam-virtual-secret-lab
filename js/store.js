@@ -5,6 +5,7 @@ const defaults = {
   language: 'en', // English first on every new visit (see below)
   level: 'easy',
   players: 'single',
+  duoMode: 'race',
   activity: 'lewis',
   theme: 'night',
   sound: true,

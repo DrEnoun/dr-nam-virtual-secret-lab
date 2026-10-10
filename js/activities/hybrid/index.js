@@ -49,12 +49,13 @@ export default function mount(host, ctx) {
     };
     buildShell();
     render();
+    ctx.duo?.ready?.({ goto: i => show(i), count: () => run.items.length });
   }
 
   function buildShell() {
     teardown();
     host.innerHTML = '';
-    const root = el('section', 'lw hy');
+    const root = el('section', `lw hy${ctx.duo ? ` is-duo is-${ctx.duo.mode}` : ''}`);
     root.innerHTML = `
       <header class="lw-top">
         <div class="lw-badge"><img src="brand/logos/chemistry-with-dr-nam-logo.jpg" alt="Chemistry with Dr. NAM" data-logo="Chemistry with Dr. NAM badge"></div>
@@ -150,6 +151,7 @@ export default function mount(host, ctx) {
   function render() {
     if (!alive) return;
     item = run.items[run.idx];
+    ctx.duo?.onShow?.(run.idx);
     mol = item.mol;
     st = run.states[run.idx] ??= {
       phase: item.kind === 'drug' ? 'label' : 'count', wrong: 0, picked: new Set(), mixSnap: null, labels: new Map(), atomLabels: new Map(), result: null,
@@ -316,6 +318,7 @@ export default function mount(host, ctx) {
     st.result = { pts: correct ? pointsFor(st.wrong) : 0, shown: !correct };
     run.score += st.result.pts;
     run.results[run.idx] = st.result;
+    ctx.duo?.itemDone?.({ index: run.idx, correct, pts: st.result.pts, shown: !correct });
     render();
     if (correct) sound.correct();
   }
@@ -352,7 +355,7 @@ export default function mount(host, ctx) {
     ui.actions.innerHTML = '';
     if (r.shown) setFeedback('', '', t('lewis.reveal.shown')); else setFeedback('ok', t('lewis.ok'), `+${r.pts}`);
     const last = run.idx === run.items.length - 1;
-    ui.actions.append(button(last ? t('lewis.finish') : t('lewis.next'), goNext, 'btn-start btn-start--small'), button(t('lewis.why'), toggleWhy));
+    ui.actions.append(button(last ? t('lewis.finish') : t('lewis.next'), goNext, 'btn-start btn-start--small js-next'), button(t('lewis.why'), toggleWhy));
     say(pick(mol.note));
     renderTable(true);
   }

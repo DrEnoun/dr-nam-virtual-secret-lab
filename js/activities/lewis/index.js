@@ -61,6 +61,7 @@ export default function mount(host, ctx) {
     stopTimer();
     run = { level, cfg: data.levels[level], score: 0, max: 0, finished: false };
     beginStage('main');
+    ctx.duo?.ready?.({ goto: i => show(i), count: () => run.items.length });
   }
 
   function beginStage(stage) {
@@ -72,7 +73,7 @@ export default function mount(host, ctx) {
     run.results = [];
     run.states = [];
     run.max += run.items.length * 10;
-    run.seconds = c.seconds ?? 0;
+    run.seconds = ctx.duo ? 0 : (c.seconds ?? 0); // two-player games are untimed
     run.endAt = run.seconds ? Date.now() + run.seconds * 1000 : 0;
     buildShell();
     if (run.seconds) { timer = setInterval(tick, 200); tick(); }
@@ -92,7 +93,7 @@ export default function mount(host, ctx) {
   function buildShell() {
     board?.destroy(); board = null;
     host.innerHTML = '';
-    const root = el('section', 'lw');
+    const root = el('section', `lw${ctx.duo ? ` is-duo is-${ctx.duo.mode}` : ''}`);
     root.innerHTML = `
       <header class="lw-top">
         <div class="lw-badge"><img src="brand/logos/chemistry-with-dr-nam-logo.jpg" alt="Chemistry with Dr. NAM" data-logo="Chemistry with Dr. NAM badge"></div>
@@ -211,6 +212,7 @@ export default function mount(host, ctx) {
   function render() {
     if (!alive) return;
     item = run.items[run.idx];
+    ctx.duo?.onShow?.(run.idx);
     st = run.states[run.idx] ??= { phase: initialPhase(item), wrong: 0, snap: null, pick: {}, tiles: null, ionQueue: null, result: null, model: buildModel(item) };
     model = st.model;
     board?.destroy(); board = null;
@@ -433,6 +435,7 @@ export default function mount(host, ctx) {
     st.snap = null;
     renderProgress();
     const idx = run.idx;
+    ctx.duo?.itemDone?.({ index: idx, correct, pts: st.result.pts, shown: !correct });
     if (skippedInChallenge && idx < run.items.length - 1) { show(idx + 1); return; }
     renderDone(correct);
   }
@@ -459,7 +462,7 @@ export default function mount(host, ctx) {
     }
     showAnswer(false);
     const last = run.idx === run.items.length - 1;
-    ui.actions.append(button(last ? t('lewis.finish') : t('lewis.next'), goNext, 'btn-start btn-start--small'));
+    ui.actions.append(button(last ? t('lewis.finish') : t('lewis.next'), goNext, 'btn-start btn-start--small js-next'));
   }
 
   function showAnswer(lecturerOnly) {
@@ -480,6 +483,7 @@ export default function mount(host, ctx) {
   // ------------------------------------------------------------------ end of a stage / level
   function endStage(timeUp) {
     stopTimer();
+    if (ctx.duo) { if (ctx.duo.mode === 'coop') finish(false); return; } // the two-player screen runs the challenge-free level and its own results
     if (run.stage === 'main' && run.cfg.challenge) return challengeIntro(timeUp);
     finish(timeUp);
   }

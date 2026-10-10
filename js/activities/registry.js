@@ -6,6 +6,7 @@ export const topics = ['bonding', 'solid', 'organic', 'pharmacy'];
 export const activities = [
   {
     id: 'lewis',
+    duo: true,
     topic: 'bonding',
     doodle: 'atom',
     status: 'ready',
@@ -13,6 +14,7 @@ export const activities = [
   },
   {
     id: 'hybrid',
+    duo: true,
     topic: 'bonding',
     doodle: 'molecule',
     status: 'ready',
@@ -20,6 +22,7 @@ export const activities = [
   },
   {
     id: 'crystal',
+    duo: true,
     topic: 'solid',
     doodle: 'lattice',
     status: 'ready',

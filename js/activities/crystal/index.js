@@ -44,12 +44,13 @@ export default function mount(host, ctx) {
     run = { level, score: 0, finished: false, idx: 0, results: [], states: [], items: data.levels[level].items.map(r => { const [kind, id] = r.split(':'); return { kind, id }; }) };
     buildShell();
     render();
+    ctx.duo?.ready?.({ goto: i => show(i), count: () => run.items.length });
   }
 
   function buildShell() {
     teardown();
     host.innerHTML = '';
-    const root = el('section', 'lw cr');
+    const root = el('section', `lw cr${ctx.duo ? ` is-duo is-${ctx.duo.mode}` : ''}`);
     root.innerHTML = `
       <header class="lw-top">
         <div class="lw-badge"><img src="brand/logos/chemistry-with-dr-nam-logo.jpg" alt="Chemistry with Dr. NAM" data-logo="Chemistry with Dr. NAM badge"></div>
@@ -135,6 +136,7 @@ export default function mount(host, ctx) {
   function render() {
     if (!alive) return;
     item = run.items[run.idx];
+    ctx.duo?.onShow?.(run.idx);
     st = run.states[run.idx] ??= initialState(item);
     teardown();
     renderHeader();
@@ -149,7 +151,7 @@ export default function mount(host, ctx) {
   function initialState(it) {
     const base = { wrong: 0, result: null };
     if (it.kind === 'build') return { ...base, phase: 'build', placed: new Map(), active: it.id === 'nacl' ? 'na' : 'p', q: 0 };
-    if (it.kind === 'identify') return { ...base, phase: 'identify', latt: latticeKeys[Math.floor(Math.random() * latticeKeys.length)] };
+    if (it.kind === 'identify') return { ...base, phase: 'identify', latt: latticeKeys[ctx.duo ? (ctx.duo.seed + run.idx) % latticeKeys.length : Math.floor(Math.random() * latticeKeys.length)] };
     if (it.kind === 'match') return { ...base, phase: 'match', assigned: new Map(), tab: 'nacl' };
     return { ...base, phase: 'quiz', q: 0, order: null };
   }
@@ -325,6 +327,7 @@ export default function mount(host, ctx) {
     st.phase = 'done';
     st.result = { pts: correct ? pointsFor(st.wrong) : 0, shown: !correct };
     run.score += st.result.pts; run.results[run.idx] = st.result;
+    ctx.duo?.itemDone?.({ index: run.idx, correct, pts: st.result.pts, shown: !correct });
     render();
     if (correct) sound.correct();
   }
@@ -334,7 +337,7 @@ export default function mount(host, ctx) {
     ui.actions.innerHTML = '';
     if (r.shown) setFeedback('', '', t('lewis.reveal.shown')); else setFeedback('ok', t('lewis.ok'), `+${r.pts}`);
     const last = run.idx === run.items.length - 1;
-    ui.actions.append(button(last ? t('lewis.finish') : t('lewis.next'), goNext, 'btn-start btn-start--small'));
+    ui.actions.append(button(last ? t('lewis.finish') : t('lewis.next'), goNext, 'btn-start btn-start--small js-next'));
     ui.info.hidden = false;
     ui.info.appendChild(el('h3', '', t('crystal.info.title')));
     if (item.kind === 'match' || item.kind === 'quiz') {

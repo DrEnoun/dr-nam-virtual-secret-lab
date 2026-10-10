@@ -294,5 +294,20 @@
   "crystal.repeat.title": "A lattice!",
   "crystal.repeat.note": "Repeating the unit cell in every direction fills space. This block has {n} particles.",
   "crystal.tip.done": "Did you know? A crystal lattice is just one unit cell repeated again and again in 3D.",
-  "crystal.touchhint": "No camera needed: tap a ring to place or remove a particle, and drag the cube with your finger or mouse to rotate it."
+  "crystal.touchhint": "No camera needed: tap a ring to place or remove a particle, and drag the cube with your finger or mouse to rotate it.",
+  "landing.duomode": "Two-player mode",
+  "duo.race": "Race",
+  "duo.race.note": "First correct answer scores",
+  "duo.coop": "Co-op",
+  "duo.coop.note": "Build and check together",
+  "duo.question": "Question {n} of {total}",
+  "duo.first": "Player {n} was first! Next question coming…",
+  "duo.wins": "Player {n} wins!",
+  "duo.draw": "It's a draw!",
+  "duo.role.builder": "Builder",
+  "duo.role.checker": "Checker",
+  "duo.coop.start": "Build together!",
+  "duo.swap": "Roles swapped!",
+  "duo.coop.help": "The Builder moves electrons, taps rings and shoots targets on the board. The Checker presses Check, answers the questions and moves on. Roles swap every question.",
+  "duo.help.kb": "No camera? Player 1 uses the mouse or touch. Player 2 uses the keyboard: arrow keys move, Space shoots, Enter grabs and drops."
 }

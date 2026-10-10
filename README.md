@@ -84,6 +84,15 @@ Students build unit cells in 3D by placing particles on the rings of a cube (tap
 
 Particles per cell (corner ⅛, edge ¼, face ½, centre 1) and the coordination number are **computed from the positions**, never typed in, so adding a lattice cannot give a wrong answer. Wording is in `data/crystal/*.json` and `lang/*.json`.
 
+## Two-player mode (same screen)
+
+On the landing page choose **2 Players**, then a mode. Works in all three activities.
+
+- **Race** — the screen splits in two. Both players get the **same question**; the first correct answer scores, then both move on together. Highest score wins.
+- **Co-op** — one shared molecule or cell. One player **builds**, the other **checks**; roles swap every question.
+
+**Controls (no camera needed):** Player 1 uses the mouse or touch. Player 2 uses the keyboard: arrow keys move, Space shoots, Enter grabs and drops. With the camera on, the left hand is Player 1 and the right hand is Player 2, each kept to their own half. Timers and the Challenge round are off in 2-player mode. Works offline.
+
 ## Put it on GitHub Pages (one time)
 
 1. Create a repository on GitHub and upload everything in this folder (including the hidden `.nojekyll` file).
@@ -122,6 +131,7 @@ No build step: plain HTML, CSS and JavaScript modules. Serve the folder with any
 | `js/activities/crystal/`, `css/crystal.css` | Crystal Lattice Builder: `rules.js` (logic), `scene.js` (Three.js scene and ring markers), `index.js` (flow, scoring) |
 | `data/crystal/` | `cells.json` (lattice names and notes), `materials.json` (structures, properties, quiz), `levels.json` |
 | `data/lewis/` | **Molecule data (JSON):** `elements.json`, `molecules.json`, `levels.json` |
+| `js/duo.js`, `js/duo-logic.js`, `css/duo.css` | Two-player mode: `duo-logic.js` (pure Race scoring and Co-op roles, tested by `node tools/test-duo.mjs`), `duo.js` (split screen, keyboard Player 2). Activities expose `ctx.duo` hooks |
 | `js/i18n.js`, `lang/` | Translations |
 | `sw.js` | Offline cache, **generated** → `node tools/build-sw.mjs` (run after adding or changing files) |
 | `vendor/` | MediaPipe Hands (Apache-2.0) and Three.js (MIT), bundled for offline use |
