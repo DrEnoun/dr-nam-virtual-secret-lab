@@ -317,6 +317,7 @@ export default function mount(host, ctx) {
     const pct = n ? firstTry / n : 0;
     const stars = pct >= 0.8 ? 3 : pct >= 0.5 ? 2 : pct > 0 ? 1 : 0;
     const durationMs = Math.round(performance.now() - levelStart);
+    if (!duo) ctx.report?.({ level, score: score[1], total: n * 150 });
     log('level_complete', { durationMs, item: `${packId}:${level}`, answer: `score=${score[1]}${duo ? `;p2=${score[2]}` : ''};firstTry=${firstTry}/${n}` });
     $('#sh-prompt').textContent = t('shooter.done');
     $('#sh-round').textContent = '';

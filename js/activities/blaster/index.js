@@ -216,6 +216,7 @@ export default function mount(host, ctx) {
     const top = Math.max(run.scores[1], duo ? run.scores[2] : 0);
     const record = !duo && top > (best[run.level] || 0);
     if (record) { best[run.level] = top; settings[key] = best; }
+    if (!duo) ctx.report?.({ level: run.level, score: run.scores[1] });
     host.innerHTML = '';
     const card = el('section', 'lw-center glass');
     card.appendChild(el('h2', '', t('blaster.done.title')));

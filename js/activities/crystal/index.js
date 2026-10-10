@@ -383,6 +383,7 @@ export default function mount(host, ctx) {
     const best = { ...(settings.crystalBest || {}) };
     const record = run.score > (best[run.level] || 0);
     if (record) { best[run.level] = run.score; settings.crystalBest = best; }
+    ctx.report?.({ level: run.level, score: run.score, total: max });
     host.innerHTML = '';
     const card = el('section', 'lw-center glass');
     card.append(el('h2', '', t('lewis.done.title')), el('div', 'lw-bignum', String(run.score)), el('p', '', t('lewis.done.score', { score: run.score, max })));

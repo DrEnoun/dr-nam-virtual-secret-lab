@@ -375,5 +375,8 @@
   "shooter.again": "Main semula",
   "shooter.nextLevel": "Seterusnya: {level}",
   "shooter.draw": "Seri!",
-  "shooter.winner": "Pemain {p} menang!"
+  "shooter.winner": "Pemain {p} menang!",
+  "hub.chip.on": "✓ Study Hub: {name}",
+  "hub.chip.off": "Log masuk ke Study Hub supaya permainan anda dikira",
+  "hub.counted": "Disimpan ke Study Hub anda"
 }
