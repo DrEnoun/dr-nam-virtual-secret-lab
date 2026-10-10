@@ -513,6 +513,7 @@ export default function mount(host, ctx) {
     const best = { ...(settings.lewisBest || {}) };
     const record = run.score > (best[run.level] || 0);
     if (record) { best[run.level] = run.score; settings.lewisBest = best; }
+    ctx.report?.({ level: run.level, score: run.score });
 
     host.innerHTML = '';
     const card = el('section', 'lw-center glass');

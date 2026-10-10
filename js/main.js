@@ -9,11 +9,13 @@ import { openTutorial } from './tutorial.js';
 import { openPeriodicTable } from './periodic.js';
 import { toast, pressFlash, guardLogos } from './ui.js';
 import { study } from './study.js';
+import { hub } from './hub-bridge.js';
 
 const $ = sel => document.querySelector(sel);
 const engine = new GestureEngine();
 if (new URLSearchParams(location.search).has('debug')) { window.__engine = engine; window.__study = study; } // for testing
 let activityCleanup = null;
+let hubTimerStop = null; // Study Hub time counter for the open activity
 let tipTimer = null;
 
 // ---------------------------------------------------------------- start-up
@@ -57,6 +59,9 @@ async function init() {
     if (e.detail?.level) { settings.level = e.detail.level; syncSelections(); }
     route();
   });
+
+  // Signed in or out of the Study Hub in another tab
+  addEventListener('storage', e => { if (e.key === 'nam:id') syncHub(); });
 
   addEventListener('hashchange', route);
   route();
@@ -222,7 +227,19 @@ function syncLecturer() {
   syncStudy();
 }
 
+// Study Hub status: "counted" when signed in there; a sign-in hint when the student came from the hub
+function syncHub() {
+  const chip = $('#hub-chip');
+  if (!chip) return;
+  const me = hub.student();
+  const fromHub = /phd115-nam/.test(document.referrer) || new URLSearchParams(location.search).has('hub');
+  chip.hidden = !(me || fromHub);
+  chip.textContent = me ? t('hub.chip.on', { name: String(me.name || '').split(' ')[0] }) : t('hub.chip.off');
+  chip.classList.toggle('is-on', !!me);
+}
+
 function syncStudy() {
+  syncHub();
   const btn = $('#btn-student');
   btn.hidden = !(study.enabled && study.studentId);
   if (!btn.hidden) btn.textContent = t('study.student', { id: study.studentId });
@@ -269,7 +286,7 @@ function askStudentId() {
     const form = $('#student-form');
     const input = $('#sid-input');
     const err = $('#sid-error');
-    input.value = study.studentId;
+    input.value = study.studentId || hub.student()?.matric || ''; // prefill from the Study Hub sign-in
     err.hidden = true;
     input.oninput = () => { err.hidden = true; };
     dlg.hidden = false;
@@ -307,6 +324,8 @@ async function route() {
   const m = location.hash.match(/^#\/play\/([\w-]+)/);
   activityCleanup?.();
   activityCleanup = null;
+  hubTimerStop?.();
+  hubTimerStop = null;
   study.endSession();
   const landing = $('#screen-landing');
   const screen = $('#screen-activity');
@@ -327,6 +346,8 @@ async function route() {
   study.startSession({ activity: a?.id ?? m[1], level: settings.level, players: settings.players });
   syncStudy();
 
+  if (a?.status === 'ready') hubTimerStop = hub.startTimer(a.id);
+
   const context = {
     level: settings.level,
     players: settings.players,
@@ -337,6 +358,12 @@ async function route() {
     engine,
     // Activities call ctx.log(event, {item, answer, correct, errorType, hintUsed, durationMs})
     log: (event, data) => study.log(event, data),
+    // Activities call ctx.report({level, score, total}) when a level ends: counted in the Study Hub
+    // for students signed in there (single player only)
+    report: data => {
+      if (settings.players === 'duo' || !a) return;
+      if (hub.result(a.id, { level: settings.level, ...data })) toast(t('hub.counted'));
+    },
   };
 
   if (a?.status === 'ready' && a.load) {

@@ -375,5 +375,8 @@
   "shooter.again": "Play again",
   "shooter.nextLevel": "Next: {level}",
   "shooter.draw": "It's a draw!",
-  "shooter.winner": "Player {p} wins!"
+  "shooter.winner": "Player {p} wins!",
+  "hub.chip.on": "✓ Study Hub: {name}",
+  "hub.chip.off": "Sign in to the Study Hub to count your games",
+  "hub.counted": "Saved to your Study Hub"
 }
