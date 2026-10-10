@@ -6,7 +6,7 @@ const defaults = {
   level: 'easy',
   players: 'single',
   duoMode: 'race',
-  activity: 'lewis',
+  activity: 'shooter',
   theme: 'night',
   sound: true,
   tutorialDone: false,

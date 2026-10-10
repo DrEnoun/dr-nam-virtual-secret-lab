@@ -39,7 +39,17 @@
       <button class="chip" id="btn-sound" data-target type="button"></button>
       <button class="chip" id="btn-pt" data-target type="button" data-i18n="toolbar.pt">Periodic table</button>
       <button class="chip" id="btn-home" data-target type="button" hidden data-i18n="toolbar.home">Home</button>
+      <button class="chip chip--student" id="btn-student" type="button" hidden></button>
       <span class="chip chip--lecturer" id="lecturer-badge" hidden data-i18n="toolbar.lecturer">Lecturer mode</span>
+    </div>
+
+    <!-- Lecturer-only study tools (Shift + L) -->
+    <div class="study-tools glass" id="study-tools" hidden role="group" aria-label="Study tools">
+      <p class="study-tools__title" data-i18n="study.tools">Study tools</p>
+      <button class="chip" id="btn-study-mode" type="button"></button>
+      <button class="chip" id="btn-study-export" type="button"></button>
+      <button class="chip" id="btn-study-clear" type="button" data-i18n="study.clear">Clear study data</button>
+      <button class="chip" id="btn-study-newstudent" type="button" data-i18n="study.newStudent">Next student</button>
     </div>
 
     <div class="logo-plate logo-plate--motto">
@@ -136,6 +146,21 @@
         <button class="btn-start btn-start--small" id="tut-next" data-target type="button" data-i18n="tutorial.next">Next</button>
       </div>
     </div>
+  </div>
+
+  <!-- ===================== Student ID (study mode) ===================== -->
+  <div class="overlay" id="student-dialog" hidden role="dialog" aria-modal="true" aria-labelledby="sid-title">
+    <form class="student-card glass" id="student-form" novalidate>
+      <span class="tag" data-i18n="study.badge">Class study</span>
+      <h2 id="sid-title" data-i18n="study.idTitle">Type your student ID</h2>
+      <p data-i18n="study.idBody">It is used only to match your game with your tests. Your answers are not graded.</p>
+      <input id="sid-input" class="student-input" inputmode="numeric" autocomplete="off" spellcheck="false" maxlength="14" aria-describedby="sid-error">
+      <p class="student-error" id="sid-error" role="alert" hidden data-i18n="study.idError">Please check your student ID (letters and numbers only).</p>
+      <div class="student-actions">
+        <button class="sticker" type="button" id="sid-cancel" data-i18n="study.cancel">Cancel</button>
+        <button class="btn-start btn-start--small" type="submit" id="sid-ok" data-i18n="study.continue">Continue</button>
+      </div>
+    </form>
   </div>
 
   <!-- ===================== Camera, cursors, toasts ===================== -->

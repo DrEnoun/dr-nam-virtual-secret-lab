@@ -3,7 +3,11 @@
 Gesture-controlled chemistry games by **Chemistry with Dr. NAM**, for general use.
 Students aim with a finger, "shoot" to select, and pinch to grab — or simply use a mouse or touch screen.
 
-The full plan is in [BRIEF.md](BRIEF.md). **This version is Phase 4**: Phase 1 (branding, landing page, BM/English, gesture engine, mouse fallback, offline) plus all three activities — **Lewis Structure Builder**, **Hybridization Lab** and **Crystal Lattice Builder** — each at Easy, Medium and Hard. Multiplayer arrives in Phases 5–6.
+The full plan is in [BRIEF.md](BRIEF.md). **This version** has Phase 1 (branding, landing page, BM/English, gesture engine, mouse fallback, offline, study mode), the activities below (each at Easy, Medium and Hard) and Phase 5 two-player mode:
+- **Chemical Bonding:** **Molecule Shooter** (one answer per challenge, with hints and explanations; logs answers in study mode), **Atom Blaster** (fast arcade round: shoot all the right bubbles) and **Lewis Structure Builder**. Shape & Polarity Lab and Intermolecular Forces Arena come next.
+- **STEM Tour** (enrichment, not tested in the class study): **Hybridization Lab** and **Crystal Lattice Builder**; organic chemistry later.
+
+Online Class Battle arrives in Phase 6.
 
 ---
 
@@ -29,7 +33,7 @@ The full plan is in [BRIEF.md](BRIEF.md). **This version is Phase 4**: Phase 1 (
 
 **Periodic table:** the **Periodic table** button in the top bar opens a full 118-element table on any screen (works offline, BM/English). Tap an element for its group, period, atomic mass and valence electrons; tap a group-type chip to highlight a family. Inside the Lewis activity it rings the atoms of the current question. Data: `data/periodic.json`. Two buttons save the table as a printable A4 poster with the Dr. NAM badge, in the current language: **PNG** (picture) or **PDF** (print). It is made on the device (`js/periodic-export.js`), so it works offline.
 
-**Hidden lecturer mode:** press **Shift + L**. In the Lewis Structure Builder it shows the correct Lewis structure beside every question.
+**Hidden lecturer mode:** press **Shift + L**. In the Lewis Structure Builder it shows the correct Lewis structure beside every question; in Molecule Shooter it stars the correct target. It also shows the **Study tools** (see *Study mode* below).
 
 ---
 
@@ -134,7 +138,7 @@ No build step: plain HTML, CSS and JavaScript modules. Serve the folder with any
 | `js/gestures/classify.js` | Pure hand-pose logic (finger gun, pinch, tap) — tested by `node tools/test-classify.mjs` |
 | `js/gestures/engine.js` | Webcam + MediaPipe Hands, crosshairs, 1–2 players; fires `player-select` + `click()` on `[data-target]` elements, and `gesture-grab/move/release` on `document` |
 | `js/drag.js` | One drag helper for mouse, touch and pinch |
-| `js/activities/registry.js` | **List of activities.** Add an entry here to add an activity |
+| `js/activities/registry.js` | **List of activities** and topic groups (Chemical Bonding, STEM Tour, Pharmacy). Add an entry here to add an activity |
 | `js/activities/lewis/` | Lewis Structure Builder: `rules.js` (pure logic, no DOM), `board.js` (drag board + SVG answer), `index.js` (flow, scoring, timer) |
 | `css/lewis.css` | Styles for the Lewis activity (loaded by the activity itself) |
 | `js/periodic.js`, `data/periodic.json` | Periodic table overlay and its data (edit BM names here) |
@@ -145,15 +149,38 @@ No build step: plain HTML, CSS and JavaScript modules. Serve the folder with any
 | `data/lewis/` | **Molecule data (JSON):** `elements.json`, `molecules.json`, `levels.json` |
 | `js/activities/blaster/`, `css/blaster.css`, `data/blaster/` | Atom Blaster shooting game (`levels.json` holds the rounds), tested by `node tools/test-blaster.mjs` |
 | `js/duo.js`, `js/duo-logic.js`, `css/duo.css` | Two-player mode: `duo-logic.js` (pure Race scoring and Co-op roles, tested by `node tools/test-duo.mjs`), `duo.js` (split screen, keyboard Player 2). Activities expose `ctx.duo` hooks |
+| `js/activities/shooter/`, `data/shooter/` | Molecule Shooter and its question packs (JSON) |
+| `js/study.js` | Study mode logging (lecturer tools → CSV) |
 | `js/i18n.js`, `lang/` | Translations |
 | `sw.js` | Offline cache, **generated** → `node tools/build-sw.mjs` (run after adding or changing files) |
 | `vendor/` | MediaPipe Hands (Apache-2.0) and Three.js (MIT), bundled for offline use |
 | `brand/fonts/` | League Spartan and Questrial (SIL Open Font License) |
 
+### Study mode (research data)
+
+Lecturer mode (Shift + L) shows **Study tools**: turn **Study mode** on, and students are asked for their student ID before they play. Each session, input change and activity event is saved on that laptop only (no video). After class, press **Export study data** to download a CSV, then **Clear study data** on shared laptops. **Next student** clears the ID between students on one laptop. Columns match the *Game logs* sheet of the study codebook. Right now **Molecule Shooter** records every answer; the other activities record sessions only until they call `ctx.log`.
+
+Activities must record learning events through `ctx.log(event, data)`:
+
+| event | when | data fields |
+|---|---|---|
+| `item_start` | a new molecule or task appears | `item` (e.g. `NH3`) |
+| `attempt` | the student submits an answer | `item`, `answer`, `correct` (1/0), `errorType` (e.g. `lone_pair_missed`, `double_bond_counted_twice`, `octet_not_met`) |
+| `hint` | the hint or "Why?" button is used | `item`, `hintUsed: 1` |
+| `level_complete` | a level is finished | `durationMs` |
+
+`session_start`, `session_end` and `input_change` are logged automatically.
+
+### Molecule Shooter question packs
+
+Questions are in `data/shooter/ic.json` — edit wording there (both `en` and `ms`). Each item has a `level`, a `prompt`, `options` (exactly one with `"ok": true`; wrong ones carry an `err` code for the study log), a `why` explanation and a `hint`. The number of options must equal the level's `targets` (Easy 3, Medium 4, Hard 5).
+
+To add a topic (e.g. Solutions), copy `ic.json` to `data/shooter/sol.json`, write the items, then add a registry entry with `load: shooter('sol')` and its two language keys. Run `node tools/build-sw.mjs` afterwards.
+
 ### Add a new activity
 
 1. Create `js/activities/<id>/index.js` exporting `default function mount(container, ctx)` that returns a cleanup function.
-   `ctx` gives `{ level, players, language, lecturer, t, sound, engine }`.
+   `ctx` gives `{ level, players, language, lecturer, t, sound, engine, log }`.
 2. In `registry.js`, set the entry's `status: 'ready'` and `load: () => import('./<id>/index.js')`.
 3. Add `activity.<id>.title` and `activity.<id>.desc` to both language files.
 4. Make every clickable thing a `<button data-target>` so it works with gestures and the mouse.
