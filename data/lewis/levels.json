@@ -1,0 +1,89 @@
+{
+  "_about": "Which items appear at each level. 'atom:X' = fill the valence electrons of element X; 'mol:ID' = a molecule or compound from molecules.json. countQuestion = ask for the total valence electrons first; chargeStep = ask for each ion's charge after the transfer; hidden = no guide marks for where electrons go; spares = decoy electrons that belong to no atom; thinking = ionic items start with 'choose the atoms' (with distractor atoms) and end with 'choose the formula'; seconds = time limit for the stage. challenge.items is a pool: 'count' items are drawn at random each time.",
+  "easy": {
+    "items": [
+      "atom:H",
+      "atom:C",
+      "atom:N",
+      "atom:O",
+      "atom:F",
+      "atom:Na",
+      "atom:Mg",
+      "atom:Cl",
+      "mol:H2",
+      "mol:Cl2",
+      "mol:HCl"
+    ]
+  },
+  "medium": {
+    "countQuestion": true,
+    "items": [
+      "mol:H2O",
+      "mol:NH3",
+      "mol:CH4",
+      "mol:O2",
+      "mol:N2",
+      "mol:CO2",
+      "mol:HF",
+      "mol:F2",
+      "mol:H2S",
+      "mol:PH3",
+      "mol:HCN",
+      "mol:C2H4",
+      "mol:C2H2",
+      "mol:CH2O"
+    ]
+  },
+  "hard": {
+    "hidden": true,
+    "thinking": true,
+    "spares": 3,
+    "seconds": 600,
+    "chargeStep": true,
+    "items": [
+      "mol:NaCl",
+      "mol:MgCl2",
+      "mol:Na2O",
+      "mol:CaF2",
+      "mol:K2S",
+      "mol:AlCl3",
+      "mol:Na3N",
+      "mol:MgO"
+    ],
+    "challenge": {
+      "seconds": 300,
+      "count": 8,
+      "hidden": true,
+      "spares": 3,
+      "items": [
+        "atom:O",
+        "atom:Cl",
+        "atom:Mg",
+        "mol:HCl",
+        "mol:H2O",
+        "mol:NH3",
+        "mol:CO2",
+        "mol:N2",
+        "mol:HCN",
+        "mol:C2H4",
+        "mol:CH2O",
+        "mol:H2O2",
+        "mol:CH3OH",
+        "mol:CH3Cl",
+        "mol:C2H6",
+        "mol:NaCl",
+        "mol:MgO",
+        "mol:MgCl2",
+        "mol:Na2O",
+        "mol:CaCl2",
+        "mol:AlCl3",
+        "mol:Na2S",
+        "mol:LiF",
+        "mol:KCl",
+        "mol:K2S",
+        "mol:CaF2",
+        "mol:Na3N"
+      ]
+    }
+  }
+}

@@ -1,0 +1,1607 @@
+{
+  "_about": "Molecules and compounds. Covalent: atoms (id, el, lone = angles of lone-pair sites) + bonds (a, b, order, angle = direction from a to b in degrees, 0 = right, 90 = up). Ionic: atoms with x, y positions. Extra drug properties can be added to any entry later.",
+  "H2": {
+    "kind": "covalent",
+    "formula": "H2",
+    "name": {
+      "en": "Hydrogen gas",
+      "ms": "Gas hidrogen"
+    },
+    "atoms": [
+      {
+        "id": "a",
+        "el": "H"
+      },
+      {
+        "id": "b",
+        "el": "H"
+      }
+    ],
+    "bonds": [
+      {
+        "a": "a",
+        "b": "b",
+        "order": 1,
+        "angle": 0
+      }
+    ],
+    "why": {
+      "en": "Each H has 1 electron and wants 2. They share one pair: a single covalent bond, and both atoms have a full shell.",
+      "ms": "Setiap H ada 1 elektron dan mahu 2. Kedua-duanya berkongsi satu pasangan elektron: satu ikatan kovalen tunggal, dan kedua-dua atom mempunyai petala penuh."
+    }
+  },
+  "Cl2": {
+    "kind": "covalent",
+    "formula": "Cl2",
+    "name": {
+      "en": "Chlorine gas",
+      "ms": "Gas klorin"
+    },
+    "atoms": [
+      {
+        "id": "a",
+        "el": "Cl",
+        "lone": [
+          90,
+          180,
+          270
+        ]
+      },
+      {
+        "id": "b",
+        "el": "Cl",
+        "lone": [
+          90,
+          0,
+          270
+        ]
+      }
+    ],
+    "bonds": [
+      {
+        "a": "a",
+        "b": "b",
+        "order": 1,
+        "angle": 0
+      }
+    ],
+    "why": {
+      "en": "Each Cl has 7 valence electrons and needs 1 more. They share one pair; each Cl keeps 3 lone pairs, so both reach an octet.",
+      "ms": "Setiap Cl ada 7 elektron valens dan perlu 1 lagi. Mereka berkongsi satu pasangan; setiap Cl kekal dengan 3 pasangan elektron bebas, jadi kedua-duanya mencapai oktet."
+    }
+  },
+  "HCl": {
+    "kind": "covalent",
+    "formula": "HCl",
+    "name": {
+      "en": "Hydrogen chloride",
+      "ms": "Hidrogen klorida"
+    },
+    "atoms": [
+      {
+        "id": "a",
+        "el": "H"
+      },
+      {
+        "id": "b",
+        "el": "Cl",
+        "lone": [
+          90,
+          0,
+          270
+        ]
+      }
+    ],
+    "bonds": [
+      {
+        "a": "a",
+        "b": "b",
+        "order": 1,
+        "angle": 0
+      }
+    ],
+    "why": {
+      "en": "H shares one pair with Cl. H gets 2 electrons (a full shell) and Cl gets 8 (an octet) with 3 lone pairs.",
+      "ms": "H berkongsi satu pasangan dengan Cl. H mendapat 2 elektron (petala penuh) dan Cl mendapat 8 (oktet) dengan 3 pasangan elektron bebas."
+    },
+    "pharmacy": {
+      "en": "Pharmacy link: stomach acid is HCl in water, and antacids work by neutralising it.",
+      "ms": "Kaitan farmasi: asid perut ialah HCl dalam air, dan antasid berfungsi dengan meneutralkannya."
+    }
+  },
+  "H2O": {
+    "kind": "covalent",
+    "formula": "H2O",
+    "name": {
+      "en": "Water",
+      "ms": "Air"
+    },
+    "atoms": [
+      {
+        "id": "o",
+        "el": "O",
+        "lone": [
+          0,
+          180
+        ]
+      },
+      {
+        "id": "h1",
+        "el": "H"
+      },
+      {
+        "id": "h2",
+        "el": "H"
+      }
+    ],
+    "bonds": [
+      {
+        "a": "o",
+        "b": "h1",
+        "order": 1,
+        "angle": 225
+      },
+      {
+        "a": "o",
+        "b": "h2",
+        "order": 1,
+        "angle": 315
+      }
+    ],
+    "why": {
+      "en": "O has 6 valence electrons: 2 are shared with the two H atoms and 4 stay as 2 lone pairs. O has an octet; each H has 2.",
+      "ms": "O ada 6 elektron valens: 2 dikongsi dengan dua atom H dan 4 kekal sebagai 2 pasangan elektron bebas. O mencapai oktet; setiap H mempunyai 2."
+    },
+    "pharmacy": {
+      "en": "Pharmacy link: water's lone pairs let it form hydrogen bonds, which is why many drugs dissolve in it.",
+      "ms": "Kaitan farmasi: pasangan elektron bebas air membolehkannya membentuk ikatan hidrogen, sebab itu banyak ubat larut di dalamnya."
+    }
+  },
+  "NH3": {
+    "kind": "covalent",
+    "formula": "NH3",
+    "name": {
+      "en": "Ammonia",
+      "ms": "Ammonia"
+    },
+    "atoms": [
+      {
+        "id": "n",
+        "el": "N",
+        "lone": [
+          90
+        ]
+      },
+      {
+        "id": "h1",
+        "el": "H"
+      },
+      {
+        "id": "h2",
+        "el": "H"
+      },
+      {
+        "id": "h3",
+        "el": "H"
+      }
+    ],
+    "bonds": [
+      {
+        "a": "n",
+        "b": "h1",
+        "order": 1,
+        "angle": 180
+      },
+      {
+        "a": "n",
+        "b": "h2",
+        "order": 1,
+        "angle": 270
+      },
+      {
+        "a": "n",
+        "b": "h3",
+        "order": 1,
+        "angle": 0
+      }
+    ],
+    "why": {
+      "en": "N has 5 valence electrons: 3 are shared with three H atoms and 2 stay as one lone pair. N reaches an octet.",
+      "ms": "N ada 5 elektron valens: 3 dikongsi dengan tiga atom H dan 2 kekal sebagai satu pasangan elektron bebas. N mencapai oktet."
+    },
+    "pharmacy": {
+      "en": "Pharmacy link: the lone pair on nitrogen in many drug molecules lets them pick up H⁺ and form salts.",
+      "ms": "Kaitan farmasi: pasangan elektron bebas pada nitrogen dalam banyak molekul ubat membolehkannya menerima H⁺ dan membentuk garam."
+    }
+  },
+  "CH4": {
+    "kind": "covalent",
+    "formula": "CH4",
+    "name": {
+      "en": "Methane",
+      "ms": "Metana"
+    },
+    "atoms": [
+      {
+        "id": "c",
+        "el": "C"
+      },
+      {
+        "id": "h1",
+        "el": "H"
+      },
+      {
+        "id": "h2",
+        "el": "H"
+      },
+      {
+        "id": "h3",
+        "el": "H"
+      },
+      {
+        "id": "h4",
+        "el": "H"
+      }
+    ],
+    "bonds": [
+      {
+        "a": "c",
+        "b": "h1",
+        "order": 1,
+        "angle": 0
+      },
+      {
+        "a": "c",
+        "b": "h2",
+        "order": 1,
+        "angle": 90
+      },
+      {
+        "a": "c",
+        "b": "h3",
+        "order": 1,
+        "angle": 180
+      },
+      {
+        "a": "c",
+        "b": "h4",
+        "order": 1,
+        "angle": 270
+      }
+    ],
+    "why": {
+      "en": "C has 4 valence electrons and shares each one with an H atom: 4 single bonds, no lone pairs. C has an octet; each H has 2.",
+      "ms": "C ada 4 elektron valens dan berkongsi setiap satu dengan atom H: 4 ikatan tunggal, tiada pasangan elektron bebas. C mencapai oktet; setiap H mempunyai 2."
+    }
+  },
+  "O2": {
+    "kind": "covalent",
+    "formula": "O2",
+    "name": {
+      "en": "Oxygen gas",
+      "ms": "Gas oksigen"
+    },
+    "atoms": [
+      {
+        "id": "a",
+        "el": "O",
+        "lone": [
+          90,
+          270
+        ]
+      },
+      {
+        "id": "b",
+        "el": "O",
+        "lone": [
+          90,
+          270
+        ]
+      }
+    ],
+    "bonds": [
+      {
+        "a": "a",
+        "b": "b",
+        "order": 2,
+        "angle": 0
+      }
+    ],
+    "why": {
+      "en": "Each O needs 2 more electrons, so the atoms share two pairs: a double bond. Each O also keeps 2 lone pairs.",
+      "ms": "Setiap O perlu 2 elektron lagi, jadi atom berkongsi dua pasangan: satu ikatan ganda dua. Setiap O juga kekal dengan 2 pasangan elektron bebas."
+    },
+    "pharmacy": {
+      "en": "Pharmacy link: medical oxygen is O₂ gas.",
+      "ms": "Kaitan farmasi: oksigen perubatan ialah gas O₂."
+    }
+  },
+  "N2": {
+    "kind": "covalent",
+    "formula": "N2",
+    "name": {
+      "en": "Nitrogen gas",
+      "ms": "Gas nitrogen"
+    },
+    "atoms": [
+      {
+        "id": "a",
+        "el": "N",
+        "lone": [
+          180
+        ]
+      },
+      {
+        "id": "b",
+        "el": "N",
+        "lone": [
+          0
+        ]
+      }
+    ],
+    "bonds": [
+      {
+        "a": "a",
+        "b": "b",
+        "order": 3,
+        "angle": 0
+      }
+    ],
+    "why": {
+      "en": "Each N needs 3 more electrons, so the atoms share three pairs: a triple bond. Each N keeps 1 lone pair. The triple bond is very strong, so N₂ is unreactive.",
+      "ms": "Setiap N perlu 3 elektron lagi, jadi atom berkongsi tiga pasangan: satu ikatan ganda tiga. Setiap N kekal dengan 1 pasangan elektron bebas. Ikatan ganda tiga sangat kuat, jadi N₂ tidak reaktif."
+    },
+    "pharmacy": {
+      "en": "Pharmacy link: nitrogen gas is used to fill vials of oxygen-sensitive injections.",
+      "ms": "Kaitan farmasi: gas nitrogen digunakan untuk mengisi vial suntikan yang sensitif terhadap oksigen."
+    }
+  },
+  "CO2": {
+    "kind": "covalent",
+    "formula": "CO2",
+    "name": {
+      "en": "Carbon dioxide",
+      "ms": "Karbon dioksida"
+    },
+    "atoms": [
+      {
+        "id": "c",
+        "el": "C"
+      },
+      {
+        "id": "o1",
+        "el": "O",
+        "lone": [
+          90,
+          270
+        ]
+      },
+      {
+        "id": "o2",
+        "el": "O",
+        "lone": [
+          90,
+          270
+        ]
+      }
+    ],
+    "bonds": [
+      {
+        "a": "c",
+        "b": "o1",
+        "order": 2,
+        "angle": 180
+      },
+      {
+        "a": "c",
+        "b": "o2",
+        "order": 2,
+        "angle": 0
+      }
+    ],
+    "why": {
+      "en": "C shares two pairs with each O: two double bonds, so C has an octet. Each O has 2 shared pairs and 2 lone pairs, so it has an octet too.",
+      "ms": "C berkongsi dua pasangan dengan setiap O: dua ikatan ganda dua, jadi C mencapai oktet. Setiap O ada 2 pasangan kongsi dan 2 pasangan elektron bebas, jadi O juga mencapai oktet."
+    },
+    "pharmacy": {
+      "en": "Pharmacy link: CO₂ is carried in the blood and breathed out; it dissolves to form carbonic acid, part of the body's pH buffer.",
+      "ms": "Kaitan farmasi: CO₂ dibawa dalam darah dan dihembus keluar; ia larut membentuk asid karbonik, sebahagian daripada penimbal pH badan."
+    }
+  },
+  "NaCl": {
+    "kind": "ionic",
+    "formula": "NaCl",
+    "name": {
+      "en": "Sodium chloride",
+      "ms": "Natrium klorida"
+    },
+    "atoms": [
+      {
+        "id": "m",
+        "el": "Na",
+        "x": -3.6,
+        "y": 0
+      },
+      {
+        "id": "x",
+        "el": "Cl",
+        "x": 3.6,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "Na gives its 1 valence electron to Cl. Na⁺ and Cl⁻ both have a full outer shell, and the opposite charges attract: an ionic (electrovalent) bond.",
+      "ms": "Na memberikan 1 elektron valensnya kepada Cl. Na⁺ dan Cl⁻ kedua-duanya mempunyai petala luar penuh, dan cas yang bertentangan saling menarik: ikatan ion (elektrovalen)."
+    },
+    "pharmacy": {
+      "en": "Pharmacy link: normal saline for drips is 0.9% NaCl in water.",
+      "ms": "Kaitan farmasi: salin normal untuk titisan intravena ialah 0.9% NaCl dalam air."
+    }
+  },
+  "MgO": {
+    "kind": "ionic",
+    "formula": "MgO",
+    "name": {
+      "en": "Magnesium oxide",
+      "ms": "Magnesium oksida"
+    },
+    "atoms": [
+      {
+        "id": "m",
+        "el": "Mg",
+        "x": -3.6,
+        "y": 0
+      },
+      {
+        "id": "x",
+        "el": "O",
+        "x": 3.6,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "Mg gives 2 electrons to O. Mg²⁺ and O²⁻ both have a full outer shell, held together by strong attraction between 2+ and 2−.",
+      "ms": "Mg memberikan 2 elektron kepada O. Mg²⁺ dan O²⁻ kedua-duanya mempunyai petala luar penuh, disatukan oleh tarikan kuat antara 2+ dan 2−."
+    },
+    "pharmacy": {
+      "en": "Pharmacy link: magnesium oxide is used in some antacids and magnesium supplements.",
+      "ms": "Kaitan farmasi: magnesium oksida digunakan dalam sesetengah antasid dan suplemen magnesium."
+    }
+  },
+  "MgCl2": {
+    "kind": "ionic",
+    "formula": "MgCl2",
+    "name": {
+      "en": "Magnesium chloride",
+      "ms": "Magnesium klorida"
+    },
+    "atoms": [
+      {
+        "id": "x1",
+        "el": "Cl",
+        "x": -5.4,
+        "y": 0
+      },
+      {
+        "id": "m",
+        "el": "Mg",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "x2",
+        "el": "Cl",
+        "x": 5.4,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "Mg has 2 valence electrons but each Cl needs only 1, so Mg gives one electron to each of two Cl atoms. That gives Mg²⁺ and two Cl⁻: the formula is MgCl₂.",
+      "ms": "Mg ada 2 elektron valens tetapi setiap Cl hanya perlu 1, jadi Mg memberikan satu elektron kepada setiap satu daripada dua atom Cl. Ini menghasilkan Mg²⁺ dan dua Cl⁻: formulanya MgCl₂."
+    }
+  },
+  "HF": {
+    "kind": "covalent",
+    "formula": "HF",
+    "name": {
+      "en": "Hydrogen fluoride",
+      "ms": "Hidrogen fluorida"
+    },
+    "atoms": [
+      {
+        "id": "a",
+        "el": "H"
+      },
+      {
+        "id": "b",
+        "el": "F",
+        "lone": [
+          90,
+          0,
+          270
+        ]
+      }
+    ],
+    "bonds": [
+      {
+        "a": "a",
+        "b": "b",
+        "order": 1,
+        "angle": 0
+      }
+    ],
+    "why": {
+      "en": "H and F each need 1 more electron, so they share one pair. F keeps 3 lone pairs and reaches an octet; H has 2.",
+      "ms": "H dan F masing-masing perlu 1 elektron lagi, jadi mereka berkongsi satu pasangan. F kekal dengan 3 pasangan elektron bebas dan mencapai oktet; H mempunyai 2."
+    }
+  },
+  "F2": {
+    "kind": "covalent",
+    "formula": "F2",
+    "name": {
+      "en": "Fluorine gas",
+      "ms": "Gas fluorin"
+    },
+    "atoms": [
+      {
+        "id": "a",
+        "el": "F",
+        "lone": [
+          90,
+          180,
+          270
+        ]
+      },
+      {
+        "id": "b",
+        "el": "F",
+        "lone": [
+          90,
+          0,
+          270
+        ]
+      }
+    ],
+    "bonds": [
+      {
+        "a": "a",
+        "b": "b",
+        "order": 1,
+        "angle": 0
+      }
+    ],
+    "why": {
+      "en": "Each F has 7 valence electrons and needs 1 more. They share one pair and each F keeps 3 lone pairs, so both reach an octet.",
+      "ms": "Setiap F ada 7 elektron valens dan perlu 1 lagi. Mereka berkongsi satu pasangan dan setiap F kekal dengan 3 pasangan elektron bebas, jadi kedua-duanya mencapai oktet."
+    }
+  },
+  "H2S": {
+    "kind": "covalent",
+    "formula": "H2S",
+    "name": {
+      "en": "Hydrogen sulfide",
+      "ms": "Hidrogen sulfida"
+    },
+    "atoms": [
+      {
+        "id": "s",
+        "el": "S",
+        "lone": [
+          0,
+          180
+        ]
+      },
+      {
+        "id": "h1",
+        "el": "H"
+      },
+      {
+        "id": "h2",
+        "el": "H"
+      }
+    ],
+    "bonds": [
+      {
+        "a": "s",
+        "b": "h1",
+        "order": 1,
+        "angle": 225
+      },
+      {
+        "a": "s",
+        "b": "h2",
+        "order": 1,
+        "angle": 315
+      }
+    ],
+    "why": {
+      "en": "S, like O, has 6 valence electrons: 2 are shared with two H atoms and 4 stay as 2 lone pairs, so S has an octet.",
+      "ms": "S, seperti O, ada 6 elektron valens: 2 dikongsi dengan dua atom H dan 4 kekal sebagai 2 pasangan elektron bebas, jadi S mencapai oktet."
+    }
+  },
+  "PH3": {
+    "kind": "covalent",
+    "formula": "PH3",
+    "name": {
+      "en": "Phosphine",
+      "ms": "Fosfina"
+    },
+    "atoms": [
+      {
+        "id": "p",
+        "el": "P",
+        "lone": [
+          90
+        ]
+      },
+      {
+        "id": "h1",
+        "el": "H"
+      },
+      {
+        "id": "h2",
+        "el": "H"
+      },
+      {
+        "id": "h3",
+        "el": "H"
+      }
+    ],
+    "bonds": [
+      {
+        "a": "p",
+        "b": "h1",
+        "order": 1,
+        "angle": 180
+      },
+      {
+        "a": "p",
+        "b": "h2",
+        "order": 1,
+        "angle": 270
+      },
+      {
+        "a": "p",
+        "b": "h3",
+        "order": 1,
+        "angle": 0
+      }
+    ],
+    "why": {
+      "en": "P has 5 valence electrons: 3 are shared with three H atoms and 2 stay as one lone pair, just like N in NH₃.",
+      "ms": "P ada 5 elektron valens: 3 dikongsi dengan tiga atom H dan 2 kekal sebagai satu pasangan elektron bebas, sama seperti N dalam NH₃."
+    }
+  },
+  "HCN": {
+    "kind": "covalent",
+    "formula": "HCN",
+    "name": {
+      "en": "Hydrogen cyanide",
+      "ms": "Hidrogen sianida"
+    },
+    "atoms": [
+      {
+        "id": "h",
+        "el": "H"
+      },
+      {
+        "id": "c",
+        "el": "C"
+      },
+      {
+        "id": "n",
+        "el": "N",
+        "lone": [
+          0
+        ]
+      }
+    ],
+    "bonds": [
+      {
+        "a": "h",
+        "b": "c",
+        "order": 1,
+        "angle": 0
+      },
+      {
+        "a": "c",
+        "b": "n",
+        "order": 3,
+        "angle": 0
+      }
+    ],
+    "why": {
+      "en": "C makes one single bond to H and a triple bond to N: 4 bonds, so C has an octet. N has 3 shared pairs and 1 lone pair.",
+      "ms": "C membentuk satu ikatan tunggal dengan H dan satu ikatan ganda tiga dengan N: 4 ikatan, jadi C mencapai oktet. N ada 3 pasangan kongsi dan 1 pasangan elektron bebas."
+    }
+  },
+  "C2H2": {
+    "kind": "covalent",
+    "formula": "C2H2",
+    "name": {
+      "en": "Ethyne (acetylene)",
+      "ms": "Etuna (asetilena)"
+    },
+    "atoms": [
+      {
+        "id": "h1",
+        "el": "H"
+      },
+      {
+        "id": "c1",
+        "el": "C"
+      },
+      {
+        "id": "c2",
+        "el": "C"
+      },
+      {
+        "id": "h2",
+        "el": "H"
+      }
+    ],
+    "bonds": [
+      {
+        "a": "h1",
+        "b": "c1",
+        "order": 1,
+        "angle": 0
+      },
+      {
+        "a": "c1",
+        "b": "c2",
+        "order": 3,
+        "angle": 0
+      },
+      {
+        "a": "c2",
+        "b": "h2",
+        "order": 1,
+        "angle": 0
+      }
+    ],
+    "why": {
+      "en": "Each C shares one pair with an H atom and three pairs with the other C: a C≡C triple bond. Each C has 4 bonds and an octet.",
+      "ms": "Setiap C berkongsi satu pasangan dengan atom H dan tiga pasangan dengan C yang satu lagi: ikatan ganda tiga C≡C. Setiap C ada 4 ikatan dan mencapai oktet."
+    }
+  },
+  "C2H4": {
+    "kind": "covalent",
+    "formula": "C2H4",
+    "name": {
+      "en": "Ethene (ethylene)",
+      "ms": "Etena (etilena)"
+    },
+    "atoms": [
+      {
+        "id": "c1",
+        "el": "C"
+      },
+      {
+        "id": "c2",
+        "el": "C"
+      },
+      {
+        "id": "h1",
+        "el": "H"
+      },
+      {
+        "id": "h2",
+        "el": "H"
+      },
+      {
+        "id": "h3",
+        "el": "H"
+      },
+      {
+        "id": "h4",
+        "el": "H"
+      }
+    ],
+    "bonds": [
+      {
+        "a": "c1",
+        "b": "c2",
+        "order": 2,
+        "angle": 0
+      },
+      {
+        "a": "c1",
+        "b": "h1",
+        "order": 1,
+        "angle": 135
+      },
+      {
+        "a": "c1",
+        "b": "h2",
+        "order": 1,
+        "angle": 225
+      },
+      {
+        "a": "c2",
+        "b": "h3",
+        "order": 1,
+        "angle": 45
+      },
+      {
+        "a": "c2",
+        "b": "h4",
+        "order": 1,
+        "angle": 315
+      }
+    ],
+    "why": {
+      "en": "Each C makes 2 single bonds to H and a double bond to the other C: 4 bonds each, so both C atoms have an octet.",
+      "ms": "Setiap C membentuk 2 ikatan tunggal dengan H dan satu ikatan ganda dua dengan C yang satu lagi: 4 ikatan setiap satu, jadi kedua-dua atom C mencapai oktet."
+    }
+  },
+  "CH2O": {
+    "kind": "covalent",
+    "formula": "CH2O",
+    "name": {
+      "en": "Formaldehyde (methanal)",
+      "ms": "Formaldehid (metanal)"
+    },
+    "atoms": [
+      {
+        "id": "c",
+        "el": "C"
+      },
+      {
+        "id": "o",
+        "el": "O",
+        "lone": [
+          90,
+          270
+        ]
+      },
+      {
+        "id": "h1",
+        "el": "H"
+      },
+      {
+        "id": "h2",
+        "el": "H"
+      }
+    ],
+    "bonds": [
+      {
+        "a": "c",
+        "b": "o",
+        "order": 2,
+        "angle": 0
+      },
+      {
+        "a": "c",
+        "b": "h1",
+        "order": 1,
+        "angle": 135
+      },
+      {
+        "a": "c",
+        "b": "h2",
+        "order": 1,
+        "angle": 225
+      }
+    ],
+    "why": {
+      "en": "C makes 2 single bonds to H and a double bond to O. O has 2 shared pairs and 2 lone pairs, so both C and O have an octet.",
+      "ms": "C membentuk 2 ikatan tunggal dengan H dan satu ikatan ganda dua dengan O. O ada 2 pasangan kongsi dan 2 pasangan elektron bebas, jadi C dan O mencapai oktet."
+    }
+  },
+  "H2O2": {
+    "kind": "covalent",
+    "formula": "H2O2",
+    "name": {
+      "en": "Hydrogen peroxide",
+      "ms": "Hidrogen peroksida"
+    },
+    "atoms": [
+      {
+        "id": "o1",
+        "el": "O",
+        "lone": [
+          180,
+          270
+        ]
+      },
+      {
+        "id": "o2",
+        "el": "O",
+        "lone": [
+          90,
+          0
+        ]
+      },
+      {
+        "id": "h1",
+        "el": "H"
+      },
+      {
+        "id": "h2",
+        "el": "H"
+      }
+    ],
+    "bonds": [
+      {
+        "a": "o1",
+        "b": "o2",
+        "order": 1,
+        "angle": 0
+      },
+      {
+        "a": "o1",
+        "b": "h1",
+        "order": 1,
+        "angle": 135
+      },
+      {
+        "a": "o2",
+        "b": "h2",
+        "order": 1,
+        "angle": 315
+      }
+    ],
+    "why": {
+      "en": "Each O has one bond to H, one bond to the other O and 2 lone pairs, so both reach an octet. The O–O link is a single bond.",
+      "ms": "Setiap O ada satu ikatan dengan H, satu ikatan dengan O yang satu lagi dan 2 pasangan elektron bebas, jadi kedua-duanya mencapai oktet. Hubungan O–O ialah ikatan tunggal."
+    },
+    "pharmacy": {
+      "en": "Pharmacy link: hydrogen peroxide solution is used as an antiseptic.",
+      "ms": "Kaitan farmasi: larutan hidrogen peroksida digunakan sebagai antiseptik."
+    }
+  },
+  "C2H6": {
+    "kind": "covalent",
+    "formula": "C2H6",
+    "name": {
+      "en": "Ethane",
+      "ms": "Etana"
+    },
+    "atoms": [
+      {
+        "id": "c1",
+        "el": "C"
+      },
+      {
+        "id": "c2",
+        "el": "C"
+      },
+      {
+        "id": "h1",
+        "el": "H"
+      },
+      {
+        "id": "h2",
+        "el": "H"
+      },
+      {
+        "id": "h3",
+        "el": "H"
+      },
+      {
+        "id": "h4",
+        "el": "H"
+      },
+      {
+        "id": "h5",
+        "el": "H"
+      },
+      {
+        "id": "h6",
+        "el": "H"
+      }
+    ],
+    "bonds": [
+      {
+        "a": "c1",
+        "b": "c2",
+        "order": 1,
+        "angle": 0
+      },
+      {
+        "a": "c1",
+        "b": "h1",
+        "order": 1,
+        "angle": 90
+      },
+      {
+        "a": "c1",
+        "b": "h2",
+        "order": 1,
+        "angle": 180
+      },
+      {
+        "a": "c1",
+        "b": "h3",
+        "order": 1,
+        "angle": 270
+      },
+      {
+        "a": "c2",
+        "b": "h4",
+        "order": 1,
+        "angle": 90
+      },
+      {
+        "a": "c2",
+        "b": "h5",
+        "order": 1,
+        "angle": 0
+      },
+      {
+        "a": "c2",
+        "b": "h6",
+        "order": 1,
+        "angle": 270
+      }
+    ],
+    "why": {
+      "en": "Each C forms 3 C–H bonds and one C–C bond: 4 single bonds, no lone pairs, an octet for each C.",
+      "ms": "Setiap C membentuk 3 ikatan C–H dan satu ikatan C–C: 4 ikatan tunggal, tiada pasangan elektron bebas, oktet bagi setiap C."
+    }
+  },
+  "CH3OH": {
+    "kind": "covalent",
+    "formula": "CH3OH",
+    "name": {
+      "en": "Methanol",
+      "ms": "Metanol"
+    },
+    "atoms": [
+      {
+        "id": "c",
+        "el": "C"
+      },
+      {
+        "id": "o",
+        "el": "O",
+        "lone": [
+          90,
+          0
+        ]
+      },
+      {
+        "id": "h1",
+        "el": "H"
+      },
+      {
+        "id": "h2",
+        "el": "H"
+      },
+      {
+        "id": "h3",
+        "el": "H"
+      },
+      {
+        "id": "h4",
+        "el": "H"
+      }
+    ],
+    "bonds": [
+      {
+        "a": "c",
+        "b": "o",
+        "order": 1,
+        "angle": 0
+      },
+      {
+        "a": "c",
+        "b": "h1",
+        "order": 1,
+        "angle": 90
+      },
+      {
+        "a": "c",
+        "b": "h2",
+        "order": 1,
+        "angle": 180
+      },
+      {
+        "a": "c",
+        "b": "h3",
+        "order": 1,
+        "angle": 270
+      },
+      {
+        "a": "o",
+        "b": "h4",
+        "order": 1,
+        "angle": 315
+      }
+    ],
+    "why": {
+      "en": "C has 4 single bonds (3 H and O). O has 2 single bonds (C and H) and 2 lone pairs, so every heavy atom has an octet.",
+      "ms": "C ada 4 ikatan tunggal (3 H dan O). O ada 2 ikatan tunggal (C dan H) dan 2 pasangan elektron bebas, jadi setiap atom berat mencapai oktet."
+    },
+    "pharmacy": {
+      "en": "Pharmacy link: alcohols such as ethanol share the –OH group; methanol is toxic if swallowed.",
+      "ms": "Kaitan farmasi: alkohol seperti etanol mempunyai kumpulan –OH; metanol beracun jika ditelan."
+    }
+  },
+  "CH3Cl": {
+    "kind": "covalent",
+    "formula": "CH3Cl",
+    "name": {
+      "en": "Chloromethane",
+      "ms": "Klorometana"
+    },
+    "atoms": [
+      {
+        "id": "c",
+        "el": "C"
+      },
+      {
+        "id": "cl",
+        "el": "Cl",
+        "lone": [
+          90,
+          0,
+          270
+        ]
+      },
+      {
+        "id": "h1",
+        "el": "H"
+      },
+      {
+        "id": "h2",
+        "el": "H"
+      },
+      {
+        "id": "h3",
+        "el": "H"
+      }
+    ],
+    "bonds": [
+      {
+        "a": "c",
+        "b": "cl",
+        "order": 1,
+        "angle": 0
+      },
+      {
+        "a": "c",
+        "b": "h1",
+        "order": 1,
+        "angle": 90
+      },
+      {
+        "a": "c",
+        "b": "h2",
+        "order": 1,
+        "angle": 180
+      },
+      {
+        "a": "c",
+        "b": "h3",
+        "order": 1,
+        "angle": 270
+      }
+    ],
+    "why": {
+      "en": "C shares one pair each with 3 H atoms and with Cl. Cl keeps 3 lone pairs, so C and Cl both have an octet.",
+      "ms": "C berkongsi satu pasangan dengan setiap satu daripada 3 atom H dan dengan Cl. Cl kekal dengan 3 pasangan elektron bebas, jadi C dan Cl mencapai oktet."
+    }
+  },
+  "LiF": {
+    "kind": "ionic",
+    "formula": "LiF",
+    "name": {
+      "en": "Lithium fluoride",
+      "ms": "Litium fluorida"
+    },
+    "atoms": [
+      {
+        "id": "m",
+        "el": "Li",
+        "x": -3.6,
+        "y": 0
+      },
+      {
+        "id": "x",
+        "el": "F",
+        "x": 3.6,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "Li gives its 1 valence electron to F. Li⁺ and F⁻ both have a full outer shell and attract each other.",
+      "ms": "Li memberikan 1 elektron valensnya kepada F. Li⁺ dan F⁻ kedua-duanya mempunyai petala luar penuh dan saling menarik."
+    }
+  },
+  "NaF": {
+    "kind": "ionic",
+    "formula": "NaF",
+    "name": {
+      "en": "Sodium fluoride",
+      "ms": "Natrium fluorida"
+    },
+    "atoms": [
+      {
+        "id": "m",
+        "el": "Na",
+        "x": -3.6,
+        "y": 0
+      },
+      {
+        "id": "x",
+        "el": "F",
+        "x": 3.6,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "Na gives its 1 valence electron to F. Na⁺ and F⁻ both have a full outer shell and are held by ionic attraction.",
+      "ms": "Na memberikan 1 elektron valensnya kepada F. Na⁺ dan F⁻ kedua-duanya mempunyai petala luar penuh dan disatukan oleh tarikan ion."
+    },
+    "pharmacy": {
+      "en": "Pharmacy link: sodium fluoride is added to some toothpastes to protect teeth.",
+      "ms": "Kaitan farmasi: natrium fluorida ditambah dalam sesetengah ubat gigi untuk melindungi gigi."
+    }
+  },
+  "KCl": {
+    "kind": "ionic",
+    "formula": "KCl",
+    "name": {
+      "en": "Potassium chloride",
+      "ms": "Kalium klorida"
+    },
+    "atoms": [
+      {
+        "id": "m",
+        "el": "K",
+        "x": -3.6,
+        "y": 0
+      },
+      {
+        "id": "x",
+        "el": "Cl",
+        "x": 3.6,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "K gives its 1 valence electron to Cl. K⁺ and Cl⁻ both have a full outer shell.",
+      "ms": "K memberikan 1 elektron valensnya kepada Cl. K⁺ dan Cl⁻ kedua-duanya mempunyai petala luar penuh."
+    },
+    "pharmacy": {
+      "en": "Pharmacy link: potassium chloride is used in potassium supplements.",
+      "ms": "Kaitan farmasi: kalium klorida digunakan dalam suplemen kalium."
+    }
+  },
+  "CaO": {
+    "kind": "ionic",
+    "formula": "CaO",
+    "name": {
+      "en": "Calcium oxide",
+      "ms": "Kalsium oksida"
+    },
+    "atoms": [
+      {
+        "id": "m",
+        "el": "Ca",
+        "x": -3.6,
+        "y": 0
+      },
+      {
+        "id": "x",
+        "el": "O",
+        "x": 3.6,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "Ca gives 2 electrons to O. Ca²⁺ and O²⁻ both have a full outer shell, held by strong 2+ / 2− attraction.",
+      "ms": "Ca memberikan 2 elektron kepada O. Ca²⁺ dan O²⁻ kedua-duanya mempunyai petala luar penuh, disatukan oleh tarikan kuat 2+ / 2−."
+    }
+  },
+  "Na2O": {
+    "kind": "ionic",
+    "formula": "Na2O",
+    "name": {
+      "en": "Sodium oxide",
+      "ms": "Natrium oksida"
+    },
+    "atoms": [
+      {
+        "id": "m1",
+        "el": "Na",
+        "x": -5.4,
+        "y": 0
+      },
+      {
+        "id": "x",
+        "el": "O",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "m2",
+        "el": "Na",
+        "x": 5.4,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "O needs 2 electrons but each Na has only 1 to give, so two Na atoms each give one electron to O. That gives 2 Na⁺ and O²⁻: the formula is Na₂O.",
+      "ms": "O perlu 2 elektron tetapi setiap Na hanya ada 1 untuk diberi, jadi dua atom Na masing-masing memberi satu elektron kepada O. Ini menghasilkan 2 Na⁺ dan O²⁻: formulanya Na₂O."
+    }
+  },
+  "Li2O": {
+    "kind": "ionic",
+    "formula": "Li2O",
+    "name": {
+      "en": "Lithium oxide",
+      "ms": "Litium oksida"
+    },
+    "atoms": [
+      {
+        "id": "m1",
+        "el": "Li",
+        "x": -5.4,
+        "y": 0
+      },
+      {
+        "id": "x",
+        "el": "O",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "m2",
+        "el": "Li",
+        "x": 5.4,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "O needs 2 electrons and each Li gives 1, so two Li atoms are needed: 2 Li⁺ and O²⁻, formula Li₂O.",
+      "ms": "O perlu 2 elektron dan setiap Li memberi 1, jadi dua atom Li diperlukan: 2 Li⁺ dan O²⁻, formula Li₂O."
+    }
+  },
+  "Na2S": {
+    "kind": "ionic",
+    "formula": "Na2S",
+    "name": {
+      "en": "Sodium sulfide",
+      "ms": "Natrium sulfida"
+    },
+    "atoms": [
+      {
+        "id": "m1",
+        "el": "Na",
+        "x": -5.4,
+        "y": 0
+      },
+      {
+        "id": "x",
+        "el": "S",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "m2",
+        "el": "Na",
+        "x": 5.4,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "S needs 2 electrons and each Na gives 1, so two Na atoms give one electron each: 2 Na⁺ and S²⁻, formula Na₂S.",
+      "ms": "S perlu 2 elektron dan setiap Na memberi 1, jadi dua atom Na masing-masing memberi satu elektron: 2 Na⁺ dan S²⁻, formula Na₂S."
+    }
+  },
+  "CaCl2": {
+    "kind": "ionic",
+    "formula": "CaCl2",
+    "name": {
+      "en": "Calcium chloride",
+      "ms": "Kalsium klorida"
+    },
+    "atoms": [
+      {
+        "id": "x1",
+        "el": "Cl",
+        "x": -5.4,
+        "y": 0
+      },
+      {
+        "id": "m",
+        "el": "Ca",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "x2",
+        "el": "Cl",
+        "x": 5.4,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "Ca has 2 valence electrons but each Cl needs only 1, so Ca gives one electron to each of two Cl atoms: Ca²⁺ and 2 Cl⁻, formula CaCl₂.",
+      "ms": "Ca ada 2 elektron valens tetapi setiap Cl hanya perlu 1, jadi Ca memberi satu elektron kepada setiap satu daripada dua atom Cl: Ca²⁺ dan 2 Cl⁻, formula CaCl₂."
+    },
+    "pharmacy": {
+      "en": "Pharmacy link: calcium chloride injection is used to treat low blood calcium.",
+      "ms": "Kaitan farmasi: suntikan kalsium klorida digunakan untuk merawat kalsium darah yang rendah."
+    }
+  },
+  "MgF2": {
+    "kind": "ionic",
+    "formula": "MgF2",
+    "name": {
+      "en": "Magnesium fluoride",
+      "ms": "Magnesium fluorida"
+    },
+    "atoms": [
+      {
+        "id": "x1",
+        "el": "F",
+        "x": -5.4,
+        "y": 0
+      },
+      {
+        "id": "m",
+        "el": "Mg",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "x2",
+        "el": "F",
+        "x": 5.4,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "Mg gives one electron to each of two F atoms: Mg²⁺ and 2 F⁻, formula MgF₂. All three ions have a full outer shell.",
+      "ms": "Mg memberi satu elektron kepada setiap satu daripada dua atom F: Mg²⁺ dan 2 F⁻, formula MgF₂. Ketiga-tiga ion mempunyai petala luar penuh."
+    }
+  },
+  "AlCl3": {
+    "kind": "ionic",
+    "formula": "AlCl3",
+    "name": {
+      "en": "Aluminium chloride",
+      "ms": "Aluminium klorida"
+    },
+    "atoms": [
+      {
+        "id": "m",
+        "el": "Al",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "x1",
+        "el": "Cl",
+        "x": -5.4,
+        "y": 0
+      },
+      {
+        "id": "x2",
+        "el": "Cl",
+        "x": 5.4,
+        "y": 0
+      },
+      {
+        "id": "x3",
+        "el": "Cl",
+        "x": 0,
+        "y": 5.4
+      }
+    ],
+    "why": {
+      "en": "Al has 3 valence electrons and each Cl needs 1, so Al gives one electron to each of three Cl atoms: Al³⁺ and 3 Cl⁻, formula AlCl₃.",
+      "ms": "Al ada 3 elektron valens dan setiap Cl perlu 1, jadi Al memberi satu elektron kepada setiap satu daripada tiga atom Cl: Al³⁺ dan 3 Cl⁻, formula AlCl₃."
+    },
+    "pharmacy": {
+      "en": "Pharmacy link: aluminium salts are used in some antiperspirants.",
+      "ms": "Kaitan farmasi: garam aluminium digunakan dalam sesetengah antiperspiran."
+    }
+  },
+  "Na3N": {
+    "kind": "ionic",
+    "formula": "Na3N",
+    "name": {
+      "en": "Sodium nitride",
+      "ms": "Natrium nitrida"
+    },
+    "atoms": [
+      {
+        "id": "m1",
+        "el": "Na",
+        "x": -5.4,
+        "y": 0
+      },
+      {
+        "id": "x",
+        "el": "N",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "m2",
+        "el": "Na",
+        "x": 5.4,
+        "y": 0
+      },
+      {
+        "id": "m3",
+        "el": "Na",
+        "x": 0,
+        "y": 5.4
+      }
+    ],
+    "why": {
+      "en": "N needs 3 electrons to reach 8 and each Na gives only 1, so three Na atoms are needed: 3 Na⁺ and N³⁻, formula Na₃N.",
+      "ms": "N perlu 3 elektron untuk mencapai 8 dan setiap Na hanya memberi 1, jadi tiga atom Na diperlukan: 3 Na⁺ dan N³⁻, formula Na₃N."
+    }
+  },
+  "CaF2": {
+    "kind": "ionic",
+    "formula": "CaF2",
+    "name": {
+      "en": "Calcium fluoride",
+      "ms": "Kalsium fluorida"
+    },
+    "atoms": [
+      {
+        "id": "x1",
+        "el": "F",
+        "x": -5.4,
+        "y": 0
+      },
+      {
+        "id": "m",
+        "el": "Ca",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "x2",
+        "el": "F",
+        "x": 5.4,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "Ca gives 2 electrons but each F needs only 1, so two F atoms are needed: Ca²⁺ and 2 F⁻, formula CaF₂.",
+      "ms": "Ca memberi 2 elektron tetapi setiap F hanya perlu 1, jadi dua atom F diperlukan: Ca²⁺ dan 2 F⁻, formula CaF₂."
+    }
+  },
+  "K2S": {
+    "kind": "ionic",
+    "formula": "K2S",
+    "name": {
+      "en": "Potassium sulfide",
+      "ms": "Kalium sulfida"
+    },
+    "atoms": [
+      {
+        "id": "m1",
+        "el": "K",
+        "x": -5.4,
+        "y": 0
+      },
+      {
+        "id": "x",
+        "el": "S",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "m2",
+        "el": "K",
+        "x": 5.4,
+        "y": 0
+      }
+    ],
+    "why": {
+      "en": "S needs 2 electrons and each K gives 1, so two K atoms are needed: 2 K⁺ and S²⁻, formula K₂S.",
+      "ms": "S perlu 2 elektron dan setiap K memberi 1, jadi dua atom K diperlukan: 2 K⁺ dan S²⁻, formula K₂S."
+    }
+  }
+}

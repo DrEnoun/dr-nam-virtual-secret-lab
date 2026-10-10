@@ -1,6 +1,6 @@
-# PHD115 Chemistry Gesture Game — Project Brief
+# Chemistry Gesture Game — Project Brief
 
-Build a browser-based chemistry learning game for first-year Diploma in Pharmacy students (course PHD115, Fundamental of Chemistry, UiTM). It must run on a laptop with a webcam, with no login, and work offline except for the online multiplayer mode. Build it in phases (see Build Plan at the end) and design it so new activities can be added later.
+Build a browser-based chemistry learning game for general use (any student or learner of introductory chemistry). It must run on a laptop with a webcam, with no login, and work offline except for the online multiplayer mode. Build it in phases (see Build Plan at the end) and design it so new activities can be added later.
 
 ---
 
@@ -103,7 +103,7 @@ Build Mode 1 before Mode 2. Keep the game logic separate from input and networki
 
 ## 5. Topic Groups on the Landing Page
 
-- **PHD115 · Chemical Bonding (IC1 & IC2)** — the core activities, used in the class study:
+- **Chemical Bonding (IC1 & IC2)** — the core activities, used in the class study:
   - Molecule Shooter (section 5A) — ready
   - Lewis Structure Builder (section 6)
   - Shape & Polarity Lab (section 7)
@@ -113,7 +113,7 @@ Build Mode 1 before Mode 2. Keep the game logic separate from input and networki
 
 Recommended learning order: Lewis Structures → Shape & Polarity → Intermolecular Forces, with Molecule Shooter as a quick review after each topic. The STEM Tour is for keen students, open days and outreach.
 
-Course alignment (PHD115 blueprint): IC1-LO1 to LO6 (octet rule, ion formation, formulas, ionic properties) and IC2-LO1 to LO6 (covalent bonds, Lewis structures, bond polarity, VSEPR shape and molecular polarity, intermolecular forces).
+Course alignment (Dr. NAM's course blueprint): IC1-LO1 to LO6 (octet rule, ion formation, formulas, ionic properties) and IC2-LO1 to LO6 (covalent bonds, Lewis structures, bond polarity, VSEPR shape and molecular polarity, intermolecular forces).
 
 ## 5A. Molecule Shooter (ready)
 
@@ -157,7 +157,7 @@ Students drag molecules together and link them with the right force: hydrogen bo
 
 ## 8A. STEM Tour (enrichment, not tested)
 
-These activities go beyond the PHD115 IC1/IC2 outcomes. Keep them for interested students, open days and outreach. They are not part of the class study.
+These activities go beyond the IC1/IC2 outcomes. Keep them for interested students, open days and outreach. They are not part of the class study.
 
 ### Hybridization Lab
 
@@ -245,16 +245,16 @@ Each pharmacy activity ends with a short "Why this matters in pharmacy" card in 
 
 ## 12. Build Plan
 
-1. **Phase 1:** Dr. NAM branding setup (fonts, tokens as CSS variables, logos, sticker components), landing page, language and level selection, gesture engine with tutorial, mouse fallback, and offline setup (bundled libraries, PWA caching, offline classroom copy).
-   - **Done early:** Molecule Shooter with the IC1/IC2 question pack (section 5A), including 2 players.
-2. **Phase 2:** Lewis Structure Builder, Easy level end to end, then Medium and Hard.
-3. **Phase 3:** Shape & Polarity Lab, all levels.
-4. **Phase 4:** Intermolecular Forces Arena, all levels.
-5. **Phase 5:** Multiplayer Mode 1 (2 players, same screen) for the Phase 2–4 activities.
-6. **Phase 6:** Multiplayer Mode 2 (online class battle with room code and live leaderboard). Molecule Shooter is the first candidate.
-7. **Phase 7:** STEM Tour (section 8A): Hybridization Lab, then Crystal Lattice Builder. Optional extra bonding activities from section 9.
-8. **Later:** Molecule Shooter packs for other PHD115 topics; Organic and Pharmacy modules.
+1. **Phase 1 (done):** Dr. NAM branding setup (fonts, tokens as CSS variables, logos, sticker components), landing page, language and level selection, gesture engine with tutorial, mouse fallback, and offline setup (bundled libraries, PWA caching, offline classroom copy). Study mode (student ID, event log, CSV export).
+2. **Phase 2 (done):** Lewis Structure Builder, all levels. Periodic table reference.
+3. **Phase 3 (done):** Hybridization Lab, all levels — now in the STEM Tour.
+4. **Phase 4 (done):** Crystal Lattice Builder, all levels — now in the STEM Tour.
+   - **Done:** Molecule Shooter with the IC1/IC2 question pack (section 5A), including 2 players.
+5. **Next — core bonding:** Shape & Polarity Lab (section 7), then Intermolecular Forces Arena (section 8). Add study logging (`ctx.log`) to the Lewis Structure Builder.
+6. **Phase 5:** Multiplayer Mode 1 (2 players, same screen) for all activities.
+7. **Phase 6:** Multiplayer Mode 2 (online class battle with room code and live leaderboard). Molecule Shooter is the first candidate.
+8. **Later:** Molecule Shooter packs for other course topics; optional extra bonding activities (section 9); Organic and Pharmacy modules.
 
 Even in Phases 1–4, structure the code so multiplayer can be added without rewriting the activities.
 
-Test each phase in the browser before moving on. Organic and Pharmacy modules are for later sessions. For the class study, Phases 2–4 come first; the STEM Tour must not replace them.
+Test each phase in the browser before moving on. Organic and Pharmacy modules are for later sessions. For the class study, the Chemical Bonding activities come first; the STEM Tour must not replace them.

@@ -2,7 +2,7 @@
 const KEY = 'drnam-chem-games:v1';
 
 const defaults = {
-  language: 'ms',
+  language: 'en', // English first on every new visit (see below)
   level: 'easy',
   players: 'single',
   activity: 'shooter',
@@ -18,12 +18,16 @@ function read() {
   catch { return { ...defaults }; }
 }
 
+// Language: every new visit starts in English. A choice made during a visit survives reloads
+// in the same tab (sessionStorage) but is not remembered for the next visit.
 const state = read();
+try { state.language = sessionStorage.getItem(KEY + ':lang') || 'en'; } catch { state.language = 'en'; }
 
 export const settings = new Proxy(state, {
   set(obj, prop, value) {
     obj[prop] = value;
-    try { localStorage.setItem(KEY, JSON.stringify(obj)); } catch { /* storage blocked: keep in memory */ }
+    if (prop === 'language') { try { sessionStorage.setItem(KEY + ':lang', value); } catch { /* ignore */ } }
+    try { const { language, ...saved } = obj; localStorage.setItem(KEY, JSON.stringify(saved)); } catch { /* storage blocked: keep in memory */ }
     return true;
   },
 });

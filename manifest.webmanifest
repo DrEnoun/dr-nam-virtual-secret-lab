@@ -1,7 +1,7 @@
 {
   "name": "Dr. NAM Virtual Secret Lab",
   "short_name": "Secret Lab",
-  "description": "Gesture-controlled chemistry games for PHD115.",
+  "description": "Gesture-controlled chemistry games by Chemistry with Dr. NAM.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

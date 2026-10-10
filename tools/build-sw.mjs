@@ -5,7 +5,7 @@ import { join, relative } from 'node:path';
 import { createHash } from 'node:crypto';
 
 const root = new URL('..', import.meta.url).pathname;
-const include = ['index.html', 'manifest.webmanifest', 'css', 'js', 'data', 'lang', 'brand', 'icons', 'vendor'];
+const include = ['index.html', 'manifest.webmanifest', 'css', 'js', 'lang', 'brand', 'icons', 'vendor', 'data'];
 // Skipped: docs, source maps, and the non-SIMD wasm (only very old browsers need it; cached on demand).
 const skip = /(^|\/)(\.|LICENSE|README|.*\.md$|.*\.map$|hands_solution_wasm_bin\.)/;
 

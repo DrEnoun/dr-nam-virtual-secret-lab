@@ -1,10 +1,10 @@
 // Every activity is listed here. Add a new entry and it appears on the landing page.
-// status: 'ready' (playable) | 'soon' (shown with "Coming in Phase n") | 'locked' (future idea)
+// status: 'ready' (playable) | 'soon' (shown with "Coming in Phase n", or "Coming soon" without a phase) | 'locked'
 // load(): returns the module; its default export is mount(container, context) → cleanup()
 //
 // Topic groups
-//   bonding  — PHD115 IC1/IC2 (tested in the class study)
-//   stem     — STEM Tour: enrichment and outreach (hybridization, crystal lattice, organic). Not tested.
+//   bonding  — Chemical Bonding core (IC1/IC2 in the PHD115 class study)
+//   stem     — STEM Tour: enrichment and outreach (hybridization, crystal lattice, organic). Not tested in the study.
 //   pharmacy — future pharmacy applications
 export const topics = ['bonding', 'stem', 'pharmacy'];
 
@@ -13,7 +13,7 @@ const shooter = pack => () => import('./shooter/index.js')
   .then(m => ({ default: (host, ctx) => m.default(host, { ...ctx, pack }) }));
 
 export const activities = [
-  // ---- PHD115 Chemical Bonding (IC1 & IC2)
+  // ---- Chemical Bonding (IC1 & IC2)
   {
     id: 'shooter',
     topic: 'bonding',
@@ -25,38 +25,35 @@ export const activities = [
     id: 'lewis',
     topic: 'bonding',
     doodle: 'atom',
-    status: 'soon',
-    phase: 2,
-    // load: () => import('./lewis/index.js'),
+    status: 'ready',
+    load: () => import('./lewis/index.js'),
   },
   {
     id: 'shapes',
     topic: 'bonding',
     doodle: 'molecule',
     status: 'soon',
-    phase: 3,
   },
   {
     id: 'forces',
     topic: 'bonding',
     doodle: 'forces',
     status: 'soon',
-    phase: 4,
   },
   // ---- STEM Tour (enrichment, not part of the study)
   {
     id: 'hybrid',
     topic: 'stem',
     doodle: 'sparkle',
-    status: 'soon',
-    phase: 7,
+    status: 'ready',
+    load: () => import('./hybrid/index.js'),
   },
   {
     id: 'crystal',
     topic: 'stem',
     doodle: 'lattice',
-    status: 'soon',
-    phase: 7,
+    status: 'ready',
+    load: () => import('./crystal/index.js'),
   },
   {
     id: 'organic',

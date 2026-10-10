@@ -1,0 +1,1156 @@
+{
+ "_about": "Molecules for the Hybridization Lab. xy = 2D drawing position (bond lengths), xyz = 3D position (angstrom) for the viewer, lp = lone pairs, h = hydrogens not drawn (skeletal formulas), lpAngles = where to draw the lone pairs (optional), central = the atom students analyse, lp3d = lone-pair directions on the central atom in 3D, mark = numbered atom for the Hard level. Groups, hybridization and shape are worked out from this data, never typed in.",
+ "CH4": {
+  "formula": "CH4",
+  "name": {
+   "en": "Methane",
+   "ms": "Metana"
+  },
+  "central": "c",
+  "atoms": [
+   {
+    "id": "c",
+    "el": "C",
+    "xy": [
+     0,
+     0
+    ],
+    "xyz": [
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "id": "h1",
+    "el": "H",
+    "xy": [
+     -1,
+     0
+    ],
+    "xyz": [
+     0.63,
+     0.63,
+     0.63
+    ]
+   },
+   {
+    "id": "h2",
+    "el": "H",
+    "xy": [
+     1,
+     0
+    ],
+    "xyz": [
+     0.63,
+     -0.63,
+     -0.63
+    ]
+   },
+   {
+    "id": "h3",
+    "el": "H",
+    "xy": [
+     0,
+     1
+    ],
+    "xyz": [
+     -0.63,
+     0.63,
+     -0.63
+    ]
+   },
+   {
+    "id": "h4",
+    "el": "H",
+    "xy": [
+     0,
+     -1
+    ],
+    "xyz": [
+     -0.63,
+     -0.63,
+     0.63
+    ]
+   }
+  ],
+  "bonds": [
+   {
+    "a": "c",
+    "b": "h1",
+    "order": 1
+   },
+   {
+    "a": "c",
+    "b": "h2",
+    "order": 1
+   },
+   {
+    "a": "c",
+    "b": "h3",
+    "order": 1
+   },
+   {
+    "a": "c",
+    "b": "h4",
+    "order": 1
+   }
+  ],
+  "note": {
+   "en": "Carbon makes 4 single bonds. All 4 electron groups are bonds, so they point to the corners of a tetrahedron.",
+   "ms": "Karbon membentuk 4 ikatan tunggal. Kesemua 4 kumpulan elektron ialah ikatan, jadi ia menghala ke bucu sebuah tetrahedron."
+  }
+ },
+ "C2H4": {
+  "formula": "C2H4",
+  "name": {
+   "en": "Ethene (ethylene)",
+   "ms": "Etena (etilena)"
+  },
+  "central": "c1",
+  "atoms": [
+   {
+    "id": "c1",
+    "el": "C",
+    "xy": [
+     -0.5,
+     0
+    ],
+    "xyz": [
+     -0.67,
+     0,
+     0
+    ]
+   },
+   {
+    "id": "c2",
+    "el": "C",
+    "xy": [
+     0.5,
+     0
+    ],
+    "xyz": [
+     0.67,
+     0,
+     0
+    ]
+   },
+   {
+    "id": "h1",
+    "el": "H",
+    "xy": [
+     -1,
+     0.87
+    ],
+    "xyz": [
+     -1.24,
+     0.93,
+     0
+    ]
+   },
+   {
+    "id": "h2",
+    "el": "H",
+    "xy": [
+     -1,
+     -0.87
+    ],
+    "xyz": [
+     -1.24,
+     -0.93,
+     0
+    ]
+   },
+   {
+    "id": "h3",
+    "el": "H",
+    "xy": [
+     1,
+     0.87
+    ],
+    "xyz": [
+     1.24,
+     0.93,
+     0
+    ]
+   },
+   {
+    "id": "h4",
+    "el": "H",
+    "xy": [
+     1,
+     -0.87
+    ],
+    "xyz": [
+     1.24,
+     -0.93,
+     0
+    ]
+   }
+  ],
+  "bonds": [
+   {
+    "a": "c1",
+    "b": "c2",
+    "order": 2
+   },
+   {
+    "a": "c1",
+    "b": "h1",
+    "order": 1
+   },
+   {
+    "a": "c1",
+    "b": "h2",
+    "order": 1
+   },
+   {
+    "a": "c2",
+    "b": "h3",
+    "order": 1
+   },
+   {
+    "a": "c2",
+    "b": "h4",
+    "order": 1
+   }
+  ],
+  "note": {
+   "en": "Each carbon has 3 groups: two C–H bonds and one C=C (a double bond counts once). One p orbital is left over for the π bond.",
+   "ms": "Setiap karbon ada 3 kumpulan: dua ikatan C–H dan satu C=C (ikatan ganda dua dikira sekali). Satu orbital p tertinggal untuk ikatan π."
+  }
+ },
+ "C2H2": {
+  "formula": "C2H2",
+  "name": {
+   "en": "Ethyne (acetylene)",
+   "ms": "Etuna (asetilena)"
+  },
+  "central": "c1",
+  "atoms": [
+   {
+    "id": "h1",
+    "el": "H",
+    "xy": [
+     -1.5,
+     0
+    ],
+    "xyz": [
+     -1.66,
+     0,
+     0
+    ]
+   },
+   {
+    "id": "c1",
+    "el": "C",
+    "xy": [
+     -0.5,
+     0
+    ],
+    "xyz": [
+     -0.6,
+     0,
+     0
+    ]
+   },
+   {
+    "id": "c2",
+    "el": "C",
+    "xy": [
+     0.5,
+     0
+    ],
+    "xyz": [
+     0.6,
+     0,
+     0
+    ]
+   },
+   {
+    "id": "h2",
+    "el": "H",
+    "xy": [
+     1.5,
+     0
+    ],
+    "xyz": [
+     1.66,
+     0,
+     0
+    ]
+   }
+  ],
+  "bonds": [
+   {
+    "a": "h1",
+    "b": "c1",
+    "order": 1
+   },
+   {
+    "a": "c1",
+    "b": "c2",
+    "order": 3
+   },
+   {
+    "a": "c2",
+    "b": "h2",
+    "order": 1
+   }
+  ],
+  "note": {
+   "en": "Each carbon has only 2 groups: one C–H bond and one C≡C (a triple bond counts once). Two p orbitals are left over for the two π bonds.",
+   "ms": "Setiap karbon hanya ada 2 kumpulan: satu ikatan C–H dan satu C≡C (ikatan ganda tiga dikira sekali). Dua orbital p tertinggal untuk dua ikatan π."
+  }
+ },
+ "NH3": {
+  "formula": "NH3",
+  "name": {
+   "en": "Ammonia",
+   "ms": "Ammonia"
+  },
+  "central": "n",
+  "lp3d": [
+   [
+    0,
+    0,
+    1
+   ]
+  ],
+  "atoms": [
+   {
+    "id": "n",
+    "el": "N",
+    "xy": [
+     0,
+     0
+    ],
+    "xyz": [
+     0,
+     0,
+     0
+    ],
+    "lp": 1,
+    "lpAngles": [
+     90
+    ]
+   },
+   {
+    "id": "h1",
+    "el": "H",
+    "xy": [
+     -1,
+     0
+    ],
+    "xyz": [
+     0.94,
+     0,
+     -0.37
+    ]
+   },
+   {
+    "id": "h2",
+    "el": "H",
+    "xy": [
+     1,
+     0
+    ],
+    "xyz": [
+     -0.47,
+     0.814,
+     -0.37
+    ]
+   },
+   {
+    "id": "h3",
+    "el": "H",
+    "xy": [
+     0,
+     -1
+    ],
+    "xyz": [
+     -0.47,
+     -0.814,
+     -0.37
+    ]
+   }
+  ],
+  "bonds": [
+   {
+    "a": "n",
+    "b": "h1",
+    "order": 1
+   },
+   {
+    "a": "n",
+    "b": "h2",
+    "order": 1
+   },
+   {
+    "a": "n",
+    "b": "h3",
+    "order": 1
+   }
+  ],
+  "note": {
+   "en": "Nitrogen has 3 bonds and 1 lone pair = 4 groups. The lone pair pushes the bonds closer, so the angle is about 107°, a little less than 109.5°.",
+   "ms": "Nitrogen ada 3 ikatan dan 1 pasangan elektron bebas = 4 kumpulan. Pasangan elektron bebas menolak ikatan lebih dekat, jadi sudutnya kira-kira 107°, sedikit kurang daripada 109.5°."
+  }
+ },
+ "H2O": {
+  "formula": "H2O",
+  "name": {
+   "en": "Water",
+   "ms": "Air"
+  },
+  "central": "o",
+  "lp3d": [
+   [
+    0,
+    0.55,
+    0.83
+   ],
+   [
+    0,
+    0.55,
+    -0.83
+   ]
+  ],
+  "atoms": [
+   {
+    "id": "o",
+    "el": "O",
+    "xy": [
+     0,
+     0
+    ],
+    "xyz": [
+     0,
+     0,
+     0
+    ],
+    "lp": 2,
+    "lpAngles": [
+     55,
+     125
+    ]
+   },
+   {
+    "id": "h1",
+    "el": "H",
+    "xy": [
+     -0.87,
+     -0.5
+    ],
+    "xyz": [
+     -0.757,
+     -0.586,
+     0
+    ]
+   },
+   {
+    "id": "h2",
+    "el": "H",
+    "xy": [
+     0.87,
+     -0.5
+    ],
+    "xyz": [
+     0.757,
+     -0.586,
+     0
+    ]
+   }
+  ],
+  "bonds": [
+   {
+    "a": "o",
+    "b": "h1",
+    "order": 1
+   },
+   {
+    "a": "o",
+    "b": "h2",
+    "order": 1
+   }
+  ],
+  "note": {
+   "en": "Oxygen has 2 bonds and 2 lone pairs = 4 groups, so it is sp³ too. The two lone pairs squeeze the bond angle to about 104.5°.",
+   "ms": "Oksigen ada 2 ikatan dan 2 pasangan elektron bebas = 4 kumpulan, jadi ia juga sp³. Dua pasangan elektron bebas memampatkan sudut ikatan kepada kira-kira 104.5°."
+  }
+ },
+ "BF3": {
+  "formula": "BF3",
+  "name": {
+   "en": "Boron trifluoride",
+   "ms": "Boron trifluorida"
+  },
+  "central": "b",
+  "atoms": [
+   {
+    "id": "b",
+    "el": "B",
+    "xy": [
+     0,
+     0
+    ],
+    "xyz": [
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "id": "f1",
+    "el": "F",
+    "xy": [
+     1,
+     0
+    ],
+    "xyz": [
+     1.3,
+     0,
+     0
+    ],
+    "lp": 3
+   },
+   {
+    "id": "f2",
+    "el": "F",
+    "xy": [
+     -0.5,
+     0.87
+    ],
+    "xyz": [
+     -0.65,
+     1.126,
+     0
+    ],
+    "lp": 3
+   },
+   {
+    "id": "f3",
+    "el": "F",
+    "xy": [
+     -0.5,
+     -0.87
+    ],
+    "xyz": [
+     -0.65,
+     -1.126,
+     0
+    ],
+    "lp": 3
+   }
+  ],
+  "bonds": [
+   {
+    "a": "b",
+    "b": "f1",
+    "order": 1
+   },
+   {
+    "a": "b",
+    "b": "f2",
+    "order": 1
+   },
+   {
+    "a": "b",
+    "b": "f3",
+    "order": 1
+   }
+  ],
+  "note": {
+   "en": "Boron has 3 bonds and no lone pairs = 3 groups, so sp² and 120°. The leftover p orbital is empty (no π bond), and boron has only 6 electrons.",
+   "ms": "Boron ada 3 ikatan dan tiada pasangan elektron bebas = 3 kumpulan, jadi sp² dan 120°. Orbital p yang tertinggal kosong (tiada ikatan π), dan boron hanya ada 6 elektron."
+  }
+ },
+ "BeCl2": {
+  "formula": "BeCl2",
+  "name": {
+   "en": "Beryllium chloride",
+   "ms": "Berilium klorida"
+  },
+  "central": "be",
+  "atoms": [
+   {
+    "id": "cl1",
+    "el": "Cl",
+    "xy": [
+     -1,
+     0
+    ],
+    "xyz": [
+     -1.75,
+     0,
+     0
+    ],
+    "lp": 3
+   },
+   {
+    "id": "be",
+    "el": "Be",
+    "xy": [
+     0,
+     0
+    ],
+    "xyz": [
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "id": "cl2",
+    "el": "Cl",
+    "xy": [
+     1,
+     0
+    ],
+    "xyz": [
+     1.75,
+     0,
+     0
+    ],
+    "lp": 3
+   }
+  ],
+  "bonds": [
+   {
+    "a": "cl1",
+    "b": "be",
+    "order": 1
+   },
+   {
+    "a": "be",
+    "b": "cl2",
+    "order": 1
+   }
+  ],
+  "note": {
+   "en": "Beryllium has 2 bonds and no lone pairs = 2 groups, so sp and 180° (linear). Its two leftover p orbitals are empty.",
+   "ms": "Berilium ada 2 ikatan dan tiada pasangan elektron bebas = 2 kumpulan, jadi sp dan 180° (linear). Dua orbital p yang tertinggal kosong."
+  }
+ },
+ "CO2": {
+  "formula": "CO2",
+  "name": {
+   "en": "Carbon dioxide",
+   "ms": "Karbon dioksida"
+  },
+  "central": "c",
+  "atoms": [
+   {
+    "id": "o1",
+    "el": "O",
+    "xy": [
+     -1.2,
+     0
+    ],
+    "xyz": [
+     -1.16,
+     0,
+     0
+    ],
+    "lp": 2
+   },
+   {
+    "id": "c",
+    "el": "C",
+    "xy": [
+     0,
+     0
+    ],
+    "xyz": [
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "id": "o2",
+    "el": "O",
+    "xy": [
+     1.2,
+     0
+    ],
+    "xyz": [
+     1.16,
+     0,
+     0
+    ],
+    "lp": 2
+   }
+  ],
+  "bonds": [
+   {
+    "a": "o1",
+    "b": "c",
+    "order": 2
+   },
+   {
+    "a": "c",
+    "b": "o2",
+    "order": 2
+   }
+  ],
+  "note": {
+   "en": "Carbon has two double bonds. Each double bond counts once, so there are only 2 groups: sp and linear. The two leftover p orbitals make the two π bonds.",
+   "ms": "Karbon ada dua ikatan ganda dua. Setiap ikatan ganda dua dikira sekali, jadi hanya ada 2 kumpulan: sp dan linear. Dua orbital p yang tertinggal membentuk dua ikatan π."
+  }
+ },
+ "HCN": {
+  "formula": "HCN",
+  "name": {
+   "en": "Hydrogen cyanide",
+   "ms": "Hidrogen sianida"
+  },
+  "central": "c",
+  "atoms": [
+   {
+    "id": "h",
+    "el": "H",
+    "xy": [
+     -1,
+     0
+    ],
+    "xyz": [
+     -1.06,
+     0,
+     0
+    ]
+   },
+   {
+    "id": "c",
+    "el": "C",
+    "xy": [
+     0,
+     0
+    ],
+    "xyz": [
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "id": "n",
+    "el": "N",
+    "xy": [
+     1.1,
+     0
+    ],
+    "xyz": [
+     1.16,
+     0,
+     0
+    ],
+    "lp": 1
+   }
+  ],
+  "bonds": [
+   {
+    "a": "h",
+    "b": "c",
+    "order": 1
+   },
+   {
+    "a": "c",
+    "b": "n",
+    "order": 3
+   }
+  ],
+  "note": {
+   "en": "Carbon has one single bond (to H) and one triple bond (to N) = 2 groups: sp and linear. Two leftover p orbitals make the two π bonds of C≡N.",
+   "ms": "Karbon ada satu ikatan tunggal (dengan H) dan satu ikatan ganda tiga (dengan N) = 2 kumpulan: sp dan linear. Dua orbital p yang tertinggal membentuk dua ikatan π bagi C≡N."
+  }
+ },
+ "paracetamol": {
+  "formula": "C8H9NO2",
+  "name": {
+   "en": "Paracetamol",
+   "ms": "Parasetamol"
+  },
+  "drug": true,
+  "atoms": [
+   {
+    "id": "r1",
+    "el": "C",
+    "xy": [
+     1,
+     0
+    ],
+    "mark": 1
+   },
+   {
+    "id": "r2",
+    "el": "C",
+    "xy": [
+     0.5,
+     0.866
+    ],
+    "h": 1
+   },
+   {
+    "id": "r3",
+    "el": "C",
+    "xy": [
+     -0.5,
+     0.866
+    ],
+    "h": 1,
+    "mark": 2
+   },
+   {
+    "id": "r4",
+    "el": "C",
+    "xy": [
+     -1,
+     0
+    ]
+   },
+   {
+    "id": "r5",
+    "el": "C",
+    "xy": [
+     -0.5,
+     -0.866
+    ],
+    "h": 1
+   },
+   {
+    "id": "r6",
+    "el": "C",
+    "xy": [
+     0.5,
+     -0.866
+    ],
+    "h": 1
+   },
+   {
+    "id": "o1",
+    "el": "O",
+    "xy": [
+     -2,
+     0
+    ],
+    "lp": 2,
+    "h": 1
+   },
+   {
+    "id": "n",
+    "el": "N",
+    "xy": [
+     2,
+     0
+    ],
+    "lp": 1,
+    "h": 1
+   },
+   {
+    "id": "cco",
+    "el": "C",
+    "xy": [
+     2.5,
+     -0.866
+    ],
+    "mark": 3
+   },
+   {
+    "id": "oco",
+    "el": "O",
+    "xy": [
+     2,
+     -1.732
+    ],
+    "lp": 2,
+    "mark": 4
+   },
+   {
+    "id": "cme",
+    "el": "C",
+    "xy": [
+     3.5,
+     -0.866
+    ],
+    "h": 3,
+    "mark": 5
+   }
+  ],
+  "bonds": [
+   {
+    "a": "r1",
+    "b": "r2",
+    "order": 2
+   },
+   {
+    "a": "r2",
+    "b": "r3",
+    "order": 1
+   },
+   {
+    "a": "r3",
+    "b": "r4",
+    "order": 2
+   },
+   {
+    "a": "r4",
+    "b": "r5",
+    "order": 1
+   },
+   {
+    "a": "r5",
+    "b": "r6",
+    "order": 2
+   },
+   {
+    "a": "r6",
+    "b": "r1",
+    "order": 1
+   },
+   {
+    "a": "r4",
+    "b": "o1",
+    "order": 1
+   },
+   {
+    "a": "r1",
+    "b": "n",
+    "order": 1
+   },
+   {
+    "a": "n",
+    "b": "cco",
+    "order": 1
+   },
+   {
+    "a": "cco",
+    "b": "oco",
+    "order": 2
+   },
+   {
+    "a": "cco",
+    "b": "cme",
+    "order": 1
+   }
+  ],
+  "properties": {
+   "pKa": 9.5,
+   "use": {
+    "en": "pain and fever relief",
+    "ms": "melegakan sakit dan demam"
+   }
+  },
+  "note": {
+   "en": "Count the groups around each marked atom: ring carbons have 3 (sp²), the C=O carbon has 3 (sp²), the carbonyl oxygen has 1 double bond + 2 lone pairs = 3 (sp²), and the CH₃ carbon has 4 (sp³).",
+   "ms": "Kira kumpulan di sekeliling setiap atom bertanda: karbon cincin ada 3 (sp²), karbon C=O ada 3 (sp²), oksigen karbonil ada 1 ikatan ganda dua + 2 pasangan elektron bebas = 3 (sp²), dan karbon CH₃ ada 4 (sp³)."
+  }
+ },
+ "aspirin": {
+  "formula": "C9H8O4",
+  "name": {
+   "en": "Aspirin (acetylsalicylic acid)",
+   "ms": "Aspirin (asid asetilsalisilik)"
+  },
+  "drug": true,
+  "atoms": [
+   {
+    "id": "r1",
+    "el": "C",
+    "xy": [
+     1.0,
+     0.0
+    ],
+    "h": 1
+   },
+   {
+    "id": "r2",
+    "el": "C",
+    "xy": [
+     0.5,
+     0.866
+    ]
+   },
+   {
+    "id": "r3",
+    "el": "C",
+    "xy": [
+     -0.5,
+     0.866
+    ]
+   },
+   {
+    "id": "r4",
+    "el": "C",
+    "xy": [
+     -1.0,
+     0.0
+    ],
+    "h": 1
+   },
+   {
+    "id": "r5",
+    "el": "C",
+    "xy": [
+     -0.5,
+     -0.866
+    ],
+    "h": 1,
+    "mark": 1
+   },
+   {
+    "id": "r6",
+    "el": "C",
+    "xy": [
+     0.5,
+     -0.866
+    ],
+    "h": 1
+   },
+   {
+    "id": "cac",
+    "el": "C",
+    "xy": [
+     1,
+     1.732
+    ],
+    "mark": 2
+   },
+   {
+    "id": "oad",
+    "el": "O",
+    "xy": [
+     0.5,
+     2.598
+    ],
+    "lp": 2,
+    "mark": 3
+   },
+   {
+    "id": "oah",
+    "el": "O",
+    "xy": [
+     2,
+     1.732
+    ],
+    "lp": 2,
+    "h": 1
+   },
+   {
+    "id": "oes",
+    "el": "O",
+    "xy": [
+     -1,
+     1.732
+    ],
+    "lp": 2
+   },
+   {
+    "id": "ces",
+    "el": "C",
+    "xy": [
+     -2,
+     1.732
+    ],
+    "mark": 4
+   },
+   {
+    "id": "oed",
+    "el": "O",
+    "xy": [
+     -2.5,
+     2.598
+    ],
+    "lp": 2
+   },
+   {
+    "id": "cme",
+    "el": "C",
+    "xy": [
+     -2.5,
+     0.866
+    ],
+    "h": 3,
+    "mark": 5
+   }
+  ],
+  "bonds": [
+   {
+    "a": "r1",
+    "b": "r2",
+    "order": 2
+   },
+   {
+    "a": "r2",
+    "b": "r3",
+    "order": 1
+   },
+   {
+    "a": "r3",
+    "b": "r4",
+    "order": 2
+   },
+   {
+    "a": "r4",
+    "b": "r5",
+    "order": 1
+   },
+   {
+    "a": "r5",
+    "b": "r6",
+    "order": 2
+   },
+   {
+    "a": "r6",
+    "b": "r1",
+    "order": 1
+   },
+   {
+    "a": "r2",
+    "b": "cac",
+    "order": 1
+   },
+   {
+    "a": "cac",
+    "b": "oad",
+    "order": 2
+   },
+   {
+    "a": "cac",
+    "b": "oah",
+    "order": 1
+   },
+   {
+    "a": "r3",
+    "b": "oes",
+    "order": 1
+   },
+   {
+    "a": "oes",
+    "b": "ces",
+    "order": 1
+   },
+   {
+    "a": "ces",
+    "b": "oed",
+    "order": 2
+   },
+   {
+    "a": "ces",
+    "b": "cme",
+    "order": 1
+   }
+  ],
+  "properties": {
+   "pKa": 3.5,
+   "use": {
+    "en": "pain relief and anti-inflammatory",
+    "ms": "melegakan sakit dan anti-radang"
+   }
+  },
+  "note": {
+   "en": "Carbons in the ring and in C=O groups have 3 groups (sp²). The oxygen of the C=O has 1 double bond + 2 lone pairs = 3 groups (sp²). The CH₃ carbon has 4 groups (sp³).",
+   "ms": "Karbon dalam cincin dan dalam kumpulan C=O ada 3 kumpulan (sp²). Oksigen C=O ada 1 ikatan ganda dua + 2 pasangan elektron bebas = 3 kumpulan (sp²). Karbon CH₃ ada 4 kumpulan (sp³)."
+  }
+ }
+}

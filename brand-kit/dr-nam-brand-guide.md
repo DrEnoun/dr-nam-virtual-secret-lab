@@ -89,7 +89,7 @@ Five ready layouts show the system in use (see the Slide layouts components): **
 
 ## Study Hub (course materials)
 
-The same identity carries every course's learning materials (starting with PHD115). Each topic has the same five components, in the same order: **Lecture Notes · Pre-lecture · Quiz & Games · Tutorial · Post-lecture**.
+The same identity carries every course's learning materials. Each topic has the same five components, in the same order: **Lecture Notes · Pre-lecture · Quiz & Games · Tutorial · Post-lecture**.
 
 - **StudyHubHeader** opens every topic page (course code, big lime topic number, title, tabs for the five components).
 - **ActivityCard** for pre-/post-lecture self-instructional activities with a self-check; **QuizCard** for instant-feedback questions; **AnswerKey** for worked solutions (blurred on screen until revealed); **TopicProgress** for the student's progress.

@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ms" data-theme="night">
+<html lang="en" data-theme="night">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Dr. NAM Virtual Secret Lab</title>
-  <meta name="description" content="Gesture-controlled chemistry games for PHD115 by Chemistry with Dr. NAM (UiTM Cawangan Pulau Pinang).">
+  <meta name="description" content="Gesture-controlled chemistry games by Chemistry with Dr. NAM.">
   <meta name="theme-color" content="#060d1b">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png" type="image/png">
@@ -27,7 +27,7 @@
   <!-- ===================== Top bar ===================== -->
   <header class="topbar">
     <div class="logo-plate logo-plate--lockup">
-      <img src="brand/logos/uitm-cawangan-pulau-pinang-lockup.png" alt="UiTM Cawangan Pulau Pinang" data-logo="UiTM Cawangan Pulau Pinang lockup">
+      <img src="brand/logos/uitm-logo-full.png" alt="Universiti Teknologi MARA" data-logo="UiTM logo">
     </div>
 
     <div class="toolbar" role="toolbar" aria-label="Settings">
@@ -37,6 +37,7 @@
       </button>
       <button class="chip" id="btn-theme" data-target type="button"></button>
       <button class="chip" id="btn-sound" data-target type="button"></button>
+      <button class="chip" id="btn-pt" data-target type="button" data-i18n="toolbar.pt">Periodic table</button>
       <button class="chip" id="btn-home" data-target type="button" hidden data-i18n="toolbar.home">Home</button>
       <button class="chip chip--student" id="btn-student" type="button" hidden></button>
       <span class="chip chip--lecturer" id="lecturer-badge" hidden data-i18n="toolbar.lecturer">Lecturer mode</span>
@@ -52,7 +53,7 @@
     </div>
 
     <div class="logo-plate logo-plate--motto">
-      <img src="brand/logos/uitm-di-hatiku-motto.png" alt="UiTM di hatiku" data-logo="UiTM di hatiku motto">
+      <img src="brand/logos/uitm-di-hatiku-motto.png" alt="UiTM: A Premier University Driving Professional Bumiputera" data-logo="UiTM motto">
     </div>
   </header>
 
@@ -66,7 +67,6 @@
         <p class="eyebrow" data-i18n="app.brand">Chemistry with Dr. NAM</p>
         <h1 class="hero__title"><span class="lime-rule" aria-hidden="true"></span><span id="title-text" data-i18n="app.title">Dr. NAM Virtual Secret Lab</span></h1>
         <p class="hero__tagline" data-i18n="app.tagline">Bringing everyday life into simple science, explained.</p>
-        <p class="hero__course" data-i18n="app.course">PHD115 · Fundamental of Chemistry</p>
       </div>
     </section>
 
@@ -144,7 +144,7 @@
   <!-- ===================== Student ID (study mode) ===================== -->
   <div class="overlay" id="student-dialog" hidden role="dialog" aria-modal="true" aria-labelledby="sid-title">
     <form class="student-card glass" id="student-form" novalidate>
-      <span class="tag" data-i18n="study.badge">PHD115 study</span>
+      <span class="tag" data-i18n="study.badge">Class study</span>
       <h2 id="sid-title" data-i18n="study.idTitle">Type your student ID</h2>
       <p data-i18n="study.idBody">It is used only to match your game with your tests. Your answers are not graded.</p>
       <input id="sid-input" class="student-input" inputmode="numeric" autocomplete="off" spellcheck="false" maxlength="14" aria-describedby="sid-error">

@@ -1,0 +1,52 @@
+/* Crystal Lattice Builder — layout classes (lw-*) come from lewis.css; hy-info* from hybrid.css-like styles are repeated here. */
+.cr-stage { position: absolute; inset: 0; border-radius: var(--radius-md); background: var(--glass-fill); border: 3px solid var(--glass-edge); box-shadow: var(--shadow-lift); overflow: hidden; }
+.cr-scene-host, .cr-scene { position: absolute; inset: 0; }
+.cr-scene__canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+.cr-markers { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.cr-overlay { position: absolute; inset: 0; pointer-events: none; }
+.cr-overlay > * { pointer-events: auto; }
+.cr-nogl { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; font-size: max(18px, calc(var(--u) * 2.2)); }
+
+/* The rings where particles go */
+.cr-site { position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; padding: 0; border-radius: 50%; pointer-events: auto; cursor: pointer; border: 3px dashed var(--title-accent); background: color-mix(in srgb, var(--title-accent) 12%, transparent); color: var(--on-spark); font-family: var(--font-display); font-weight: 800; font-size: 20px; line-height: 1; display: grid; place-items: center; transition: transform .12s; }
+.cr-site:hover, .cr-site.is-aimed { transform: scale(1.3); background: color-mix(in srgb, var(--spark-400) 45%, transparent); border-style: solid; }
+.cr-site[data-type="p"], .cr-site[data-type="cl"] { border-style: solid; border-color: var(--sticker-ink); background: color-mix(in srgb, var(--bright-blue-400) 35%, transparent); }
+.cr-site[data-type="na"] { border-style: solid; border-color: var(--sticker-ink); background: color-mix(in srgb, var(--spark-400) 45%, transparent); }
+.cr-site[data-type="cl"] { color: var(--ink-deep); }
+
+/* Tray, counter, toggles, tabs */
+.cr-counter { position: absolute; left: 14px; top: 12px; font-family: var(--font-display); font-weight: 800; font-size: max(20px, calc(var(--u) * 2.6)); background: var(--spark-400); color: var(--on-spark); border: 3px solid var(--sticker-ink); border-radius: var(--radius-pill); padding: 2px 16px; }
+.cr-tray { position: absolute; left: 14px; bottom: 14px; height: 64px; }
+.cr-token { position: absolute; top: 0; width: 66px; height: 66px; border-radius: 50%; cursor: grab; touch-action: none; font-family: var(--font-display); font-weight: 800; font-size: 22px; border: 3px solid var(--sticker-ink); box-shadow: 3px 3px 0 var(--spark-400); display: grid; place-items: center; }
+.cr-token--p, .cr-token--cl { background: radial-gradient(circle at 32% 30%, #d9fff8, var(--bright-blue-400) 65%); color: var(--on-spark); }
+.cr-token--na { background: radial-gradient(circle at 32% 30%, #f7ffd0, var(--spark-400) 65%); color: var(--on-spark); }
+.cr-token[aria-pressed="true"] { outline: 4px solid var(--ink-deep); outline-offset: 3px; }
+.cr-token.is-dragging { pointer-events: none; z-index: 20; box-shadow: var(--shadow-spark); }
+.cr-toggles { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; flex-wrap: wrap; gap: 10px; }
+.cr-toggles .sticker, .cr-float { --tilt: 0deg; min-height: calc(var(--u) * 5); }
+.cr-float { position: absolute; left: 12px; bottom: 12px; }
+.cr-tabs { position: absolute; left: 12px; right: 12px; top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+.cr-tab { --tilt: 0deg; min-height: calc(var(--u) * 5.4); font-size: max(15px, calc(var(--u) * 1.7)); }
+.cr-tab small { display: block; }
+.cr-tab[aria-pressed="true"] { background: var(--spark-400); color: var(--on-spark); }
+.cr-tab[data-done="1"]::after { content: "✓"; margin-left: 6px; }
+
+/* Properties list and info */
+.cr-props { display: grid; gap: 10px; }
+.cr-props h3 { font-size: max(17px, calc(var(--u) * 2)); color: var(--title-accent); }
+.cr-prop { --tilt: 0deg; text-align: left; align-items: flex-start; font-family: var(--font-body) !important; font-weight: 400 !important; font-size: max(16px, calc(var(--u) * 1.8)) !important; min-height: 0 !important; }
+.cr-prop[aria-pressed="true"] { background: var(--spark-400); color: var(--on-spark); }
+.cr-prop[data-taken]::after { content: "→ " attr(data-taken); font-size: .8em; opacity: .75; }
+.cr-info { justify-items: stretch; text-align: left; }
+.cr-info h3 { color: #3d6600; text-transform: uppercase; letter-spacing: .05em; font-size: max(16px, calc(var(--u) * 1.8)); }
+.cr-info .hy-info__text { font-size: max(16px, calc(var(--u) * 1.8)); margin: 0; }
+.cr-info .hy-info__list { margin: 0; padding-left: 20px; font-size: max(15px, calc(var(--u) * 1.7)); display: grid; gap: 4px; }
+.cr-choices--tall { flex-direction: column; align-items: stretch; }
+.cr-choice { --tilt: 0deg; text-align: left; font-family: var(--font-body) !important; font-weight: 400 !important; font-size: max(16px, calc(var(--u) * 1.8)) !important; }
+.cr .lw-choices .sticker { min-width: calc(var(--u) * 8); }
+
+@media (max-width: 860px), (max-aspect-ratio: 1/1) {
+  .cr-counter { font-size: 18px; }
+  .cr-tab small { display: none; }
+  .cr-token { width: 56px; height: 56px; font-size: 18px; }
+}
