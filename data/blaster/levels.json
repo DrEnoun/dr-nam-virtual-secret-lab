@@ -1,0 +1,388 @@
+{
+ "_about": "Atom Blaster. Each round: a prompt (EN/BM) and two lists of targets: good = shoot these, bad = decoys. Items are formulas, so they need no translation. Check the chemistry before adding a round.",
+ "easy": {
+  "seconds": 50,
+  "onScreen": 7,
+  "speed": 45,
+  "size": 86,
+  "penalty": 5,
+  "lives": 0,
+  "quota": 5,
+  "rounds": [
+   {
+    "prompt": {
+     "en": "Shoot the noble gases",
+     "ms": "Tembak gas adi"
+    },
+    "good": [
+     "He",
+     "Ne",
+     "Ar",
+     "Kr",
+     "Xe"
+    ],
+    "bad": [
+     "Na",
+     "Cl",
+     "O",
+     "N",
+     "Ca",
+     "Fe",
+     "H",
+     "C",
+     "S"
+    ]
+   },
+   {
+    "prompt": {
+     "en": "Shoot the metals",
+     "ms": "Tembak logam"
+    },
+    "good": [
+     "Na",
+     "Mg",
+     "Fe",
+     "Cu",
+     "Zn",
+     "Al",
+     "K",
+     "Ca"
+    ],
+    "bad": [
+     "C",
+     "N",
+     "O",
+     "S",
+     "Cl",
+     "P",
+     "F",
+     "Br"
+    ]
+   },
+   {
+    "prompt": {
+     "en": "Shoot the elements with 1 valence electron (Group 1)",
+     "ms": "Tembak unsur dengan 1 elektron valens (Kumpulan 1)"
+    },
+    "good": [
+     "H",
+     "Li",
+     "Na",
+     "K",
+     "Rb"
+    ],
+    "bad": [
+     "Be",
+     "Mg",
+     "B",
+     "C",
+     "O",
+     "F",
+     "Ne",
+     "Cl",
+     "Ca"
+    ]
+   },
+   {
+    "prompt": {
+     "en": "Shoot the ionic compounds",
+     "ms": "Tembak sebatian ion"
+    },
+    "good": [
+     "NaCl",
+     "MgO",
+     "KBr",
+     "CaF₂",
+     "LiF",
+     "Na₂O"
+    ],
+    "bad": [
+     "H₂O",
+     "CO₂",
+     "CH₄",
+     "NH₃",
+     "HCl",
+     "O₂",
+     "N₂"
+    ]
+   },
+   {
+    "prompt": {
+     "en": "Shoot the covalent molecules",
+     "ms": "Tembak molekul kovalen"
+    },
+    "good": [
+     "H₂O",
+     "CO₂",
+     "CH₄",
+     "NH₃",
+     "HCl",
+     "Cl₂"
+    ],
+    "bad": [
+     "NaCl",
+     "MgO",
+     "KBr",
+     "CaF₂",
+     "LiF",
+     "CaCl₂"
+    ]
+   }
+  ]
+ },
+ "medium": {
+  "seconds": 40,
+  "onScreen": 9,
+  "speed": 70,
+  "size": 80,
+  "penalty": 8,
+  "lives": 0,
+  "quota": 5,
+  "rounds": [
+   {
+    "prompt": {
+     "en": "Shoot the molecules with a double bond",
+     "ms": "Tembak molekul dengan ikatan ganda dua"
+    },
+    "good": [
+     "O₂",
+     "CO₂",
+     "C₂H₄",
+     "CH₂O",
+     "C₃H₆O"
+    ],
+    "bad": [
+     "H₂O",
+     "NH₃",
+     "CH₄",
+     "HCl",
+     "N₂",
+     "C₂H₂",
+     "F₂",
+     "H₂S",
+     "PH₃"
+    ]
+   },
+   {
+    "prompt": {
+     "en": "Shoot the molecules with a triple bond",
+     "ms": "Tembak molekul dengan ikatan ganda tiga"
+    },
+    "good": [
+     "N₂",
+     "C₂H₂",
+     "HCN",
+     "CO",
+     "CH₃CN"
+    ],
+    "bad": [
+     "O₂",
+     "CO₂",
+     "C₂H₄",
+     "H₂O",
+     "CH₄",
+     "NH₃",
+     "Cl₂"
+    ]
+   },
+   {
+    "prompt": {
+     "en": "Shoot the molecules with 8 valence electrons in total",
+     "ms": "Tembak molekul dengan jumlah 8 elektron valens"
+    },
+    "good": [
+     "CH₄",
+     "NH₃",
+     "H₂O",
+     "HF",
+     "PH₃",
+     "H₂S"
+    ],
+    "bad": [
+     "CO₂",
+     "N₂",
+     "O₂",
+     "BF₃",
+     "SO₂",
+     "C₂H₄",
+     "HCN"
+    ]
+   },
+   {
+    "prompt": {
+     "en": "Shoot the molecules whose central atom is sp³",
+     "ms": "Tembak molekul dengan atom pusat sp³"
+    },
+    "good": [
+     "CH₄",
+     "NH₃",
+     "H₂O",
+     "CCl₄",
+     "PH₃"
+    ],
+    "bad": [
+     "BF₃",
+     "CO₂",
+     "C₂H₄",
+     "BeCl₂",
+     "HCN",
+     "SO₂",
+     "CH₂O"
+    ]
+   },
+   {
+    "prompt": {
+     "en": "Shoot the molecules with a lone pair on the central atom",
+     "ms": "Tembak molekul dengan pasangan tunggal pada atom pusat"
+    },
+    "good": [
+     "NH₃",
+     "H₂O",
+     "PH₃",
+     "H₂S",
+     "SO₂"
+    ],
+    "bad": [
+     "CH₄",
+     "CO₂",
+     "BF₃",
+     "BeCl₂",
+     "CCl₄",
+     "C₂H₄"
+    ]
+   }
+  ]
+ },
+ "hard": {
+  "seconds": 35,
+  "onScreen": 11,
+  "speed": 105,
+  "size": 74,
+  "penalty": 10,
+  "lives": 3,
+  "quota": 5,
+  "rounds": [
+   {
+    "prompt": {
+     "en": "Shoot the molecules with an sp² central atom",
+     "ms": "Tembak molekul dengan atom pusat sp²"
+    },
+    "good": [
+     "BF₃",
+     "SO₂",
+     "SO₃",
+     "O₃",
+     "BCl₃",
+     "CH₂O"
+    ],
+    "bad": [
+     "CH₄",
+     "NH₃",
+     "CO₂",
+     "BeCl₂",
+     "HCN",
+     "C₂H₂",
+     "H₂O",
+     "NF₃",
+     "CCl₄",
+     "H₂S"
+    ]
+   },
+   {
+    "prompt": {
+     "en": "Shoot the linear molecules (sp central atom)",
+     "ms": "Tembak molekul linear (atom pusat sp)"
+    },
+    "good": [
+     "CO₂",
+     "BeCl₂",
+     "HCN",
+     "CS₂",
+     "BeH₂"
+    ],
+    "bad": [
+     "SO₂",
+     "H₂O",
+     "BF₃",
+     "NH₃",
+     "O₃",
+     "CH₄",
+     "H₂S",
+     "SO₃",
+     "CH₂O"
+    ]
+   },
+   {
+    "prompt": {
+     "en": "Shoot the molecules with an INCOMPLETE octet",
+     "ms": "Tembak molekul dengan oktet TIDAK LENGKAP"
+    },
+    "good": [
+     "BF₃",
+     "BeCl₂",
+     "BH₃",
+     "BCl₃",
+     "BeH₂"
+    ],
+    "bad": [
+     "CH₄",
+     "NH₃",
+     "H₂O",
+     "CO₂",
+     "N₂",
+     "HF",
+     "CCl₄",
+     "PH₃"
+    ]
+   },
+   {
+    "prompt": {
+     "en": "Shoot the molecules with an EXPANDED octet",
+     "ms": "Tembak molekul dengan oktet DIKEMBANGKAN"
+    },
+    "good": [
+     "PCl₅",
+     "SF₆",
+     "SF₄",
+     "XeF₂",
+     "ClF₃",
+     "IF₅"
+    ],
+    "bad": [
+     "PCl₃",
+     "SF₂",
+     "BF₃",
+     "NF₃",
+     "CF₄",
+     "SiF₄",
+     "OF₂",
+     "NH₃"
+    ]
+   },
+   {
+    "prompt": {
+     "en": "Shoot the species with 24 valence electrons in total",
+     "ms": "Tembak spesies dengan jumlah 24 elektron valens"
+    },
+    "good": [
+     "BF₃",
+     "SO₃",
+     "NO₃⁻",
+     "CO₃²⁻",
+     "BCl₃"
+    ],
+    "bad": [
+     "PCl₃",
+     "SO₂",
+     "NO₂⁻",
+     "CO₂",
+     "ClO₃⁻",
+     "SO₃²⁻",
+     "SO₄²⁻",
+     "PO₄³⁻",
+     "NH₄⁺"
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,47 @@
+/* Atom Blaster — shooting game. Reuses the .lw header/timer/result styles. */
+.screen--activity:has(.bl) { display: block; padding: calc(var(--u) * 1.6) calc(var(--u) * 2.4); }
+.activity-host:has(.bl) { height: 100%; width: 100%; }
+.bl .lw-timer { flex-basis: 100%; }
+.bl-lives { font-size: calc(var(--u) * 3); color: var(--coral-400); letter-spacing: .1em; }
+.bl-scores { display: flex; gap: calc(var(--u) * 1.4); margin-left: auto; }
+.bl-score { font-family: var(--font-display); font-weight: 800; font-size: calc(var(--u) * 2.2); display: flex; align-items: baseline; gap: .5em; }
+.bl-score b { background: var(--spark-400); color: var(--on-spark); border-radius: var(--radius-pill); padding: 0 .7em; border: 3px solid var(--sticker-ink); }
+.bl-score.p2 b { background: var(--bright-blue-400, #2dd4bf); }
+.bl-prompt { display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u) * 2); padding: calc(var(--u) * 1) calc(var(--u) * 2.4); border-radius: var(--radius-md); }
+.bl-prompt__text { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: calc(var(--u) * 2.8); color: var(--title-accent); }
+.bl-quota { display: flex; gap: 8px; flex: none; }
+.bl-quota i { width: calc(var(--u) * 2.4); height: calc(var(--u) * 2.4); border-radius: 50%; border: 3px solid var(--spark-400); }
+.bl-quota i.is-on { background: var(--spark-400); }
+
+.bl-arena {
+  position: relative; flex: 1; min-height: 0; overflow: hidden; border-radius: var(--radius-md);
+  background: var(--glass-fill); border: 3px solid var(--glass-edge); box-shadow: var(--shadow-lift); touch-action: manipulation;
+  cursor: crosshair;
+}
+.bl-arena.is-hurt { border-color: var(--coral-400); box-shadow: 0 0 0 4px var(--coral-400); }
+.bl-layer { position: absolute; inset: 0; }
+.bl-bubble {
+  position: absolute; left: 0; top: 0; width: var(--s); height: var(--s); border-radius: 50%; border: 3px solid var(--sticker-ink);
+  display: grid; place-items: center; padding: 0; cursor: crosshair; will-change: transform;
+  background: radial-gradient(circle at 30% 30%, var(--sphere-hi), var(--sphere-base) 55%, var(--royal-700));
+  color: var(--badge-ink); font-family: var(--font-display); font-weight: 800; font-size: calc(var(--s) * .3);
+  box-shadow: var(--shadow-bevel), var(--shadow-contact); user-select: none;
+}
+.bl-bubble.is-long { font-size: calc(var(--s) * .24); }
+:root[data-theme="night"] .bl-bubble { color: #fff; text-shadow: 0 2px 2px rgba(0,0,0,.5); }
+.bl-bubble.is-good { outline: 6px solid var(--spark-400); opacity: 0; transition: opacity .35s; }
+.bl-bubble.is-bad { outline: 6px solid var(--coral-400); opacity: 0; transition: opacity .35s; }
+.bl-float { position: absolute; left: 0; top: 0; pointer-events: none; font-family: var(--font-display); font-weight: 800; font-size: calc(var(--u) * 3); animation: bl-up .8s ease-out forwards; }
+.bl-float.is-good { color: var(--spark-400); } .bl-float.is-bad { color: var(--coral-400); }
+@keyframes bl-up { from { opacity: 1; margin-top: 0; } to { opacity: 0; margin-top: -60px; } }
+
+.bl-overlay { position: absolute; inset: 0; display: grid; place-items: center; background: color-mix(in srgb, var(--bg, #000) 55%, transparent); backdrop-filter: blur(3px); z-index: 2; }
+.bl-card { padding: calc(var(--u) * 2.4) calc(var(--u) * 3.2); border-radius: var(--radius-md); max-width: min(90%, 720px); text-align: center; display: flex; flex-direction: column; gap: calc(var(--u) * 1.2); align-items: center; }
+.bl-card h3 { margin: 0; font-size: calc(var(--u) * 3.4); }
+.bl-card p { margin: 0; }
+.bl-card__label { font-weight: 700; }
+.bl-answers { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.bl-chip { padding: .2em .8em; border-radius: var(--radius-pill); border: 2px dashed var(--sticker-ink); font-family: var(--font-display); font-weight: 800; }
+.bl-chip.is-got { background: var(--spark-400); color: var(--on-spark); border-style: solid; }
+.bl-duo-res { font-family: var(--font-display); font-weight: 800; font-size: calc(var(--u) * 4); }
+@media (max-width: 820px) { .bl-prompt { flex-direction: column; align-items: flex-start; } .bl-prompt__text { font-size: 20px; } }

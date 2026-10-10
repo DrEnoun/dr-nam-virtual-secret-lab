@@ -88,6 +88,8 @@ function refreshTexts() {
 }
 
 function syncSelections() {
+  const duoRow = $('#duo-mode-setting');
+  if (duoRow) duoRow.hidden = settings.players !== 'duo';
   document.querySelectorAll('[data-setting]').forEach(group => {
     const key = group.dataset.setting;
     group.querySelectorAll('[data-value]').forEach(btn =>
@@ -242,6 +244,11 @@ async function route() {
 
   if (a?.status === 'ready' && a.load) {
     const mod = await a.load();
+    if (settings.players === 'duo' && a.duo) {
+      const duo = await import('./duo.js');
+      activityCleanup = duo.default(host, mod, { ...context, duoMode: settings.duoMode }) || null;
+      return;
+    }
     activityCleanup = mod.default(host, context) || null;
     return;
   }
