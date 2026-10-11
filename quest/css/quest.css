@@ -74,11 +74,11 @@ h1, h2, h3 { font-family: var(--font-display); }
 .float { animation: bob var(--duration-float) ease-in-out infinite; }
 @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(calc(var(--float-distance) * -1)); } }
 
-canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
+canvas { image-rendering: auto; }
 
 /* ----- Menu ----- */
 .player { display: flex; align-items: center; gap: 16px; padding: 12px 16px; border-radius: var(--radius-md); transform: rotate(-1deg); }
-.player canvas { width: 64px; height: 80px; flex: none; background: color-mix(in srgb, var(--sky-300) 55%, #fff); border-radius: 12px; border: 2px solid var(--sticker-ink); }
+.player canvas { width: 64px; height: 88px; flex: none; background: color-mix(in srgb, var(--sky-300) 55%, #fff); border-radius: 12px; border: 2px solid var(--sticker-ink); }
 .player__label { font-family: var(--font-display); font-weight: 800; font-size: 22px; }
 .player__stats { margin-bottom: 8px; font-size: 16px; }
 .level-list { display: grid; gap: 14px; }
@@ -108,7 +108,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 
 /* ----- Avatar creator ----- */
 .avatar-stage { align-self: center; padding: 12px; border-radius: var(--radius-md); background: color-mix(in srgb, var(--sky-300) 55%, #fff); }
-.avatar-stage canvas { display: block; width: 160px; height: 200px; }
+.avatar-stage canvas { display: block; width: 160px; height: 220px; }
 .options-panel { display: grid; gap: 14px; }
 .opt-group { background: var(--glass-fill); border: 2px solid var(--glass-edge); border-radius: var(--radius-sm); padding: 10px 14px 14px; }
 .opt-group h3 { font-size: 16px; color: var(--title-accent); margin-bottom: 8px; }
@@ -125,7 +125,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .hud__hearts .gone { opacity: .25; }
 .hud__coins { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 800; font-size: 22px; color: var(--spark-ink); }
 .coin-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--spark-400); border: 3px solid var(--sticker-ink); }
-#scene { width: 100%; height: auto; aspect-ratio: 160 / 96; border-radius: var(--radius-sm); border: var(--stroke-doodle) solid var(--sticker-ink); box-shadow: var(--shadow-sticker); background: #0f5f6c; }
+#scene { width: 100%; height: auto; aspect-ratio: 320 / 192; border-radius: var(--radius-sm); border: var(--stroke-doodle) solid var(--sticker-ink); box-shadow: var(--shadow-sticker); background: #0f5f6c; }
 .ticket { padding: 10px 14px 12px; border-radius: var(--radius-md); transform: rotate(-.6deg); }
 .ticket__meta { font-size: 14px; opacity: .8; }
 .ticket__order { font-size: 20px; line-height: 1.2; margin: 2px 0 8px; }
@@ -213,7 +213,9 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .topic-card[data-locked="true"] { --accent: #8a97a5; opacity: .8; }
 .badge-shelf { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 6px; padding: 14px 8px; border-radius: var(--radius-md); }
 .badge { display: grid; justify-items: center; gap: 4px; text-align: center; font-family: var(--font-display); font-weight: 700; font-size: 14px; line-height: 1.05; }
-.badge canvas { width: 66px; height: 78px; }
+.badge canvas { width: 66px; height: 78px; image-rendering: auto; }
 .badge[data-earned="false"] { opacity: .8; }
 .badge small { font-family: var(--font-body); font-weight: 400; font-size: 12px; }
 .shelf-note { text-align: center; font-size: 15px; margin-top: 8px; }
+
+#menu-avatar, #avatar-preview { image-rendering: pixelated; }

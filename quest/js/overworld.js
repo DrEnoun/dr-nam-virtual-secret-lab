@@ -1,140 +1,212 @@
-// Overworld map: six pixel-art islands joined by bridges, numbered pins, and the player's avatar walking the path.
-// Everything is drawn in code on a small logical canvas (map.width × map.height) and scaled up crisply.
+// Overworld map (16-bit look): six shaded islands joined by rope bridges, glossy numbered pins, and the player's avatar
+// walking the path. Shapes are drawn smooth, then "crisped" into hard pixels with outlines (see pxart.js).
 import { drawAvatar } from './avatar.js';
 import { walkPath } from './progress.js';
+import { pxCanvas, crisp, greyscale, shapes, shade, tint, mix } from './pxart.js';
 
-const S = 3;                       // backing-store pixels per logical pixel
-const RX = 24, RY = 11, CLIFF = 6; // island half-width, half-height, cliff depth
+const S = 2;                         // backing-store pixels per logical pixel
+const RX = 46, RY = 20, CLIFF = 14;  // island half-width, half-height, cliff depth
+const IW = 120, IH = 108, CX = 60, CY = 52;   // island sprite size and where its centre sits
+const OUT = '#0a2236';
+
 const PAL = {
-  meadow:  { top: '#4fb35a', hi: '#69c96a', edge: '#8be07f', cliff: '#7a5a3a' },
-  ruins:   { top: '#e3c27a', hi: '#efd59a', edge: '#f6e4b8', cliff: '#b8864a' },
-  falls:   { top: '#3f9f5a', hi: '#58b873', edge: '#7fd592', cliff: '#6b6f7a' },
-  peaks:   { top: '#8494a6', hi: '#9fb0c2', edge: '#c3d1df', cliff: '#4c5868' },
-  glacier: { top: '#d6f3ff', hi: '#eefaff', edge: '#ffffff', cliff: '#7fb7e0' },
-  diner:   { top: '#2fb3a8', hi: '#4fcfc2', edge: '#5eead4', cliff: '#0d5c63' },
+  meadow:  { top: '#4fb35a', hi: '#7fdc78', sh: '#37904a', edge: '#a6ec8d', cliff: '#8a6a45' },
+  ruins:   { top: '#e3c27a', hi: '#f6dfa4', sh: '#c79d57', edge: '#fff0c4', cliff: '#b8864a' },
+  falls:   { top: '#3f9f5a', hi: '#72cf86', sh: '#2c7a48', edge: '#9de8a8', cliff: '#6d7684' },
+  peaks:   { top: '#8798ab', hi: '#b4c3d3', sh: '#667789', edge: '#d9e4ef', cliff: '#4f5c6e' },
+  glacier: { top: '#d3f1ff', hi: '#ffffff', sh: '#a5d3ec', edge: '#ffffff', cliff: '#7fb7e0' },
+  diner:   { top: '#2fb3a8', hi: '#6ae6d8', sh: '#1d8a85', edge: '#a8fff2', cliff: '#0d5c63' },
 };
-const INK = '#231f20', FOAM = '#e8fbff', WATER = '#0b4f6c', WATER_HI = '#1478a0', SPARK = '#7fe3ff';
 
-const hash = (a, b = 0, c = 0) => { let h = (a * 374761393 + b * 668265263 + c * 2147483647) | 0; h = (h ^ (h >>> 13)) * 1274126177; return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
-const greyOf = hex => { const n = parseInt(hex.slice(1), 16), r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255; const y = 0.3 * r + 0.59 * g + 0.11 * b; const m = v => Math.round(v * 0.25 + y * 0.75 * 0.8 + 18).toString(16).padStart(2, '0'); return '#' + m(r) + m(g) + m(b); };
+const hash = (a, b = 0) => { let h = (a * 374761393 + b * 668265263) | 0; h = (h ^ (h >>> 13)) * 1274126177; return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
+
+// ---------- small sprites (each is outlined on its own so buildings read against the ground) ----------
+const spr = (w, h, fn) => { const cv = pxCanvas(w, h), c = cv.getContext('2d'); fn(c, shapes(c)); return crisp(cv, '#14202e'); };
+
+const pine = () => spr(20, 28, (c, { R, P }) => {
+  R(8.5, 22, 3, 5, 1, '#6b4226');
+  P([[10, 12], [2.5, 24], [17.5, 24]], '#2f8f46'); P([[10, 7], [4, 17], [16, 17]], '#3fae5a'); P([[10, 1.5], [5.5, 11], [14.5, 11]], '#5cc873');
+  P([[10, 1.5], [5.5, 11], [10, 11]], 'rgba(255,255,255,.18)', false);
+});
+const palm = () => spr(30, 34, (c, { E }) => {
+  c.strokeStyle = '#6b4226'; c.lineWidth = 4.4; c.lineCap = 'round'; c.beginPath(); c.moveTo(14, 32); c.quadraticCurveTo(18, 20, 15, 9); c.stroke();
+  c.strokeStyle = '#8a5a2b'; c.lineWidth = 2.6; c.beginPath(); c.moveTo(14, 32); c.quadraticCurveTo(18, 20, 15, 9); c.stroke();
+  [[-2.7, '#2f8f46'], [-2.0, '#3fae5a'], [-0.7, '#2f8f46'], [-3.6, '#3fae5a'], [0.4, '#3fae5a']].forEach(([a, col]) => {
+    E(15 + Math.cos(a) * 6.5, 9 + Math.sin(a) * 3.4 + 1, 7.5, 2.4, col, true, a * 0.8);
+  });
+  E(15, 10, 2, 2, '#6b4226');
+});
+const bush = () => spr(18, 10, (c, { E }) => { E(6, 6, 5.5, 3.6, '#3fae5a'); E(12, 6.4, 5, 3.4, '#2f8f46'); E(7, 4.6, 2, 1.1, '#7fdc78', false); });
+const hut = () => spr(40, 36, (c, { R, P, E }) => {
+  R(6, 17, 28, 17, 1.5, '#e0b97f'); R(25, 17, 9, 17, 1.5, '#c99d62');
+  R(27, 4, 4.4, 9, 1, '#8f8f9a');
+  P([[2, 18.5], [20, 3], [38, 18.5]], '#c0504d'); P([[20, 3], [38, 18.5], [30, 18.5]], '#9f3d3b'); P([[2, 18.5], [9, 18.5], [20, 5.5]], '#dd7673', false);
+  R(10, 24, 7.5, 10, 3.2, '#6b4226'); E(15.5, 29, 0.8, 0.8, '#d4ff3a', false);
+  R(21, 22, 8, 7, 1.5, '#5eead4'); c.strokeStyle = '#14202e'; c.lineWidth = 0.9; c.beginPath(); c.moveTo(25, 22); c.lineTo(25, 29); c.moveTo(21, 25.5); c.lineTo(29, 25.5); c.stroke();
+});
+const temple = () => spr(48, 42, (c, { R, P }) => {
+  R(2, 34, 44, 6, 1, '#d6b06a'); R(5, 29, 38, 6, 1, '#e8c984');
+  [8, 17.5, 27, 36.5].forEach(x => { R(x, 13, 4.4, 17, 1, '#f4dca0'); R(x + 2.6, 13, 1.8, 17, 0.5, '#d1ab62', false); });
+  R(5, 8, 38, 6, 1.5, '#c9a05a'); P([[9, 8.4], [24, 0.6], [39, 8.4]], '#b8864a');
+  R(19.5, 19, 9, 11, 4.4, '#2b1d0e'); R(22.5, 23, 3, 3, 1.4, '#d4ff3a', false);
+});
+const tileSign = () => spr(34, 30, (c, { R }) => {
+  R(15.5, 14, 3, 15, 1, '#6b4226');
+  R(2, 1.5, 30, 18, 3.5, '#0d1d33', '#d4ff3a');
+  ['#e8a33d', '#2dd4bf', '#a78bfa', '#7bd05a', '#fc7a7a', '#8fd3ff'].forEach((col, i) => R(5 + (i % 3) * 9, 4.5 + Math.floor(i / 3) * 7, 7, 6, 1.4, col));
+});
+const mountain = (w = 36, h = 30) => spr(w, h, (c, { P }) => {
+  P([[1, h - 1], [w * 0.42, 3], [w - 1, h - 1]], '#8394a8'); P([[w * 0.42, 3], [w - 1, h - 1], [w * 0.62, h - 1]], '#5d6c82');
+  P([[w * 0.42, 3], [w * 0.27, 13], [w * 0.4, 10.5], [w * 0.5, 14], [w * 0.6, 9]], '#f6fbff');
+});
+const castle = () => spr(36, 44, (c, { R, P }) => {
+  R(5, 18, 26, 25, 1, '#6c7d94'); R(22, 18, 9, 25, 1, '#56667c');
+  [[1, 9], [26, 9]].forEach(([x, y]) => { R(x, y, 9, 34, 1, '#7b8ca3'); for (let i = 0; i < 3; i++) R(x + i * 3.4, y - 3.4, 2.2, 3.6, 0.4, '#7b8ca3'); });
+  R(14, 29, 8, 14, 4, '#14202e'); R(3.6, 17, 3.6, 5, 1, '#d4ff3a', false); R(28.8, 17, 3.6, 5, 1, '#d4ff3a', false);
+  R(17.4, 0, 1.4, 9, 0.5, '#3a2a14', false); P([[18.8, 0.6], [26, 3], [18.8, 5.6]], '#d4ff3a');
+});
+const shard = (h, base, light) => spr(18, h + 2, (c, { P }) => {
+  P([[1, h + 1], [9, 1], [17, h + 1]], base); P([[9, 1], [17, h + 1], [10.5, h + 1]], shade(base, 0.2)); P([[9, 1], [1, h + 1], [6.5, h + 1]], light, false);
+});
+const iceHall = () => spr(42, 36, (c, { E, R }) => {
+  c.beginPath(); c.ellipse(21, 32, 19, 28, 0, Math.PI, 0); c.closePath(); c.fillStyle = '#a6dcf5'; c.fill(); c.strokeStyle = '#4f93bd'; c.lineWidth = 0.9; c.stroke();
+  c.beginPath(); c.ellipse(21, 32, 19, 28, 0, Math.PI * 1.05, Math.PI * 1.55); c.lineTo(21, 32); c.fillStyle = 'rgba(255,255,255,.4)'; c.fill();
+  R(2, 31, 38, 4, 1, '#d6f3ff'); R(15, 17, 12, 15, 6, '#1b4068'); E(21, 26, 1.1, 1.1, '#5eead4', false);
+});
+const diner = () => spr(48, 50, (c, { R, P, E }) => {
+  R(4, 22, 40, 26, 1.5, '#eef6ff'); R(36, 22, 8, 26, 1.5, '#c9d8e8'); R(4, 43, 40, 5, 1, '#9db4cc');
+  for (let i = 0; i < 7; i++) P([[2 + i * 6.3, 24], [2 + (i + 1) * 6.3, 24], [4 + (i + 1) * 5.9, 14], [4 + i * 5.9, 14]], i % 2 ? '#fdfefe' : '#d4ff3a', '#6f7f00');
+  R(8, 28, 16, 12, 2, '#5eead4', '#0d5c63'); P([[10, 39], [16, 29.5], [19, 29.5], [13, 39]], 'rgba(255,255,255,.5)', false);
+  R(28, 28, 10, 20, 2, '#3a2a14'); E(35, 38, 0.9, 0.9, '#d4ff3a', false); R(30.4, 31, 5.2, 6, 1, '#7fe3ff', false);
+  R(7, 0.8, 34, 11.5, 3, '#0d1d33', '#d4ff3a'); c.fillStyle = '#d4ff3a'; c.font = '800 10px "League Spartan", sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('DINER', 24, 7.2);
+});
+const crystals = () => spr(26, 24, (c, { P }) => {
+  P([[2, 23], [7, 6], [12, 23]], '#5eead4'); P([[7, 6], [12, 23], [8.6, 23]], '#2fb3a8'); P([[11, 23], [17, 11], [24, 23]], '#bff7ef'); P([[17, 11], [24, 23], [19, 23]], '#7fe3ff');
+});
+
+const SPRITES = {};
+const getSprite = (k, make) => (SPRITES[k] ??= make());
+
+// ---------- island body ----------
+function drawIsland(c, w) {
+  const p = PAL[w.biome], { E, R } = shapes(c);
+  c.save();
+  // cliff face
+  c.beginPath(); c.moveTo(CX - RX, CY); c.lineTo(CX - RX, CY + CLIFF); c.ellipse(CX, CY + CLIFF, RX, RY, 0, Math.PI, 0, true); c.lineTo(CX + RX, CY); c.closePath();
+  c.fillStyle = p.cliff; c.fill(); c.clip();
+  const g = c.createLinearGradient(CX - RX, 0, CX + RX, 0); g.addColorStop(0, 'rgba(255,255,255,.22)'); g.addColorStop(.45, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(0,0,0,.38)');
+  c.fillStyle = g; c.fillRect(0, 0, IW, IH);
+  c.strokeStyle = 'rgba(0,0,0,.22)'; c.lineWidth = 1.2;
+  for (let k = 1; k <= 3; k++) { c.beginPath(); c.ellipse(CX, CY + CLIFF * (k / 3.4), RX, RY, 0, 0.05 * Math.PI, 0.95 * Math.PI); c.stroke(); }
+  for (let i = 0; i < 12; i++) { const x = CX - RX + 6 + hash(i, w.id) * (RX * 2 - 12), y0 = CY + 6 + hash(i, 9) * 14; c.beginPath(); c.moveTo(x, y0); c.lineTo(x + (hash(i, 4) - .5) * 3, y0 + 5 + hash(i, 5) * 6); c.stroke(); }
+  c.restore();
+  // top surface
+  E(CX, CY, RX, RY, p.top, false);
+  c.save(); c.beginPath(); c.ellipse(CX, CY, RX, RY, 0, 0, Math.PI * 2); c.clip();
+  E(CX - 10, CY - 5, RX * 0.78, RY * 0.62, p.hi, false); E(CX - 14, CY - 8, RX * 0.46, RY * 0.36, tint(p.hi, 0.3), false);
+  c.strokeStyle = p.sh; c.lineWidth = 6; c.beginPath(); c.ellipse(CX, CY - 1, RX - 1, RY - 1, 0, 0.1 * Math.PI, 0.9 * Math.PI); c.stroke();
+  c.fillStyle = p.sh;
+  for (let i = 0; i < 16; i++) { const a = hash(i, w.id) * Math.PI * 2, r = 0.25 + hash(i, 2) * 0.65; c.fillRect(Math.round(CX + Math.cos(a) * RX * r), Math.round(CY + Math.sin(a) * RY * r), 2, 1); }
+  c.restore();
+  c.strokeStyle = p.edge; c.lineWidth = 1.6; c.beginPath(); c.ellipse(CX, CY, RX - 0.4, RY - 0.4, 0, Math.PI * 1.02, Math.PI * 1.98); c.stroke();
+}
+
+// Where each building and tree goes: [sprite, x offset, y offset] with the sprite's bottom-centre as the anchor.
+const SCENERY = {
+  meadow:  [['pine', -34, 8], ['pine', -26, 14], ['bush', -12, 15], ['hut', 28, 5], ['pine', 38, 12]],
+  ruins:   [['palm', -34, 10], ['palm', -22, 15], ['temple', 28, 6]],
+  falls:   [['pine', -34, 8], ['pine', -26, 14], ['sign', 28, 5], ['bush', 36, 14]],
+  peaks:   [['mtnL', -30, 9], ['mtnS', -14, 15], ['castle', 28, 7]],
+  glacier: [['shardL', -32, 10], ['shardS', -20, 15], ['ice', 28, 7]],
+  diner:   [['crys', -30, 12], ['crysS', -18, 17], ['diner', 27, 8]],
+};
+const MAKE = {
+  pine, palm, bush, hut, temple, sign: tileSign, castle, ice: iceHall, diner, crys: crystals, crysS: () => spr(14, 14, (c, { P }) => { P([[1, 13], [6, 2], [12, 13]], '#bff7ef'); P([[6, 2], [12, 13], [8.4, 13]], '#7fe3ff'); }),
+  mtnL: () => mountain(38, 32), mtnS: () => mountain(24, 20),
+  shardL: () => shard(24, '#bfefff', '#e8fbff'), shardS: () => shard(14, '#9fd8f5', '#d6f3ff'),
+};
+
+const islandCache = {};
+function islandSprite(w, locked) {
+  const key = w.id + (locked ? 'x' : '');
+  if (islandCache[key]) return islandCache[key];
+  const cv = pxCanvas(IW, IH), c = cv.getContext('2d');
+  drawIsland(c, w);
+  if (w.biome === 'falls') {   // waterfall off the front edge
+    const g = c.createLinearGradient(0, CY + 10, 0, CY + CLIFF + RY * 0.95); g.addColorStop(0, '#e8fbff'); g.addColorStop(1, '#7fd8f5');
+    c.fillStyle = g; c.beginPath(); c.roundRect(CX + 4, CY + 11, 9, CLIFF + RY * 0.82 - 5, 3); c.fill();
+    c.fillStyle = 'rgba(255,255,255,.75)'; [CX + 6, CX + 10].forEach(x => c.fillRect(x, CY + 14, 1.4, 18));
+  }
+  for (const [name, dx, dy] of SCENERY[w.biome]) {
+    const s = getSprite(name, MAKE[name]);
+    c.drawImage(s, Math.round(CX + dx - s.width / 2), Math.round(CY + dy - s.height));
+  }
+  crisp(cv, OUT);
+  if (locked) greyscale(cv);
+  return (islandCache[key] = cv);
+}
+
+// ---------- pins ----------
+const pinCache = {};
+function pinSprite(w, st) {
+  const key = `${w.id}-${st.unlocked}-${st.earned}`;
+  if (pinCache[key]) return pinCache[key];
+  const cv = pxCanvas(40, 50), c = cv.getContext('2d'), { P } = shapes(c);
+  const col = st.unlocked ? w.accent : '#8a97a5';
+  c.fillStyle = col; c.beginPath(); c.arc(20, 17, 15, 0, Math.PI * 2); c.fill();
+  P([[8.5, 26], [20, 47], [31.5, 26]], col, false);
+  const hi = c.createRadialGradient(14, 10, 1, 20, 17, 17); hi.addColorStop(0, 'rgba(255,255,255,.65)'); hi.addColorStop(.55, 'rgba(255,255,255,0)'); hi.addColorStop(1, 'rgba(0,0,0,.22)');
+  c.fillStyle = hi; c.beginPath(); c.arc(20, 17, 15, 0, Math.PI * 2); c.fill();
+  c.fillStyle = st.unlocked ? mix(col, '#ffffff', 0.78) : '#c9d2dc'; c.beginPath(); c.arc(20, 17, 9.6, 0, Math.PI * 2); c.fill();
+  c.fillStyle = st.unlocked ? '#14202e' : '#4a5663'; c.font = '800 17px "League Spartan", sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(String(w.id), 20, 18.4);
+  if (st.earned) P([[34, 3], [35.6, 7], [40, 7.2], [36.6, 9.8], [37.8, 14], [34, 11.6], [30.2, 14], [31.4, 9.8], [28, 7.2], [32.4, 7]], '#d4ff3a', '#6f7f00');
+  crisp(cv, '#14202e');
+  return (pinCache[key] = cv);
+}
 
 export function createOverworld({ canvas, pinsEl, worlds, map, getState, getAvatar, onSelect }) {
   const ctx = canvas.getContext('2d');
   canvas.width = map.width * S; canvas.height = map.height * S;
   canvas.style.aspectRatio = `${map.width} / ${map.height}`;
-  const layer = document.createElement('canvas'); layer.width = canvas.width; layer.height = canvas.height;
-  const lctx = layer.getContext('2d');
+  const layer = pxCanvas(map.width, map.height), lctx = layer.getContext('2d');
   const byId = Object.fromEntries(worlds.map(w => [w.id, w]));
-  let cur = 1, grey = false, walk = null, hero = { x: 0, y: 0 };
+  let cur = 1, walk = null, hero = { x: 0, y: 0 };
+  const heroSpot = w => ({ x: w.pin[0] - 30, y: w.pin[1] + 12 });   // feet position, left of the pin
 
-  const setCtx = c => { c.setTransform(S, 0, 0, S, 0, 0); c.imageSmoothingEnabled = false; };
-  const P = (c, x, y, w, h, hex) => { c.fillStyle = grey ? greyOf(hex) : hex; c.fillRect(Math.round(x), Math.round(y), w, h); };
-  const heroSpot = w => ({ x: w.pin[0] - 22, y: w.pin[1] + 6 });
+  // water backdrop (static)
+  const water = pxCanvas(map.width, map.height), wc = water.getContext('2d');
+  const wg = wc.createLinearGradient(0, 0, 0, map.height); wg.addColorStop(0, '#10728f'); wg.addColorStop(.5, '#0b5577'); wg.addColorStop(1, '#093350');
+  wc.fillStyle = wg; wc.fillRect(0, 0, map.width, map.height);
+  const vg = wc.createRadialGradient(map.width / 2, map.height / 2, map.height * 0.25, map.width / 2, map.height / 2, map.height * 0.75); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(2,12,28,.4)');
+  wc.fillStyle = vg; wc.fillRect(0, 0, map.width, map.height);
 
-  // ----- island bodies -----
-  function island(c, w) {
-    const p = PAL[w.biome], [cx, cy] = [w.pin[0], w.pin[1]];
-    for (let x = cx - RX; x <= cx + RX; x++) {
-      const u = (x - cx) / RX, k = Math.sqrt(Math.max(0, 1 - u * u));
-      const jit = Math.round((hash(x, w.id) - 0.5) * 2);
-      const yt = Math.round(cy - RY * k + jit), yb = Math.round(cy + RY * k + jit);
-      P(c, x, yb, 1, CLIFF + Math.round(hash(x, w.id, 3) * 2), p.cliff);               // cliff
-      P(c, x, yb + CLIFF + 2, 1, 1, FOAM);                                              // foam line
-      P(c, x, yt, 1, yb - yt, hash(x, yt, w.id) > 0.82 ? p.hi : p.top);                 // surface
-      P(c, x, yt, 1, 1, p.edge);                                                        // lit rim
-    }
-  }
+  const pts = (a, b) => [[a.pin[0], a.pin[1] + 12], [b.pin[0], b.pin[1] + 12]];
 
-  // ----- decorations (small sprites) -----
-  const pine = (c, x, y) => { P(c, x, y, 1, 2, '#6b4226'); P(c, x - 2, y - 2, 5, 2, '#2f8f46'); P(c, x - 1, y - 4, 3, 2, '#3fae5a'); P(c, x, y - 5, 1, 1, '#3fae5a'); };
-  const palm = (c, x, y) => { P(c, x, y - 4, 1, 5, '#8a5a2b'); P(c, x - 3, y - 5, 7, 1, '#3fae5a'); P(c, x - 2, y - 6, 5, 1, '#2f8f46'); P(c, x - 4, y - 4, 2, 1, '#2f8f46'); P(c, x + 3, y - 4, 2, 1, '#2f8f46'); };
-  const rock = (c, x, y, col = '#6b7a8f') => { P(c, x, y, 4, 2, col); P(c, x + 1, y - 1, 2, 1, col); };
-
-  // Buildings sit on the right half of each island, away from the centre pin and the avatar on the left.
-  const DECOR = {
-    meadow(c, cx, cy) {
-      pine(c, cx - 18, cy + 1); pine(c, cx - 14, cy + 4); pine(c, cx + 11, cy + 5);
-      P(c, cx + 9, cy - 9, 12, 6, '#c9a36a'); P(c, cx + 8, cy - 12, 14, 3, '#c0504d'); P(c, cx + 13, cy - 7, 2, 4, '#6b4226'); P(c, cx + 17, cy - 8, 2, 2, '#5eead4');
-    },
-    ruins(c, cx, cy) {
-      palm(c, cx - 19, cy + 2); palm(c, cx - 12, cy + 5);
-      P(c, cx + 8, cy - 9, 16, 6, '#c9a05a'); P(c, cx + 10, cy - 13, 12, 4, '#dcb86e'); P(c, cx + 13, cy - 16, 6, 3, '#c9a05a');
-      P(c, cx + 9, cy - 9, 2, 6, '#8d6a35'); P(c, cx + 21, cy - 9, 2, 6, '#8d6a35'); P(c, cx + 14, cy - 8, 3, 5, '#3a2a14');
-    },
-    falls(c, cx, cy, t) {
-      pine(c, cx - 18, cy); pine(c, cx - 14, cy + 4);
-      const tiles = ['#e8a33d', '#2dd4bf', '#a78bfa', '#7bd05a', '#fc7a7a', '#8fd3ff'];
-      for (let i = 0; i < 6; i++) P(c, cx + 9 + (i % 3) * 4, cy - 9 + Math.floor(i / 3) * 4, 3, 3, tiles[i]);
-      for (let y = 0; y < 16; y++) P(c, cx + 13, cy + 9 + y, 3, 1, (y + Math.floor(t * 8)) % 3 ? '#9fe7ff' : '#e8fbff');
-    },
-    peaks(c, cx, cy) {
-      const peak = (x, y, h) => { for (let r = 0; r < h; r++) P(c, x - r, y - h + r + 1, 1 + r * 2, 1, r < 2 ? '#f2f7fb' : '#6b7a8f'); };
-      peak(cx - 16, cy + 3, 9); peak(cx - 9, cy + 5, 6);
-      P(c, cx + 9, cy - 13, 12, 13, '#5d6c82'); for (let i = 0; i < 4; i++) P(c, cx + 9 + i * 4, cy - 15, 2, 2, '#5d6c82');
-      P(c, cx + 14, cy - 4, 3, 4, '#1b2a3d'); P(c, cx + 11, cy - 9, 1, 2, '#d4ff3a'); P(c, cx + 18, cy - 9, 1, 2, '#d4ff3a');
-    },
-    glacier(c, cx, cy) {
-      const spike = (x, y, h, col) => { for (let r = 0; r < h; r++) P(c, x - Math.floor((h - r) / 3), y - r, 1 + Math.floor((h - r) / 3) * 2, 1, col); };
-      spike(cx - 17, cy + 3, 10, '#bfefff'); spike(cx - 12, cy + 4, 6, '#7fc8f0');
-      P(c, cx + 8, cy - 9, 16, 9, '#a6dcf5'); P(c, cx + 10, cy - 12, 12, 3, '#d6f3ff'); P(c, cx + 13, cy - 5, 6, 5, '#1b4068');
-    },
-    diner(c, cx, cy) {
-      P(c, cx + 8, cy - 8, 15, 9, '#eef6ff'); P(c, cx + 13, cy - 5, 3, 6, '#3a2a14'); P(c, cx + 18, cy - 6, 3, 3, '#5eead4');
-      for (let i = 0; i < 5; i++) P(c, cx + 7 + i * 3, cy - 11, 3, 3, i % 2 ? '#eef6ff' : '#d4ff3a');
-      P(c, cx + 9, cy - 16, 11, 4, '#0d1d33'); P(c, cx + 10, cy - 15, 9, 1, '#d4ff3a'); P(c, cx + 10, cy - 13, 5, 1, '#5eead4');
-      rock(c, cx - 19, cy + 2, '#5eead4'); rock(c, cx - 14, cy + 5, '#bff7ef'); P(c, cx - 19, cy - 7, 3, 8, '#7fe3ff'); P(c, cx - 18, cy - 10, 1, 3, '#e8fbff');
-    },
-  };
-
-  // ----- bridges and the dotted travel path -----
-  function line(c, a, b, fn, step = 1) {
-    const n = Math.max(Math.abs(b[0] - a[0]), Math.abs(b[1] - a[1])) / step;
-    for (let i = 0; i <= n; i++) fn(a[0] + (b[0] - a[0]) * (i / n), a[1] + (b[1] - a[1]) * (i / n), i);
-  }
-  const bridgePoints = (a, b) => [[a.pin[0], a.pin[1] + 2], [b.pin[0], b.pin[1] + 2]];
-  function bridges(c) {
-    for (let i = 0; i < worlds.length - 1; i++) {
-      const [p, q] = bridgePoints(worlds[i], worlds[i + 1]);
-      line(c, p, q, (x, y, k) => { P(c, x - 1, y, 3, 2, k % 4 ? '#9a6b3a' : '#6b4226'); }, 1.5);
-    }
-  }
-  function dots(c, states) {
-    for (let i = 0; i < worlds.length - 1; i++) {
-      const open = states[i + 1].unlocked && states[i].unlocked, [p, q] = bridgePoints(worlds[i], worlds[i + 1]);
-      line(c, p, q, (x, y, k) => { if (k % 5 === 0) { P(c, x, y - 1, 2, 2, open ? '#d4ff3a' : '#c8d2dc'); } }, 1);
-    }
-  }
-
-  // ----- pins (pixel digits) -----
-  const DIGITS = { 1: ['.#.', '##.', '.#.', '.#.', '###'], 2: ['##.', '..#', '.#.', '#..', '###'], 3: ['##.', '..#', '.#.', '..#', '##.'],
-    4: ['#.#', '#.#', '###', '..#', '..#'], 5: ['###', '#..', '##.', '..#', '##.'], 6: ['.##', '#..', '###', '#.#', '###'] };
-  function pin(c, w, st, lift) {
-    const x = w.pin[0], y = w.pin[1] - 6 - lift, col = st.unlocked ? w.accent : '#8a97a5';
-    const disc = (r, hex) => { for (let dy = -r; dy <= r; dy++) { const hw = Math.round(Math.sqrt(r * r - dy * dy)); P(c, x - hw, y + dy, hw * 2 + 1, 1, hex); } };
-    disc(7, INK); P(c, x - 1, y + 7, 3, 3, INK); P(c, x, y + 10, 1, 1, INK);
-    disc(5, col);
-    (DIGITS[w.id] || DIGITS[1]).forEach((row, j) => [...row].forEach((ch, i) => { if (ch === '#') P(c, x - 1 + i - 0, y - 2 + j, 1, 1, st.unlocked ? INK : '#2b3440'); }));
-    if (st.earned) { P(c, x + 5, y - 9, 1, 3, '#d4ff3a'); P(c, x + 4, y - 8, 3, 1, '#d4ff3a'); }
-  }
-
-  // ----- static layer: bridges + islands + path (redrawn when progress changes) -----
   function drawLayer() {
-    setCtx(lctx); lctx.clearRect(0, 0, map.width, map.height);
+    lctx.clearRect(0, 0, map.width, map.height);
     const states = getState();
-    grey = false; bridges(lctx);
+    // rope bridges
+    for (let i = 0; i < worlds.length - 1; i++) {
+      const [p, q] = pts(worlds[i], worlds[i + 1]), ang = Math.atan2(q[1] - p[1], q[0] - p[0]), len = Math.hypot(q[0] - p[0], q[1] - p[1]);
+      lctx.save(); lctx.translate(p[0], p[1]); lctx.rotate(ang);
+      const open = states[i].unlocked && states[i + 1].unlocked;
+      lctx.strokeStyle = '#14202e'; lctx.lineWidth = 4; lctx.beginPath(); lctx.moveTo(0, -7); lctx.lineTo(len, -7); lctx.moveTo(0, 7); lctx.lineTo(len, 7); lctx.stroke();
+      lctx.strokeStyle = open ? '#d4ff3a' : '#6b4a2a'; lctx.lineWidth = 2; lctx.beginPath(); lctx.moveTo(0, -7); lctx.lineTo(len, -7); lctx.moveTo(0, 7); lctx.lineTo(len, 7); lctx.stroke();
+      for (let t = 6; t < len - 4; t += 6.5) { lctx.fillStyle = (t / 6.5) % 2 ? '#b07a43' : '#c28c52'; lctx.strokeStyle = '#4a2f17'; lctx.lineWidth = 1; lctx.fillRect(t, -7, 5, 14); lctx.strokeRect(t, -7, 5, 14); }
+      lctx.restore();
+    }
+    // islands, back to front
     [...worlds].sort((a, b) => a.pin[1] - b.pin[1]).forEach(w => {
-      const st = states[w.id - 1];
-      grey = !st.unlocked; island(lctx, w); DECOR[w.biome](lctx, w.pin[0], w.pin[1], 0);
+      lctx.drawImage(islandSprite(w, !states[w.id - 1].unlocked), w.pin[0] - CX, w.pin[1] - CY);
     });
-    grey = false; dots(lctx, states);
   }
 
-  // ----- DOM: callouts + tap targets over the canvas -----
+  // ----- DOM: callouts and tap targets over the canvas -----
   function buildPins() {
     pinsEl.innerHTML = '';
     for (const w of worlds) {
       const wrap = document.createElement('div'); wrap.className = 'map-pin'; wrap.dataset.world = w.id;
-      wrap.style.left = (w.pin[0] / map.width * 100) + '%'; wrap.style.top = ((w.pin[1] - 18) / map.height * 100) + '%';
+      wrap.style.left = (w.pin[0] / map.width * 100) + '%'; wrap.style.top = ((w.pin[1] - 40) / map.height * 100) + '%';
       wrap.style.setProperty('--accent', w.accent);
       const b = document.createElement('button'); b.type = 'button'; b.className = 'map-pin__btn';
       b.innerHTML = `<span class="map-pin__call"><b>WORLD ${w.id}</b><span>${w.name}</span><small>${w.callout}</small></span>`;
@@ -156,40 +228,51 @@ export function createOverworld({ canvas, pinsEl, worlds, map, getState, getAvat
     if (walk) return;
     if (!getState()[id - 1].unlocked) { onSelect(id, false); return; }   // locked: show its card, don't travel
     if (id === cur) { onSelect(id, true); return; }
-    const pts = walkPath(cur, id).map(i => heroSpot(byId[i]));
-    walk = { pts, seg: 0, t: 0, id };
+    walk = { pts: walkPath(cur, id).map(i => heroSpot(byId[i])), seg: 0, t: 0, id };
   }
 
   function update(dt) {
     if (!walk) return;
     const a = walk.pts[walk.seg], b = walk.pts[walk.seg + 1];
     if (!b) { cur = walk.id; hero = { ...heroSpot(byId[cur]) }; walk = null; refreshLabels(); onSelect(cur, true); return; }
-    const d = Math.hypot(b.x - a.x, b.y - a.y); walk.t += dt * 90 / d;
+    walk.t += dt * 150 / Math.hypot(b.x - a.x, b.y - a.y);
     if (walk.t >= 1) { walk.seg++; walk.t = 0; hero = { ...b }; return; }
     hero = { x: a.x + (b.x - a.x) * walk.t, y: a.y + (b.y - a.y) * walk.t };
   }
 
-  const sparks = Array.from({ length: 70 }, (_, i) => [Math.floor(hash(i, 1) * map.width), Math.floor(hash(i, 2) * map.height), hash(i, 3)]);
-  const clouds = [[10, 14, 18], [96, 120, 14], [30, 198, 12]];
+  const sparks = Array.from({ length: 46 }, (_, i) => [hash(i, 1) * map.width, hash(i, 2) * map.height, hash(i, 3)]);
+  const clouds = [[10, 30, 46], [180, 250, 38], [60, 430, 34]];
 
   function draw(t) {
-    setCtx(ctx);
-    ctx.fillStyle = WATER; ctx.fillRect(0, 0, map.width, map.height);
-    for (const [x, y, ph] of sparks) { const on = (Math.floor(t * 1.5 + ph * 6) % 3) === 0; ctx.fillStyle = on ? SPARK : WATER_HI; ctx.fillRect(x, y, on ? 2 : 3, 1); }
-    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(layer, 0, 0); setCtx(ctx);
-    const states = getState(), bob = Math.floor(t * 3) % 2;
-    grey = false;
-    // animate the waterfall by redrawing its strip over the static layer
-    const w3 = byId[3]; if (w3) { grey = !states[2].unlocked; DECOR.falls(ctx, w3.pin[0], w3.pin[1], t); }
-    grey = false;
-    for (const w of worlds) { const st = states[w.id - 1]; pin(ctx, w, st, st.unlocked && w.id === cur ? bob * 2 : 0); }
-    // hero
-    grey = false;
-    ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillRect(Math.round(hero.x) + 2, Math.round(hero.y) + 1, 12, 2);
-    drawAvatar(ctx, getAvatar(), Math.round(hero.x), Math.round(hero.y) - 19 - (walk ? Math.floor(t * 8) % 2 : bob), 1);
-    // clouds drifting (decorative)
-    ctx.fillStyle = 'rgba(232,251,255,.16)';
-    for (const [x, y, w] of clouds) { const cx = ((x + t * 2) % (map.width + 40)) - 20; ctx.fillRect(Math.round(cx), y, w, 3); ctx.fillRect(Math.round(cx) + 3, y - 2, w - 6, 2); }
+    ctx.setTransform(S, 0, 0, S, 0, 0); ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(water, 0, 0);
+    // gentle wave lines
+    ctx.strokeStyle = 'rgba(160,230,255,.13)'; ctx.lineWidth = 1.4;
+    for (let y = 14; y < map.height; y += 26) {
+      ctx.beginPath();
+      for (let x = 0; x <= map.width; x += 8) { const yy = y + Math.sin(x * 0.07 + t * 1.2 + y) * 2; x ? ctx.lineTo(x, yy) : ctx.moveTo(x, yy); }
+      ctx.stroke();
+    }
+    for (const [x, y, ph] of sparks) { if (Math.floor(t * 1.4 + ph * 6) % 3 === 0) { ctx.fillStyle = '#9ceaff'; ctx.fillRect(Math.round(x), Math.round(y), 3, 1); } }
+    // foam rings round each island
+    const states = getState(), pulse = 0.5 + 0.5 * Math.sin(t * 1.6);
+    for (const w of worlds) {
+      ctx.strokeStyle = `rgba(232,251,255,${0.28 + 0.2 * pulse})`; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.ellipse(w.pin[0], w.pin[1] + CLIFF + 2, RX + 5 + pulse * 2, RY + 4 + pulse, 0, 0, Math.PI * 2); ctx.stroke();
+      ctx.fillStyle = 'rgba(2,14,32,.28)'; ctx.beginPath(); ctx.ellipse(w.pin[0] + 5, w.pin[1] + CLIFF + 10, RX + 2, RY * 0.8, 0, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.drawImage(layer, 0, 0);
+    const bob = Math.round(Math.sin(t * 4) * 2);
+    for (const w of worlds) {
+      const st = states[w.id - 1], s = pinSprite(w, st);
+      ctx.drawImage(s, w.pin[0] - 20, w.pin[1] - 38 - (st.unlocked && w.id === cur && !walk ? Math.abs(bob) : 0));
+    }
+    // hero: soft shadow, then the avatar (bobs while walking)
+    ctx.fillStyle = 'rgba(0,0,0,.32)'; ctx.beginPath(); ctx.ellipse(Math.round(hero.x), Math.round(hero.y) + 1, 11, 3.2, 0, 0, Math.PI * 2); ctx.fill();
+    drawAvatar(ctx, getAvatar(), hero.x - 16, hero.y - 41 - (walk ? Math.abs(Math.round(Math.sin(t * 14) * 2)) : 0), 1);
+    // drifting clouds (decorative)
+    ctx.fillStyle = 'rgba(232,251,255,.14)';
+    for (const [x, y, w] of clouds) { const cx = ((x + t * 3) % (map.width + 80)) - 40; ctx.beginPath(); ctx.ellipse(cx, y, w / 2, 6, 0, 0, 7); ctx.ellipse(cx + 8, y - 5, w / 3, 5, 0, 0, 7); ctx.fill(); }
   }
 
   let raf = 0, last = 0, acc = 0, running = false;
@@ -197,7 +280,7 @@ export function createOverworld({ canvas, pinsEl, worlds, map, getState, getAvat
     if (!running) return;
     const dt = Math.min(0.1, (now - last) / 1000); last = now; acc += dt;
     update(dt);
-    if (acc >= 1 / 20 || walk) { draw(now / 1000); acc = 0; }
+    if (acc >= 1 / 24 || walk) { draw(now / 1000); acc = 0; }
     raf = requestAnimationFrame(frame);
   }
 

@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { formulaOf, checkServe, buildOrders, buildTray, orderName, starsFor, tipFor } from '../quest/js/diner-logic.js';
 import { worldProgress, worldStates, walkPath } from '../quest/js/progress.js';
 import { EMBLEMS } from '../quest/js/badges.js';
-import { avatarRows, avatarPixels, OPTIONS, WIDTH, HEIGHT } from '../quest/js/avatar.js';
+import { OPTIONS, DEFAULT_AVATAR, randomAvatar, WIDTH, HEIGHT } from '../quest/js/avatar.js';
 
 const d = JSON.parse(readFileSync('quest/data/diner.json', 'utf8'));
 const byId = Object.fromEntries(d.ions.map(i => [i.id, i]));
@@ -82,14 +82,17 @@ assert.match(checkServe(alO, { 'Al3+': 2, 'O2-': 3 }).message, /Al₂O₃/);
 assert.deepEqual([1, 2, 3, 0].map(starsFor), [1, 2, 3, 1]);
 assert.ok(tipFor(1) > tipFor(0) && tipFor(0) >= 5);
 
-// Avatar sprites
-for (const style of OPTIONS.hairStyle) for (const goggles of [true, false]) {
-  const rows = avatarRows({ hairStyle: style, goggles });
-  assert.equal(rows.length, HEIGHT, `${style}: ${rows.length} rows`);
-  rows.forEach((r, i) => assert.equal(r.length, WIDTH, `${style} goggles=${goggles} row ${i}`));
-  const px = avatarPixels({ hairStyle: style, goggles });
-  assert.ok(px.flat().every(c => c === null || /^#[0-9a-f]{6}$/.test(c)), `${style}: unknown sprite key`);
+// Avatar options: every list non-empty, sensible defaults, sprite size matches the layout the scene and map expect
+assert.equal(WIDTH, 32); assert.equal(HEIGHT, 44);
+for (const k of ['skin', 'hairStyle', 'hair', 'coat']) assert.ok(OPTIONS[k].length >= 3, `${k}: needs at least 3 choices`);
+assert.ok(OPTIONS.hairStyle.includes('tudung'));
+[...OPTIONS.skin, ...OPTIONS.hair, ...OPTIONS.coat].forEach(c => assert.match(c, /^#[0-9a-f]{6}$/i));
+assert.ok(DEFAULT_AVATAR.skin < OPTIONS.skin.length && DEFAULT_AVATAR.hair < OPTIONS.hair.length && DEFAULT_AVATAR.coat < OPTIONS.coat.length);
+for (let i = 0; i < 50; i++) {
+  const a = randomAvatar();
+  assert.ok(a.skin < OPTIONS.skin.length && a.hair < OPTIONS.hair.length && a.coat < OPTIONS.coat.length && OPTIONS.hairStyle.includes(a.hairStyle));
 }
+
 // Overworld: six worlds in order, pins on the map, unique badges, sensible unlock rules
 const wd = JSON.parse(readFileSync('quest/data/worlds.json', 'utf8'));
 const W = wd.worlds;
@@ -98,7 +101,7 @@ assert.equal(new Set(W.map(w => w.badge)).size, 6, 'badge names must be unique')
 assert.equal(new Set(W.map(w => w.accent)).size, 6, 'world colours must be unique');
 for (const w of W) {
   assert.ok(EMBLEMS[w.emblem], `world ${w.id}: unknown emblem ${w.emblem}`);
-  assert.ok(w.pin[0] > 28 && w.pin[0] < wd.map.width - 28 && w.pin[1] > 30 && w.pin[1] < wd.map.height - 20, `world ${w.id}: pin too close to the map edge`);
+  assert.ok(w.pin[0] > 56 && w.pin[0] < wd.map.width - 56 && w.pin[1] > 60 && w.pin[1] < wd.map.height - 40, `world ${w.id}: pin too close to the map edge`);
   assert.ok(w.tip && w.topic && w.gameplay && w.callout);
   if (w.playable) w.levelIds.forEach(id => assert.ok(d.levels.some(l => l.id === id), `world ${w.id}: unknown level ${id}`));
   else assert.ok(!w.levelIds, `world ${w.id}: unbuilt worlds have no levels yet`);

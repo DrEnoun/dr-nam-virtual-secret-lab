@@ -4,6 +4,7 @@ import { sound } from '../../js/sound.js';
 import {
   buildOrders, buildTray, checkServe, ionHTML, netCharge, orderName, revealAnswer, starsFor, tipFor, chargeStr,
 } from './diner-logic.js';
+import { pxCanvas, crisp, shapes } from './pxart.js';
 import { worldStates } from './progress.js';
 import { createOverworld } from './overworld.js';
 import { drawBadge, BADGE_W, BADGE_H } from './badges.js';
@@ -21,6 +22,7 @@ try { save = { ...defaults(), ...JSON.parse(localStorage.getItem(KEY) || '{}') }
 const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) { /* ignore */ } };
 sound.enabled = !save.mute;
 
+try { await Promise.all([document.fonts.load('800 17px "League Spartan"'), document.fonts.load('400 12px Questrial')]); } catch (e) { /* fall back to system fonts */ }
 const data = await (await fetch('data/diner.json')).json();
 const worldData = await (await fetch('data/worlds.json')).json();
 const worlds = worldData.worlds;
@@ -108,7 +110,7 @@ function renderBadges() {
     const d = document.createElement('div'); d.className = 'badge'; d.dataset.earned = String(earned);
     const cv = document.createElement('canvas'); cv.width = BADGE_W; cv.height = BADGE_H;
     cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', `${w.badge} badge, ${earned ? 'earned' : 'not yet earned'}`);
-    drawBadge(cv.getContext('2d'), w.emblem, w.accent, earned);
+    drawBadge(cv, w.emblem, w.accent, earned);
     d.append(cv, document.createTextNode(w.badge));
     const sm = document.createElement('small'); sm.textContent = earned ? '✓ Earned' : `World ${w.id}`; d.append(sm);
     shelf.append(d);
@@ -116,7 +118,7 @@ function renderBadges() {
 }
 
 function renderMenu() {
-  drawPortrait($('menu-avatar'), save.avatar, 4);
+  drawPortrait($('menu-avatar'), save.avatar, 2);
   $('menu-coins').textContent = save.coins; $('menu-xp').textContent = save.xp;
   overworld.setCurrent(save.world); selected = save.world;
   renderWorldCard(); renderTopics(); renderBadges();
@@ -146,7 +148,7 @@ $('btn-shifts-back').onclick = () => { sound.pop(); renderMenu(); show('menu'); 
 // ---------- Avatar creator ----------
 let draft = null;
 function renderAvatarEditor() {
-  drawPortrait($('avatar-preview'), draft, 8);
+  drawPortrait($('avatar-preview'), draft, 5);
   const host = $('avatar-options'); host.innerHTML = '';
   const group = (title, items) => {
     const g = document.createElement('div'); g.className = 'opt-group';
@@ -180,7 +182,6 @@ $('avatar-done').onclick = () => { save.avatar = draft; persist(); sound.correct
 // ---------- Game state ----------
 const scene = $('scene'), sctx = scene.getContext('2d');
 let g = null; // current run
-const PAL = { wall: '#0f5f6c', wall2: '#12495a', ink: '#231f20', aqua: '#5eead4', pale: '#b9f3ea', lime: '#d4ff3a', counter: '#eef6ff', navy: '#0d1d33', navy2: '#1b4068', coral: '#fc7a7a' };
 
 function startLevel(id) {
   const level = data.levels.find(l => l.id === id);
@@ -210,7 +211,7 @@ function nextCustomer() {
   if (g.idx >= g.orders.length) return finish(true);
   const order = g.orders[g.idx];
   g.order = order; g.counts = {}; g.patience = g.level.patience; g.busy = false;
-  g.cust = { opts: randomAvatar(Math.random), x: -36, mood: 'wait' };
+  g.cust = { opts: randomAvatar(Math.random), x: -80, mood: 'wait' };
   $('cust-n').textContent = g.idx + 1;
   $('order-name').textContent = orderName(order.cat, order.an);
   renderTray(); renderCounter(); renderPatience();
@@ -277,7 +278,7 @@ $('btn-serve').onclick = () => {
     const tip = tipFor(g.patience / g.level.patience);
     g.coins += tip; g.xp += 10; g.served++;
     g.cust.mood = 'happy'; g.busy = true;
-    for (let i = 0; i < 5; i++) g.particles.push({ x: 40 + i * 6, y: 44, vy: -26 - i * 4, life: 1 });
+    for (let i = 0; i < 5; i++) g.particles.push({ x: 60 + i * 12, y: 96, vy: -50 - i * 8, life: 1 });
     sound.correct(); renderCoins();
     says($('says'), { text: res.message, state: 'correct', status: `✓ Correct! +${tip} coins.`, fact: g.order.fact || '' });
     g.idx++;
@@ -324,45 +325,92 @@ $('result-retry').onclick = () => startLevel(g.level.id);
 $('result-next').onclick = () => startLevel(g.level.id + 1);
 $('result-menu').onclick = $('btn-quit').onclick = () => { if (g) g.over = true; $('result').hidden = true; renderMenu(); show('menu'); };
 
-// ---------- Scene (canvas, 160 × 96 logical pixels) ----------
-const R = (x, y, w, h, c) => { sctx.fillStyle = c; sctx.fillRect(Math.round(x), Math.round(y), w, h); };
+// ---------- Scene (canvas, 320 × 192 logical pixels) ----------
+const COUNTER_TOP = 122, CUSTOMER_X = 44, PLAYER_X = 214;
+
+// Draws a formula with proper subscripts, e.g. chem(c, 'Al2O3', ...) -> Al₂O₃ (digits sit lower and smaller).
+function chem(c, text, cx, y, size, colour) {
+  const small = Math.round(size * 0.68);
+  const parts = [...text].map(ch => ({ ch, sub: /\d/.test(ch) }));
+  c.textBaseline = 'alphabetic'; c.fillStyle = colour; c.textAlign = 'left';
+  const width = parts.reduce((w, p) => { c.font = `400 ${p.sub ? small : size}px Questrial, sans-serif`; return w + c.measureText(p.ch).width; }, 0);
+  let x = cx - width / 2;
+  for (const p of parts) { c.font = `400 ${p.sub ? small : size}px Questrial, sans-serif`; c.fillText(p.ch, x, y + (p.sub ? size * 0.3 : 0)); x += c.measureText(p.ch).width; }
+}
+
+function buildSceneArt() {
+  const bg = pxCanvas(320, 192), c = bg.getContext('2d'), { R, E, P } = shapes(c);
+  // wall, wainscot and rail
+  let g = c.createLinearGradient(0, 0, 0, 120); g.addColorStop(0, '#13808e'); g.addColorStop(1, '#0d5c6e'); c.fillStyle = g; c.fillRect(0, 0, 320, 130);
+  c.fillStyle = '#12495a'; c.fillRect(0, 92, 320, 40); c.fillStyle = '#5eead4'; c.fillRect(0, 90, 320, 3);
+  c.fillStyle = 'rgba(0,0,0,.2)'; for (let x = 10; x < 320; x += 22) c.fillRect(x, 96, 2, 36);
+  // window with sky, clouds and sun beams
+  R(12, 12, 96, 68, 5, '#0d1d33', false);
+  g = c.createLinearGradient(0, 18, 0, 74); g.addColorStop(0, '#7fdcf5'); g.addColorStop(1, '#e8fbff'); c.fillStyle = g; c.fillRect(17, 17, 86, 58);
+  c.fillStyle = 'rgba(255,255,255,.9)'; [[40, 34, 11, 5], [52, 31, 9, 5], [82, 48, 10, 4], [72, 46, 7, 3.4]].forEach(([x, y, rx, ry]) => { c.beginPath(); c.ellipse(x, y, rx, ry, 0, 0, 7); c.fill(); });
+  c.fillStyle = 'rgba(255,255,255,.28)'; c.beginPath(); c.moveTo(22, 17); c.lineTo(46, 17); c.lineTo(28, 75); c.lineTo(17, 75); c.fill();
+  c.fillStyle = '#0d1d33'; c.fillRect(58, 17, 4, 58); c.fillRect(17, 44, 86, 4);
+  R(8, 78, 104, 7, 2.5, '#eef6ff'); c.fillStyle = 'rgba(0,0,0,.18)'; c.fillRect(8, 83, 104, 2);
+  // menu board with chalk formulae
+  R(204, 8, 106, 56, 5, '#8a5a2b', '#3a2a14'); R(209, 13, 96, 46, 3, '#0d1d33', false);
+  c.fillStyle = '#d4ff3a'; c.font = '800 11px "League Spartan", sans-serif'; c.textAlign = 'center'; c.textBaseline = 'alphabetic'; c.fillText('TODAY’S IONS', 257, 27);
+  c.fillStyle = '#d4ff3a'; c.fillRect(226, 31, 62, 2);
+  chem(c, 'NaCl', 235, 46, 11, '#bff7ef'); chem(c, 'MgO', 279, 46, 11, '#bff7ef'); chem(c, 'Al2O3', 257, 57, 11, '#bff7ef');
+  // pendant lamps
+  [130, 170].forEach((x, i) => {
+    c.fillStyle = '#14202e'; c.fillRect(x, 0, 2, 26);
+    const glow = c.createRadialGradient(x + 1, 36, 2, x + 1, 36, 38); glow.addColorStop(0, 'rgba(255,248,190,.34)'); glow.addColorStop(1, 'rgba(255,248,190,0)'); c.fillStyle = glow; c.fillRect(x - 40, 0, 82, 80);
+    c.beginPath(); c.ellipse(x + 1, 36, 15, 11, 0, Math.PI, 0); c.closePath(); c.fillStyle = i === 1 ? '#eef6ff' : '#d4ff3a'; c.fill(); c.strokeStyle = '#14202e'; c.lineWidth = 1.4; c.stroke();
+    c.fillStyle = '#fff6b8'; c.beginPath(); c.ellipse(x + 1, 37, 7, 2.4, 0, 0, 7); c.fill();
+  });
+  // floor: three rows of checker tiles
+  [[132, 14, 22], [146, 18, 28], [164, 28, 36]].forEach(([y, h, w], row) => {
+    for (let x = -((row * 11) % w); x < 320; x += w) { c.fillStyle = (Math.floor((x + 40) / w) + row) % 2 ? '#0d1d33' : '#1b4068'; c.fillRect(x, y, w, h); }
+  });
+  c.fillStyle = 'rgba(0,0,0,.28)'; c.fillRect(0, 132, 320, 8);
+  crisp(bg, null);
+
+  // counter (drawn in front of the people so it hides their legs)
+  const fg = pxCanvas(320, 192), f = fg.getContext('2d'), { R: FR, E: FE } = shapes(f);
+  f.fillStyle = '#eef6ff'; f.fillRect(0, COUNTER_TOP, 320, 10); f.fillStyle = '#ffffff'; f.fillRect(0, COUNTER_TOP, 320, 2); f.fillStyle = '#9db4cc'; f.fillRect(0, COUNTER_TOP + 8, 320, 2);
+  f.fillStyle = '#d4ff3a'; f.fillRect(0, COUNTER_TOP + 10, 320, 4);
+  f.fillStyle = '#12495a'; f.fillRect(0, COUNTER_TOP + 14, 320, 34);
+  f.fillStyle = 'rgba(0,0,0,.22)'; for (let x = 0; x < 320; x += 16) f.fillRect(x, COUNTER_TOP + 14, 2, 34);
+  f.fillStyle = 'rgba(255,255,255,.16)'; f.fillRect(0, COUNTER_TOP + 14, 320, 3);
+  f.fillStyle = '#c9d8e8'; f.fillRect(0, COUNTER_TOP + 30, 320, 3);
+  f.fillStyle = '#0d1d33'; f.fillRect(0, COUNTER_TOP + 46, 320, 8);
+  FE(160, COUNTER_TOP + 3, 22, 4.4, '#ffffff'); FE(160, COUNTER_TOP + 2, 17, 2.6, '#e1ecf7', false);
+  crisp(fg, null);
+  return { bg, fg };
+}
+const sceneArt = buildSceneArt();
 
 function drawScene(t) {
-  R(0, 0, 160, 96, PAL.wall);
-  R(0, 44, 160, 16, PAL.wall2);
-  R(0, 44, 160, 1, PAL.ink);
-  // window
-  R(8, 8, 38, 28, PAL.ink); R(10, 10, 34, 24, PAL.pale); R(26, 10, 2, 24, PAL.ink); R(10, 21, 34, 2, PAL.ink);
-  // menu board with a lime flask
-  R(110, 8, 42, 30, PAL.ink); R(112, 10, 38, 26, PAL.navy);
-  R(128, 14, 6, 8, PAL.lime); R(125, 22, 12, 8, PAL.lime); R(122, 26, 18, 4, PAL.lime);
-  R(116, 14, 6, 2, PAL.aqua); R(116, 19, 5, 2, PAL.aqua); R(116, 24, 6, 2, PAL.aqua);
-  // hanging lamp
-  R(79, 0, 2, 10, PAL.ink); R(72, 10, 16, 6, PAL.lime); R(72, 16, 16, 1, PAL.ink);
-  // floor checker
-  for (let y = 76; y < 96; y += 8) for (let x = 0; x < 160; x += 8) R(x, y, 8, 8, ((x + y) / 8) % 2 ? PAL.navy : PAL.navy2);
-
-  // people (drawn before the counter so it hides their legs)
+  sctx.imageSmoothingEnabled = false;
+  sctx.drawImage(sceneArt.bg, 0, 0);
   const bob = Math.floor(t * 2) % 2;
   if (g && g.cust) {
-    const c = g.cust, shake = c.mood === 'angry' && !g.busy ? (Math.floor(t * 18) % 2 ? 1 : -1) : 0;
-    const hop = c.mood === 'happy' ? -Math.abs(Math.round(Math.sin(t * 10) * 3)) : bob;
-    drawAvatar(sctx, c.opts, Math.round(c.x) + shake, 32 + hop, 2, { customer: true });
-    if (c.mood === 'angry') { R(c.x + 9 + shake, 41 + hop, 4, 2, PAL.coral); R(c.x + 19 + shake, 41 + hop, 4, 2, PAL.coral); }
-    if (c.mood === 'happy') { R(c.x + 4, 28 + hop, 2, 2, PAL.lime); R(c.x + 27, 30 + hop, 2, 2, PAL.lime); R(c.x + 15, 24 + hop, 2, 2, PAL.lime); }
+    const c = g.cust, shake = c.mood === 'angry' && !g.busy ? (Math.floor(t * 18) % 2 ? 2 : -2) : 0;
+    const hop = c.mood === 'happy' ? -Math.abs(Math.round(Math.sin(t * 10) * 5)) : -bob * 2;
+    drawAvatar(sctx, c.opts, Math.round(c.x) + shake, COUNTER_TOP - 58 + hop, 2, { customer: true, mood: c.mood });
+    if (c.mood === 'happy') {
+      sctx.fillStyle = '#d4ff3a';
+      [[-6, 8], [66, 14], [30, -4]].forEach(([dx, dy], i) => { const px = Math.round(c.x) + dx, py = COUNTER_TOP - 58 + dy + hop, k = (Math.floor(t * 8) + i) % 2 ? 3 : 2; sctx.fillRect(px - k, py, k * 2 + 1, 2); sctx.fillRect(px, py - k, 2, k * 2 + 1); });
+    }
   }
-  drawAvatar(sctx, save.avatar, 104, 32 + (bob ? 0 : -1), 2);
-
-  // counter
-  R(0, 58, 160, 4, PAL.counter); R(0, 62, 160, 2, PAL.lime); R(0, 64, 160, 12, PAL.wall2);
-  R(0, 58, 160, 1, PAL.ink); R(0, 76, 160, 2, PAL.ink); R(0, 64, 160, 1, PAL.ink);
-  R(70, 54, 20, 4, PAL.counter); R(70, 57, 20, 1, PAL.ink);   // plate
-
-  // coin particles
-  if (g) for (const p of g.particles) {
-    R(p.x, p.y, 6, 6, PAL.ink); R(p.x + 1, p.y + 1, 4, 4, PAL.lime); R(p.x + 2, p.y + 2, 1, 2, PAL.ink);
+  drawAvatar(sctx, save.avatar, PLAYER_X, COUNTER_TOP - 58 - bob * 2, 2, { mood: g && g.cust && g.cust.mood === 'happy' ? 'happy' : 'wait' });
+  sctx.drawImage(sceneArt.fg, 0, 0);
+  if (g && g.cust && g.cust.mood === 'happy') {            // the served compound glows on the plate
+    const gl = sctx.createRadialGradient(160, COUNTER_TOP - 6, 1, 160, COUNTER_TOP - 6, 18); gl.addColorStop(0, 'rgba(212,255,58,.9)'); gl.addColorStop(1, 'rgba(212,255,58,0)');
+    sctx.fillStyle = gl; sctx.fillRect(138, COUNTER_TOP - 28, 44, 44);
+    sctx.fillStyle = '#d4ff3a'; sctx.beginPath(); sctx.arc(160, COUNTER_TOP - 6, 5, 0, 7); sctx.fill(); sctx.strokeStyle = '#231f20'; sctx.lineWidth = 1.5; sctx.stroke();
   }
-  if (g && g.flash > 0) { sctx.globalAlpha = Math.min(0.35, g.flash); R(0, 0, 160, 96, PAL.coral); sctx.globalAlpha = 1; }
+  if (g) for (const p of g.particles) {                    // coins
+    sctx.fillStyle = '#231f20'; sctx.beginPath(); sctx.arc(p.x, p.y, 6.4, 0, 7); sctx.fill();
+    sctx.fillStyle = '#d4ff3a'; sctx.beginPath(); sctx.arc(p.x, p.y, 4.8, 0, 7); sctx.fill();
+    sctx.fillStyle = '#231f20'; sctx.fillRect(p.x - 0.8, p.y - 2.4, 1.8, 4.8);
+  }
+  if (g && g.flash > 0) { sctx.globalAlpha = Math.min(0.35, g.flash); sctx.fillStyle = '#fc7a7a'; sctx.fillRect(0, 0, 320, 192); sctx.globalAlpha = 1; }
 }
 
 let last = performance.now();
@@ -370,7 +418,7 @@ function frame(now) {
   const dt = Math.min(0.1, (now - last) / 1000); last = now;
   if (g && !$('screen-game').hidden) {
     g.t += dt;
-    if (g.cust) g.cust.x += (18 - g.cust.x) * Math.min(1, dt * 8);
+    if (g.cust) g.cust.x += (CUSTOMER_X - g.cust.x) * Math.min(1, dt * 8);
     if (!g.busy && !g.over) {
       g.patience -= dt; renderPatience();
       if (g.patience <= 0) timeUp();
