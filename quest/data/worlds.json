@@ -1,0 +1,132 @@
+{
+  "map": {
+    "width": 288,
+    "height": 688
+  },
+  "worlds": [
+    {
+      "id": 1,
+      "name": "Lab Meadow",
+      "gameplay": "Memory match",
+      "topic": "Names, formulae and shapes",
+      "biome": "meadow",
+      "accent": "#7bd05a",
+      "icon": "molecule",
+      "pin": [
+        84,
+        592
+      ],
+      "badge": "Memory Master",
+      "emblem": "cards",
+      "playable": true,
+      "callout": "4 levels",
+      "tip": "Why do SO₄²⁻ and “sulfate” belong together? They are the same ion, written as a formula and as a name. Flip the cards and match them!",
+      "levelIds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "blurb": "Flip the cards to match names, formulae and shapes."
+    },
+    {
+      "id": 2,
+      "name": "Orbital Ruins",
+      "gameplay": "Push puzzle",
+      "topic": "Electron configuration",
+      "biome": "ruins",
+      "accent": "#e8a33d",
+      "icon": "atom",
+      "pin": [
+        204,
+        502
+      ],
+      "badge": "Orbital Ace",
+      "emblem": "orbit",
+      "playable": false,
+      "callout": "Coming soon",
+      "tip": "Try this: electrons fill the lowest-energy orbitals first (Aufbau), and spread out one by one before pairing up (Hund’s rule)."
+    },
+    {
+      "id": 3,
+      "name": "Periodic Falls",
+      "gameplay": "Pop and shoot",
+      "topic": "Periodic table and trends",
+      "biome": "falls",
+      "accent": "#2dd4bf",
+      "icon": "target",
+      "pin": [
+        84,
+        412
+      ],
+      "badge": "Table Topper",
+      "emblem": "grid",
+      "playable": false,
+      "callout": "Coming soon",
+      "tip": "Did you know? The halogens are the elements in Group 17 of the periodic table."
+    },
+    {
+      "id": 4,
+      "name": "Trend Peaks",
+      "gameplay": "Platform jumper",
+      "topic": "Periodic trends",
+      "biome": "peaks",
+      "accent": "#a78bfa",
+      "icon": "sparkle",
+      "pin": [
+        204,
+        322
+      ],
+      "badge": "Trend Jumper",
+      "emblem": "arrow",
+      "playable": false,
+      "callout": "Coming soon",
+      "tip": "Try this: ionisation energy generally increases across a period and decreases down a group."
+    },
+    {
+      "id": 5,
+      "name": "Bond Glacier",
+      "gameplay": "Drag and drop",
+      "topic": "Lewis structures and VSEPR",
+      "biome": "glacier",
+      "accent": "#8fd3ff",
+      "icon": "electron",
+      "pin": [
+        84,
+        232
+      ],
+      "badge": "Bond Builder",
+      "emblem": "bond",
+      "playable": false,
+      "callout": "Coming soon",
+      "tip": "Try this: count the electron groups around the central atom. Lone pairs count too, and they change the shape."
+    },
+    {
+      "id": 6,
+      "name": "Ion Diner",
+      "gameplay": "Diner dash",
+      "topic": "Ionic compounds and formulae",
+      "biome": "diner",
+      "accent": "#d4ff3a",
+      "icon": "flask",
+      "pin": [
+        204,
+        142
+      ],
+      "badge": "Ion Chef",
+      "emblem": "flask",
+      "playable": true,
+      "previewOpen": true,
+      "levelIds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "callout": "4 shifts",
+      "tip": "Why do ionic compounds have zero net charge? Because the total positive charge cancels the total negative charge. Serve a few customers and see!",
+      "calloutLift": 26,
+      "blurb": "Combine ions to serve ionic compounds before your customers lose patience."
+    }
+  ]
+}

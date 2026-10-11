@@ -1,0 +1,291 @@
+{
+  "ions": [
+    {
+      "id": "Li+",
+      "sym": "Li",
+      "charge": 1,
+      "name": "lithium"
+    },
+    {
+      "id": "Na+",
+      "sym": "Na",
+      "charge": 1,
+      "name": "sodium"
+    },
+    {
+      "id": "K+",
+      "sym": "K",
+      "charge": 1,
+      "name": "potassium"
+    },
+    {
+      "id": "Ag+",
+      "sym": "Ag",
+      "charge": 1,
+      "name": "silver"
+    },
+    {
+      "id": "NH4+",
+      "sym": "NH4",
+      "charge": 1,
+      "name": "ammonium",
+      "poly": true
+    },
+    {
+      "id": "Mg2+",
+      "sym": "Mg",
+      "charge": 2,
+      "name": "magnesium"
+    },
+    {
+      "id": "Ca2+",
+      "sym": "Ca",
+      "charge": 2,
+      "name": "calcium"
+    },
+    {
+      "id": "Al3+",
+      "sym": "Al",
+      "charge": 3,
+      "name": "aluminium"
+    },
+    {
+      "id": "F-",
+      "sym": "F",
+      "charge": -1,
+      "name": "fluoride"
+    },
+    {
+      "id": "Cl-",
+      "sym": "Cl",
+      "charge": -1,
+      "name": "chloride"
+    },
+    {
+      "id": "Br-",
+      "sym": "Br",
+      "charge": -1,
+      "name": "bromide"
+    },
+    {
+      "id": "OH-",
+      "sym": "OH",
+      "charge": -1,
+      "name": "hydroxide",
+      "poly": true
+    },
+    {
+      "id": "NO3-",
+      "sym": "NO3",
+      "charge": -1,
+      "name": "nitrate",
+      "poly": true
+    },
+    {
+      "id": "O2-",
+      "sym": "O",
+      "charge": -2,
+      "name": "oxide"
+    },
+    {
+      "id": "S2-",
+      "sym": "S",
+      "charge": -2,
+      "name": "sulfide"
+    },
+    {
+      "id": "CO32-",
+      "sym": "CO3",
+      "charge": -2,
+      "name": "carbonate",
+      "poly": true
+    },
+    {
+      "id": "SO42-",
+      "sym": "SO4",
+      "charge": -2,
+      "name": "sulfate",
+      "poly": true
+    },
+    {
+      "id": "PO43-",
+      "sym": "PO4",
+      "charge": -3,
+      "name": "phosphate",
+      "poly": true
+    }
+  ],
+  "levels": [
+    {
+      "id": 1,
+      "title": "Simple Pairs",
+      "subtitle": "1:1 ions",
+      "customers": 5,
+      "patience": 40,
+      "decoys": 2,
+      "showCharge": true,
+      "tip": "Opposites attract! Pick one positive and one negative ion so the charges cancel out.",
+      "orders": [
+        {
+          "cation": "Na+",
+          "anion": "Cl-",
+          "fact": "Pharmacy link: saline drips are sodium chloride dissolved in water."
+        },
+        {
+          "cation": "K+",
+          "anion": "Br-"
+        },
+        {
+          "cation": "Li+",
+          "anion": "F-"
+        },
+        {
+          "cation": "Mg2+",
+          "anion": "O2-",
+          "fact": "Did you know? Magnesium oxide is used in some antacids and mineral supplements."
+        },
+        {
+          "cation": "Ca2+",
+          "anion": "S2-"
+        },
+        {
+          "cation": "Ag+",
+          "anion": "Cl-"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Unequal Charges",
+      "subtitle": "Balance the charges",
+      "customers": 6,
+      "patience": 45,
+      "decoys": 3,
+      "showCharge": true,
+      "tip": "Try this: find the smallest numbers of each ion that make the total + charge equal the total − charge.",
+      "orders": [
+        {
+          "cation": "Mg2+",
+          "anion": "Cl-"
+        },
+        {
+          "cation": "Ca2+",
+          "anion": "Br-"
+        },
+        {
+          "cation": "Na+",
+          "anion": "O2-"
+        },
+        {
+          "cation": "K+",
+          "anion": "S2-"
+        },
+        {
+          "cation": "Al3+",
+          "anion": "Cl-"
+        },
+        {
+          "cation": "Al3+",
+          "anion": "O2-"
+        },
+        {
+          "cation": "Li+",
+          "anion": "S2-"
+        },
+        {
+          "cation": "Ca2+",
+          "anion": "F-"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Polyatomic Specials",
+      "subtitle": "Ions that stay together",
+      "customers": 6,
+      "patience": 60,
+      "decoys": 4,
+      "showCharge": false,
+      "tip": "Polyatomic ions such as NO₃⁻ travel as one group. When you need more than one group, the formula uses brackets.",
+      "orders": [
+        {
+          "cation": "Na+",
+          "anion": "OH-"
+        },
+        {
+          "cation": "K+",
+          "anion": "NO3-",
+          "fact": "Pharmacy link: some toothpastes for sensitive teeth contain potassium nitrate."
+        },
+        {
+          "cation": "Ca2+",
+          "anion": "CO32-",
+          "fact": "Pharmacy link: calcium carbonate is used in antacid tablets."
+        },
+        {
+          "cation": "Na+",
+          "anion": "SO42-"
+        },
+        {
+          "cation": "Mg2+",
+          "anion": "NO3-"
+        },
+        {
+          "cation": "Ca2+",
+          "anion": "OH-"
+        },
+        {
+          "cation": "Al3+",
+          "anion": "OH-",
+          "fact": "Pharmacy link: aluminium hydroxide is an ingredient in some antacids."
+        },
+        {
+          "cation": "NH4+",
+          "anion": "SO42-"
+        },
+        {
+          "cation": "NH4+",
+          "anion": "Cl-"
+        },
+        {
+          "cation": "Ca2+",
+          "anion": "PO43-",
+          "fact": "Did you know? Calcium phosphate is the main mineral in your bones and teeth."
+        },
+        {
+          "cation": "Al3+",
+          "anion": "SO42-"
+        },
+        {
+          "cation": "Na+",
+          "anion": "PO43-"
+        },
+        {
+          "cation": "K+",
+          "anion": "CO32-"
+        },
+        {
+          "cation": "Mg2+",
+          "anion": "OH-",
+          "fact": "Pharmacy link: magnesium hydroxide is the active ingredient in milk of magnesia."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Rush Hour",
+      "subtitle": "Boss shift: every ion at once",
+      "boss": true,
+      "mixFrom": [
+        1,
+        2,
+        3
+      ],
+      "customers": 8,
+      "patience": 38,
+      "decoys": 4,
+      "showCharge": false,
+      "tip": "Boss shift! Orders from every earlier shift arrive in a rush. Keep the rule in mind: the total positive charge must equal the total negative charge, and polyatomic ions stay together."
+    }
+  ]
+}
