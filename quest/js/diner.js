@@ -5,6 +5,7 @@ import {
   buildOrders, buildTray, checkServe, ionHTML, netCharge, orderName, revealAnswer, starsFor, tipFor, chargeStr,
 } from './diner-logic.js';
 import { pxCanvas, crisp, shapes } from './pxart.js';
+import { monsterSprite } from './monsters.js';
 import { worldStates } from './progress.js';
 import { createOverworld } from './overworld.js';
 import { drawBadge, BADGE_W, BADGE_H, BADGE_SS } from './badges.js';
@@ -189,7 +190,7 @@ function startLevel(id) {
   g = {
     level, orders: buildOrders(level, data.ions), idx: 0, hearts: 3, coins: 0, xp: 0, served: 0,
     counts: {}, patience: level.patience, busy: false, over: false,
-    cust: null, particles: [], flash: 0, t: 0,
+    cust: null, particles: [], flash: 0, t: 0, react: null,
   };
   $('level-name').textContent = `Shift ${level.id}: ${level.title}`;
   $('cust-total').textContent = level.customers;
@@ -267,6 +268,8 @@ const removeIon = id => {
 };
 $('btn-clear').onclick = () => { if (!g.busy && !g.over) { g.counts = {}; sound.pop(); renderCounter(); } };
 
+const react = (mood, secs) => { if (g) g.react = { mood, until: g.t + secs }; };
+
 function loseHeart() {
   g.hearts--; g.flash = 0.35; renderHearts();
 }
@@ -280,21 +283,21 @@ $('btn-serve').onclick = () => {
     g.coins += tip; g.xp += 10; g.served++;
     g.cust.mood = 'happy'; g.busy = true;
     for (let i = 0; i < 5; i++) g.particles.push({ x: 60 + i * 12, y: 96, vy: -50 - i * 8, life: 1 });
-    sound.correct(); renderCoins();
+    react('cheer', 1.7); sound.correct(); renderCoins();
     says($('says'), { text: res.message, state: 'correct', status: `✓ Correct! +${tip} coins.`, fact: g.order.fact || '' });
     g.idx++;
     setTimeout(() => { if (g && !g.over) nextCustomer(); }, 1400);
   } else if (res.kind === 'empty') {
     says($('says'), { text: res.message });
   } else {
-    sound.wrong(); loseHeart();
+    react('sad', 2); sound.wrong(); loseHeart();
     says($('says'), { text: res.message, state: 'wrong', status: '✗ Try again.' });
     if (g.hearts <= 0) { g.busy = true; setTimeout(() => finish(false), 1800); }
   }
 };
 
 function timeUp() {
-  g.busy = true; g.cust.mood = 'angry';
+  g.busy = true; g.cust.mood = 'angry'; react('shock', 2.2);
   sound.wrong(); loseHeart();
   says($('says'), { text: revealAnswer(g.order), state: 'wrong', status: '✗ Time’s up!' });
   g.idx++;
@@ -305,7 +308,7 @@ function timeUp() {
 }
 
 function finish(win) {
-  g.over = true;
+  g.over = true; g.won = win; react(win ? 'cheer' : 'sad', 600);
   save.coins += g.coins; save.xp += g.xp;
   const stars = win ? starsFor(g.hearts) : 0;
   if (win) save.stars[g.level.id] = Math.max(save.stars[g.level.id] || 0, stars);
@@ -324,7 +327,7 @@ function finish(win) {
 }
 $('result-retry').onclick = () => startLevel(g.level.id);
 $('result-next').onclick = () => startLevel(g.level.id + 1);
-$('result-menu').onclick = $('btn-quit').onclick = () => { if (g) g.over = true; $('result').hidden = true; renderMenu(); show('menu'); };
+$('result-menu').onclick = $('btn-quit').onclick = () => { const won = !!(g && g.over && g.won); if (g) g.over = true; $('result').hidden = true; renderMenu(); show('menu'); if (won) overworld.celebrate(); };
 
 // ---------- Scene (canvas, 320 × 192 logical pixels) ----------
 const COUNTER_TOP = 122, CUSTOMER_X = 44, PLAYER_X = 214, SA = 3;   // SA = backing pixels per scene unit (320 × 192 units)
@@ -388,6 +391,27 @@ function buildSceneArt() {
 }
 const sceneArt = buildSceneArt();
 
+// Two molecule mascots sit on the counter and react to how the shift is going.
+const MASCOTS = [{ id: 'water', x: 126, ph: 0 }, { id: 'nacl', x: 194, ph: 2 }];
+function drawMascots(t) {
+  const rx = g && g.react && g.react.until > g.t ? g.react : null;
+  const worried = g && g.cust && !g.busy && !g.over && g.patience / g.level.patience < 0.25;
+  const mood = rx ? rx.mood : worried ? 'shock' : 'happy';
+  sctx.imageSmoothingEnabled = true;
+  for (const m of MASCOTS) {
+    const sp = monsterSprite(m.id, mood);
+    let dx = 0, dy = Math.sin(t * 2.2 + m.ph) * 1.5, sy = 1;
+    if (mood === 'cheer') { dy = -Math.abs(Math.sin(t * 7 + m.ph)) * 11; }
+    else if (mood === 'sad') { dx = Math.sin(t * 3 + m.ph) * 1.2; dy = 1; sy = 0.92; }
+    else if (mood === 'shock') { dx = (Math.floor(t * 22) % 2 ? 1 : -1) * 1.3; sy = 1.07; }
+    sctx.save(); sctx.translate(m.x + 21.6 + dx, COUNTER_TOP + 5 + dy); sctx.scale(0.9, 0.9 * sy); sctx.drawImage(sp, -24, -40, 48, 40); sctx.restore();
+    const cx = m.x + 21.6;
+    if (mood === 'shock') { sctx.font = '800 15px "League Spartan", sans-serif'; sctx.textAlign = 'center'; sctx.lineWidth = 3; sctx.strokeStyle = '#231f20'; sctx.fillStyle = '#d4ff3a'; sctx.strokeText('!', cx, COUNTER_TOP - 38); sctx.fillText('!', cx, COUNTER_TOP - 38); }
+    if (mood === 'cheer') for (let i = 0; i < 3; i++) { const a = t * 3 + i * 2.1 + m.ph, px = cx + Math.cos(a) * 24, py = COUNTER_TOP - 20 + Math.sin(a) * 12 + dy, k = 2 + (Math.floor(t * 8 + i) % 2); sctx.fillStyle = i % 2 ? '#ffffff' : '#d4ff3a'; sctx.fillRect(px - k, py, k * 2 + 1, 1.6); sctx.fillRect(px - 0.8, py - k + 0.8, 1.6, k * 2); }
+  }
+  sctx.imageSmoothingEnabled = false;
+}
+
 function drawScene(t) {
   sctx.setTransform(SA, 0, 0, SA, 0, 0); sctx.imageSmoothingEnabled = false;
   sctx.drawImage(sceneArt.bg, 0, 0, 320, 192);
@@ -402,6 +426,7 @@ function drawScene(t) {
     }
   }
   drawAvatar(sctx, save.avatar, PLAYER_X, COUNTER_TOP - 58 - bob * 2, 2, { mood: g && g.cust && g.cust.mood === 'happy' ? 'happy' : 'wait' });
+  drawMascots(t);
   sctx.imageSmoothingEnabled = false; sctx.drawImage(sceneArt.fg, 0, 0, 320, 192);
   if (g && g.cust && g.cust.mood === 'happy') {            // the served compound glows on the plate
     const gl = sctx.createRadialGradient(160, COUNTER_TOP - 6, 1, 160, COUNTER_TOP - 6, 18); gl.addColorStop(0, 'rgba(212,255,58,.9)'); gl.addColorStop(1, 'rgba(212,255,58,0)');

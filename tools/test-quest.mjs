@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { formulaOf, checkServe, buildOrders, buildTray, orderName, starsFor, tipFor } from '../quest/js/diner-logic.js';
 import { worldProgress, worldStates, walkPath } from '../quest/js/progress.js';
 import { EMBLEMS } from '../quest/js/badges.js';
-import { MONSTERS, GEOMETRY, ATOM } from '../quest/js/monsters.js';
+import { MONSTERS, GEOMETRY, ATOM, MOODS } from '../quest/js/monsters.js';
 import { OPTIONS, DEFAULT_AVATAR, randomAvatar, WIDTH, HEIGHT } from '../quest/js/avatar.js';
 
 const d = JSON.parse(readFileSync('quest/data/diner.json', 'utf8'));
@@ -130,6 +130,7 @@ assert.deepEqual(GEOMETRY, { water: 104.5, co2: 180, nh3: 107, ch4: 109.5 });
 assert.match(MONSTERS.find(m => m.id === 'water').fact, /104\.5/); assert.match(MONSTERS.find(m => m.id === 'co2').fact, /180/);
 assert.match(MONSTERS.find(m => m.id === 'nh3').fact, /107/); assert.match(MONSTERS.find(m => m.id === 'ch4').fact, /109\.5/);
 for (const a of ['H', 'O', 'C', 'N', 'Na', 'Cl']) assert.ok(ATOM[a].r > 0 && /^#[0-9a-f]{6}$/i.test(ATOM[a].col));
+assert.deepEqual(MOODS, ['happy', 'cheer', 'sad', 'shock']);
 assert.ok(ATOM.Cl.r > ATOM.Na.r, 'Cl⁻ is larger than Na⁺');
 
 console.log(`ChemQuest data OK (${orders} orders, ${d.ions.length} ions)`);

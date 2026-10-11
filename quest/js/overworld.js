@@ -260,7 +260,7 @@ export function createOverworld({ canvas, pinsEl, worlds, map, getState, getAvat
   const twinkles = Array.from({ length: 70 }, (_, i) => ({ x: hash(i, 21) * map.width, y: hash(i, 22) * map.height, ph: hash(i, 23) * 6.28, sp: 1.2 + hash(i, 24) * 2.4, r: 1.8 + hash(i, 25) * 3.4, c: TW[i % 4] }));
 
   // monsters: friendly molecules that wander the map; tap one to meet it
-  const monsters = MONSTERS.map((def, i) => ({ def, x: 44 + hash(i, 31) * 200, y: 90 + i * 100, tx: 0, ty: 0, v: 7 + hash(i, 32) * 6, dir: 1, ph: hash(i, 33) * 6.28, hop: 0 }));
+  const monsters = MONSTERS.map((def, i) => ({ def, x: 44 + hash(i, 31) * 200, y: 90 + i * 100, tx: 0, ty: 0, v: 7 + hash(i, 32) * 6, dir: 1, ph: hash(i, 33) * 6.28, hop: 0, cheer: 0, delay: 0 }));
   const pickTarget = m => { m.tx = 24 + Math.random() * 240; m.ty = 50 + Math.random() * (map.height - 100); };
   monsters.forEach(pickTarget);
   const parts = [];
@@ -272,6 +272,8 @@ export function createOverworld({ canvas, pinsEl, worlds, map, getState, getAvat
       const dx = m.tx - m.x, dy = m.ty - m.y, d = Math.hypot(dx, dy);
       if (d < 4) pickTarget(m); else { m.x += (dx / d) * m.v * dt; m.y += (dy / d) * m.v * dt; if (Math.abs(dx) > 1) m.dir = dx > 0 ? 1 : -1; }
       if (m.hop > 0) m.hop = Math.max(0, m.hop - dt);
+      if (m.delay > 0) m.delay -= dt;
+      else if (m.cheer > 0) { m.cheer -= dt; if (m.hop <= 0) { m.hop = 0.7; burst(m.x, m.y, 10); } }   // celebrating: keep hopping
       if (Math.random() < dt * 1.6) parts.push({ x: m.x + (Math.random() - 0.5) * 24, y: m.y + 8 + Math.random() * 10, vx: (Math.random() - 0.5) * 6, vy: -6 - Math.random() * 8, life: 0, max: 0.9, r: 1.4 + Math.random() * 1.6, c: '170,255,240' });
     }
     dustT += dt;
@@ -344,7 +346,7 @@ export function createOverworld({ canvas, pinsEl, worlds, map, getState, getAvat
     }
     // monsters, then the hero
     for (const m of monsters) {
-      const sp = monsterSprite(m.def.id), up = m.hop > 0 ? Math.sin((1 - m.hop / 0.7) * Math.PI) * 16 : 0;
+      const sp = monsterSprite(m.def.id, m.hop > 0 ? 'cheer' : 'happy'), up = m.hop > 0 ? Math.sin((1 - m.hop / 0.7) * Math.PI) * 16 : 0;
       const by = Math.sin(t * 2.2 + m.ph) * 3 - up, sq = 1 + Math.sin(t * 4.4 + m.ph) * 0.05;
       glowAt(m.x, m.y + by, 34, '120,255,230', 0.34);
       ctx.fillStyle = 'rgba(2,14,32,.26)'; ctx.beginPath(); ctx.ellipse(m.x + 3, m.y + 22, 14 - up * 0.3, 4, 0, 0, 7); ctx.fill();
@@ -371,6 +373,7 @@ export function createOverworld({ canvas, pinsEl, worlds, map, getState, getAvat
     start() { hero = { ...heroSpot(byId[cur]) }; drawLayer(); refreshLabels(); if (!running) { running = true; last = performance.now(); raf = requestAnimationFrame(frame); } draw(0); },
     stop() { running = false; cancelAnimationFrame(raf); },
     rebuild() { drawLayer(); refreshLabels(); draw(performance.now() / 1000); },
+    celebrate() { monsters.forEach((m, i) => { m.delay = i * 0.18; m.cheer = 2.6; }); },
     setCurrent(id) { cur = id; hero = { ...heroSpot(byId[id]) }; walk = null; refreshLabels(); },
     init() { buildPins(); },
     get current() { return cur; },
