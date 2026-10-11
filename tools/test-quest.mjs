@@ -2,7 +2,7 @@
 // gives the right verdicts, and every avatar sprite row is the same width.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { formulaOf, checkServe, buildOrders, buildTray, orderName, starsFor, tipFor } from '../quest/js/diner-logic.js';
+import { formulaOf, checkServe, buildOrders, orderPool, buildTray, orderName, starsFor, tipFor } from '../quest/js/diner-logic.js';
 import { worldProgress, worldStates, walkPath } from '../quest/js/progress.js';
 import { EMBLEMS } from '../quest/js/badges.js';
 import { MONSTERS, GEOMETRY, ATOM, MOODS } from '../quest/js/monsters.js';
@@ -40,15 +40,18 @@ for (const i of d.ions) {
 
 let orders = 0;
 for (const lv of d.levels) {
-  assert.ok(lv.orders.length >= lv.customers, `level ${lv.id}: needs at least ${lv.customers} orders`);
+  const pool = orderPool(lv, d.levels);
+  assert.ok(pool.length >= lv.customers, `level ${lv.id}: needs at least ${lv.customers} orders`);
   assert.ok(lv.decoys + 2 <= d.ions.length);
-  const seen = new Set();
-  for (const o of lv.orders) {
+  const seen = new Set(), cats = {};
+  if (lv.mixFrom) lv.mixFrom.forEach(id => assert.ok(d.levels.some(l => l.id === id && !l.mixFrom), `level ${lv.id}: mixFrom ${id} must be an ordinary shift`));
+  for (const o of pool) {
     const cat = byId[o.cation], an = byId[o.anion];
     assert.ok(cat && an, `level ${lv.id}: unknown ion in ${JSON.stringify(o)}`);
     assert.ok(cat.charge > 0 && an.charge < 0, `${cat.id}/${an.id}: cation must be + and anion −`);
     const name = orderName(cat, an), f = formulaOf(cat, an);
     assert.ok(!seen.has(name), `level ${lv.id}: ${name} listed twice`); seen.add(name);
+    if (lv.boss) { cats.simple ||= f.nc === 1 && f.na === 1 && !cat.poly && !an.poly; cats.unequal ||= (f.nc !== 1 || f.na !== 1) && !cat.poly && !an.poly; cats.poly ||= cat.poly || an.poly; }
     assert.equal(f.text, KEY[name], `${name}: expected ${KEY[name]}, got ${f.text}`);
     assert.equal(f.nc * cat.charge + f.na * an.charge, 0, `${name}: charges do not cancel`);
     // level shape: 1 = all 1:1 monatomic, 2 = unequal monatomic, 3 = at least one polyatomic ion
@@ -57,8 +60,9 @@ for (const lv of d.levels) {
     if (lv.id === 3) assert.ok(cat.poly || an.poly, `${name}: level 3 must include a polyatomic ion`);
     orders++;
   }
+  if (lv.boss) assert.ok(cats.simple && cats.unequal && cats.poly, `boss shift ${lv.id} must mix all three kinds of order`);
   // Every order can be served correctly, and tricks are caught
-  for (const o of buildOrders(lv, d.ions)) {
+  for (const o of buildOrders(lv, d.ions, Math.random, d.levels)) {
     const f = formulaOf(o.cat, o.an);
     const good = { [o.cat.id]: f.nc, [o.an.id]: f.na };
     assert.equal(checkServe(o, good).ok, true);
@@ -113,9 +117,10 @@ assert.deepEqual(worldStates(W, {}).map(s => s.unlocked), [true, false, false, f
 assert.equal(worldStates(W, {}).filter(s => s.earned).length, 0);
 // Clearing every Ion Diner shift earns the World 6 badge; one shift is not enough
 assert.equal(worldProgress(W[5], { 1: 3, 2: 2 }).cleared, false);
-const done = worldProgress(W[5], { 1: 3, 2: 2, 3: 1 });
-assert.deepEqual([done.cleared, done.starSum, done.got], [true, 6, 3]);
-assert.equal(worldStates(W, { 1: 3, 2: 2, 3: 1 })[5].earned, true);
+assert.equal(worldProgress(W[5], { 1: 3, 2: 2, 3: 1 }).cleared, false, 'the boss shift must be cleared too');
+const done = worldProgress(W[5], { 1: 3, 2: 2, 3: 1, 4: 2 });
+assert.deepEqual([done.cleared, done.starSum, done.got, done.total], [true, 8, 4, 4]);
+assert.equal(worldStates(W, { 1: 3, 2: 2, 3: 1, 4: 2 })[5].earned, true);
 // A world opens when the one before it is cleared
 const fake = [{ id: 1, levelIds: [1] }, { id: 2, levelIds: [2] }, { id: 3, levelIds: [3] }];
 assert.deepEqual(worldStates(fake, {}).map(s => s.unlocked), [true, false, false]);

@@ -113,9 +113,10 @@
       "levelIds": [
         1,
         2,
-        3
+        3,
+        4
       ],
-      "callout": "3 shifts",
+      "callout": "4 shifts",
       "tip": "Why do ionic compounds have zero net charge? Because the total positive charge cancels the total negative charge. Serve a few customers and see!",
       "calloutLift": 26
     }

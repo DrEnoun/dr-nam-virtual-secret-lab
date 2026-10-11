@@ -136,7 +136,7 @@ function renderShifts() {
     const b = document.createElement('button');
     b.className = 'sticker level-card'; b.type = 'button'; b.disabled = !unlocked;
     const stars = save.stars[lv.id] || 0;
-    b.innerHTML = `<span class="level-card__num">${unlocked ? lv.id : '🔒'}</span>
+    b.innerHTML = `<span class="level-card__num">${unlocked ? (lv.boss ? 'B' : lv.id) : '🔒'}</span>
       <span class="level-card__title">${lv.title}</span>
       <span class="level-card__sub">${unlocked ? lv.subtitle : 'Clear the previous shift to unlock'}</span>
       <span class="level-card__stars" aria-label="${stars} of 3 stars">${starString(stars)}</span>`;
@@ -188,7 +188,7 @@ let g = null; // current run
 function startLevel(id) {
   const level = data.levels.find(l => l.id === id);
   g = {
-    level, orders: buildOrders(level, data.ions), idx: 0, hearts: 3, coins: 0, xp: 0, served: 0,
+    level, orders: buildOrders(level, data.ions, Math.random, data.levels), idx: 0, hearts: 3, coins: 0, xp: 0, served: 0,
     counts: {}, patience: level.patience, busy: false, over: false,
     cust: null, particles: [], flash: 0, t: 0, react: null,
   };

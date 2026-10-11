@@ -32,9 +32,22 @@ export function shuffle(arr, rng = Math.random) {
   return a;
 }
 
-export function buildOrders(level, ions, rng = Math.random) {
+// A boss shift has no orders of its own: it mixes the pools of the shifts listed in `mixFrom`.
+export function orderPool(level, levels = []) {
+  if (!level.mixFrom) return level.orders;
+  const seen = new Set(), pool = [];
+  for (const id of level.mixFrom) {
+    for (const o of levels.find(l => l.id === id)?.orders || []) {
+      const key = `${o.cation}|${o.anion}`;
+      if (!seen.has(key)) { seen.add(key); pool.push(o); }
+    }
+  }
+  return pool;
+}
+
+export function buildOrders(level, ions, rng = Math.random, levels = []) {
   const byId = Object.fromEntries(ions.map(i => [i.id, i]));
-  return shuffle(level.orders, rng).slice(0, level.customers).map(o => ({
+  return shuffle(orderPool(level, levels), rng).slice(0, level.customers).map(o => ({
     cat: byId[o.cation], an: byId[o.anion], fact: o.fact || null,
   }));
 }
