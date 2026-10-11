@@ -1,7 +1,7 @@
 {
   "map": {
     "width": 288,
-    "height": 544
+    "height": 688
   },
   "worlds": [
     {
@@ -13,8 +13,8 @@
       "accent": "#7bd05a",
       "icon": "molecule",
       "pin": [
-        64,
-        480
+        84,
+        592
       ],
       "badge": "Memory Master",
       "emblem": "cards",
@@ -31,8 +31,8 @@
       "accent": "#e8a33d",
       "icon": "atom",
       "pin": [
-        220,
-        408
+        204,
+        502
       ],
       "badge": "Orbital Ace",
       "emblem": "orbit",
@@ -49,8 +49,8 @@
       "accent": "#2dd4bf",
       "icon": "target",
       "pin": [
-        72,
-        336
+        84,
+        412
       ],
       "badge": "Table Topper",
       "emblem": "grid",
@@ -67,8 +67,8 @@
       "accent": "#a78bfa",
       "icon": "sparkle",
       "pin": [
-        212,
-        264
+        204,
+        322
       ],
       "badge": "Trend Jumper",
       "emblem": "arrow",
@@ -85,8 +85,8 @@
       "accent": "#8fd3ff",
       "icon": "electron",
       "pin": [
-        80,
-        192
+        84,
+        232
       ],
       "badge": "Bond Builder",
       "emblem": "bond",
@@ -103,8 +103,8 @@
       "accent": "#d4ff3a",
       "icon": "flask",
       "pin": [
-        208,
-        120
+        204,
+        142
       ],
       "badge": "Ion Chef",
       "emblem": "plus",
@@ -116,7 +116,8 @@
         3
       ],
       "callout": "3 shifts",
-      "tip": "Why do ionic compounds have zero net charge? Because the total positive charge cancels the total negative charge. Serve a few customers and see!"
+      "tip": "Why do ionic compounds have zero net charge? Because the total positive charge cancels the total negative charge. Serve a few customers and see!",
+      "calloutLift": 26
     }
   ]
 }

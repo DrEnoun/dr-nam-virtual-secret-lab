@@ -27,12 +27,12 @@ export function crisp(canvas, outline = '#231f20', alphaCut = 110) {
   return canvas;
 }
 
-// Desaturates and dims a drawn sprite (locked worlds look greyed out).
-export function greyscale(canvas, dim = 0.82) {
+// Dims and partly desaturates a drawn sprite so locked worlds look "not yet visited" but stay colourful.
+export function greyscale(canvas, dim = 0.84, amount = 0.6) {
   const ctx = canvas.getContext('2d'), img = ctx.getImageData(0, 0, canvas.width, canvas.height), d = img.data;
   for (let i = 0; i < d.length; i += 4) {
-    const y = (0.3 * d[i] + 0.59 * d[i + 1] + 0.11 * d[i + 2]) * dim + 14;
-    d[i] = y * 0.97 + 2; d[i + 1] = y; d[i + 2] = y * 1.04 + 2;
+    const y = 0.3 * d[i] + 0.59 * d[i + 1] + 0.11 * d[i + 2];
+    d[i] = (d[i] * (1 - amount) + y * amount) * dim; d[i + 1] = (d[i + 1] * (1 - amount) + y * amount) * dim; d[i + 2] = (d[i + 2] * (1 - amount) + y * amount) * dim + 6;
   }
   ctx.putImageData(img, 0, 0);
   return canvas;
@@ -40,7 +40,7 @@ export function greyscale(canvas, dim = 0.82) {
 
 // Shape helpers: fill, then stroke with a darker tone of the same colour for a cel-shaded edge.
 export function shapes(c) {
-  const edge = (fill, line) => { if (line !== false) { c.strokeStyle = typeof line === 'string' ? line : shade(fill.startsWith('#') ? fill : '#808080', 0.38); c.lineWidth = 0.9; c.stroke(); } };
+  const edge = (fill, line) => { if (line !== false) { c.strokeStyle = typeof line === 'string' ? line : (typeof fill === 'string' && fill.startsWith('#') ? shade(fill, 0.38) : 'rgba(10,20,30,.55)'); c.lineWidth = 0.9; c.stroke(); } };
   return {
     E(x, y, rx, ry, fill, line = true, rot = 0) { c.beginPath(); c.ellipse(x, y, rx, ry, rot, 0, Math.PI * 2); c.fillStyle = fill; c.fill(); edge(fill, line); },
     R(x, y, w, h, r, fill, line = true) { c.beginPath(); c.roundRect(x, y, w, h, r); c.fillStyle = fill; c.fill(); edge(fill, line); },
