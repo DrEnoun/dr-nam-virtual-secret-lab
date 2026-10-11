@@ -1,4 +1,4 @@
-// Chemistry Quest checks: every Diner Dash order has the right name and formula, the serve checker
+// ChemQuest checks: every Diner Dash order has the right name and formula, the serve checker
 // gives the right verdicts, and every avatar sprite row is the same width.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -88,4 +88,4 @@ for (const style of OPTIONS.hairStyle) for (const goggles of [true, false]) {
   const px = avatarPixels({ hairStyle: style, goggles });
   assert.ok(px.flat().every(c => c === null || /^#[0-9a-f]{6}$/.test(c)), `${style}: unknown sprite key`);
 }
-console.log(`Chemistry Quest data OK (${orders} orders, ${d.ions.length} ions)`);
+console.log(`ChemQuest data OK (${orders} orders, ${d.ions.length} ions)`);

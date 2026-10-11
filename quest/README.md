@@ -1,4 +1,4 @@
-# Chemistry Quest — Diner Dash prototype (World 6: Ion Diner)
+# DR NAM’s CHEMQUEST — Diner Dash prototype (World 6: Ion Diner)
 
 Open `quest/index.html` through any static server (for example `npm run serve`, then visit `/quest/`).
 

@@ -1,4 +1,4 @@
-// Chemistry Quest — World 6: Ion Diner (Diner Dash prototype).
+// DR NAM’s CHEMQUEST — World 6: Ion Diner (Diner Dash prototype).
 // Content lives in data/diner.json; rules in diner-logic.js; the avatar in avatar.js.
 import { sound } from '../../js/sound.js';
 import {

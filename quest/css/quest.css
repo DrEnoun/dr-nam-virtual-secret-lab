@@ -1,4 +1,4 @@
-/* Chemistry Quest — Playful style on the Dr. NAM tokens (../css/tokens.css). Mobile-first, portrait. */
+/* ChemQuest — Playful style on the Dr. NAM tokens (../css/tokens.css). Mobile-first, portrait. */
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; min-height: 100%; }
 body {
@@ -171,3 +171,4 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 /* ----- Toasts / scene extras ----- */
 @media (prefers-reduced-motion: reduce) { .float, .patience[data-low="true"] { animation: none; } * { transition: none !important; } }
 :root[data-theme="day"] .says__name { color: #0063ab; }
+.title .hl { background: var(--spark-400); color: var(--on-spark); padding: 0 8px; border-radius: 10px; border: 3px solid var(--sticker-ink); display: inline-block; transform: rotate(-1.5deg); }
