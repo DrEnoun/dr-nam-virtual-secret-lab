@@ -5,6 +5,7 @@ import { drawAvatar } from './avatar.js';
 import { walkPath } from './progress.js';
 import { pxCanvas, crisp, lightPass, greyscale, shapes, shade, tint, mix } from './pxart.js';
 import * as SC from './scenery.js';
+import { MONSTERS, monsterSprite } from './monsters.js';
 
 const A = SC.A;                         // art pixels per map unit
 const IW = 164, IH = 140, CX = 82, CY = 66, RX = 60, RY = 27, CLIFF = 22;   // island sprite box and shape
@@ -137,14 +138,14 @@ function pinSprite(w, st) {
   return (pinCache[key] = cv);
 }
 
-export function createOverworld({ canvas, pinsEl, worlds, map, getState, getAvatar, onSelect }) {
+export function createOverworld({ canvas, pinsEl, worlds, map, getState, getAvatar, onSelect, onMonster = () => {} }) {
   const ctx = canvas.getContext('2d');
   const W = map.width * A, H = map.height * A;
   canvas.width = W; canvas.height = H;
   canvas.style.aspectRatio = `${map.width} / ${map.height}`;
   const layer = pxCanvas(W, H), lctx = layer.getContext('2d');
   const byId = Object.fromEntries(worlds.map(w => [w.id, w]));
-  let cur = 1, walk = null, hero = { x: 0, y: 0 }, effects = [];
+  let cur = 1, walk = null, hero = { x: 0, y: 0 }, effects = [], bridgeAt = [];
   const heroSpot = w => ({ x: w.pin[0] - 46, y: w.pin[1] + 16 });          // feet position, left of the pin
 
   // ----- static backdrop: deep water, turquoise shallows round each island, cloud banks at the edges -----
@@ -175,11 +176,13 @@ export function createOverworld({ canvas, pinsEl, worlds, map, getState, getAvat
       c.save(); c.translate(s.x, s.y); c.rotate(ang); c.fillStyle = i % 2 ? '#b07a43' : '#c8925a'; c.strokeStyle = '#4a2f17'; c.lineWidth = 0.9; c.fillRect(-1.8, -7.6, 3.6, 15.2); c.strokeRect(-1.8, -7.6, 3.6, 15.2); c.restore();
     }
     for (const t of [0, 1]) for (const side of [-1, 1]) { const s = at(t, side); c.fillStyle = '#6b4226'; c.strokeStyle = '#14202e'; c.lineWidth = 0.9; c.fillRect(s.x - 1.6, s.y - 10, 3.2, 12); c.strokeRect(s.x - 1.6, s.y - 10, 3.2, 12); c.fillStyle = open ? '#d4ff3a' : '#c8925a'; c.fillRect(s.x - 2, s.y - 11.4, 4, 2); }
+    return at;
   }
   function drawLayer() {
     const states = getState();
     lctx.setTransform(1, 0, 0, 1, 0, 0); lctx.clearRect(0, 0, W, H); lctx.scale(A, A);
-    for (let i = 0; i < worlds.length - 1; i++) bridge(lctx, worlds[i], worlds[i + 1], states[i].unlocked && states[i + 1].unlocked);
+    bridgeAt = [];
+    for (let i = 0; i < worlds.length - 1; i++) bridgeAt.push(bridge(lctx, worlds[i], worlds[i + 1], states[i].unlocked && states[i + 1].unlocked));
     effects = [];
     [...worlds].sort((a, b) => a.pin[1] - b.pin[1]).forEach(w => {
       const art = islandArt(w, !states[w.id - 1].unlocked);
@@ -230,29 +233,77 @@ export function createOverworld({ canvas, pinsEl, worlds, map, getState, getAvat
     hero = { x: a.x + (b.x - a.x) * walk.t, y: a.y + (b.y - a.y) * walk.t };
   }
 
-  // ----- per-frame animation -----
+  // ----- per-frame animation: water, glow, sparkles and roaming monsters -----
+  const calm = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
   const sparks = Array.from({ length: 60 }, (_, i) => [hash(i, 1) * map.width, hash(i, 2) * map.height, hash(i, 3)]);
   const boats = [{ x: 252, y: 588, ph: 0 }, { x: 246, y: 404, ph: 2 }, { x: 40, y: 294, ph: 4 }];
   const birds = [[0.0, 120, 0.7], [0.4, 450, 0.5], [0.7, 280, 0.6]];
-  const glowAt = (x, y, r, rgb, a) => { const g = ctx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, `rgba(${rgb},${a})`); g.addColorStop(1, `rgba(${rgb},0)`); ctx.fillStyle = g; ctx.fillRect(x - r, y - r, r * 2, r * 2); };
+  const rgbOf = hex => { const n = parseInt(hex.slice(1), 16); return `${(n >> 16) & 255},${(n >> 8) & 255},${n & 255}`; };
+
+  // soft light sprites, drawn with additive blending so they really glow
+  const glowCache = {};
+  const glowSprite = rgb => (glowCache[rgb] ??= (() => {
+    const cv = pxCanvas(64, 64), c = cv.getContext('2d'), g = c.createRadialGradient(32, 32, 0, 32, 32, 32);
+    g.addColorStop(0, `rgba(${rgb},1)`); g.addColorStop(0.35, `rgba(${rgb},.45)`); g.addColorStop(1, `rgba(${rgb},0)`);
+    c.fillStyle = g; c.fillRect(0, 0, 64, 64); return cv;
+  })());
+  const glowAt = (x, y, r, rgb, a) => { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = Math.min(1, a); ctx.drawImage(glowSprite(rgb), x - r, y - r, r * 2, r * 2); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; };
+  const star = (x, y, r, rgb, a, rot = 0) => {
+    glowAt(x, y, r * 2.6, rgb, a * 0.55);
+    ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = Math.min(1, a); ctx.fillStyle = `rgb(${rgb})`; ctx.translate(x, y); ctx.rotate(rot); ctx.beginPath();
+    for (let i = 0; i < 8; i++) { const rr = i % 2 ? r * 0.26 : r, an = (i * Math.PI) / 4; ctx.lineTo(Math.cos(an) * rr, Math.sin(an) * rr); }
+    ctx.closePath(); ctx.fill(); ctx.restore();
+  };
+
+  // twinkling stars across the whole map
+  const TW = ['255,255,255', '255,236,170', '170,255,240', '255,190,230'];
+  const twinkles = Array.from({ length: 70 }, (_, i) => ({ x: hash(i, 21) * map.width, y: hash(i, 22) * map.height, ph: hash(i, 23) * 6.28, sp: 1.2 + hash(i, 24) * 2.4, r: 1.8 + hash(i, 25) * 3.4, c: TW[i % 4] }));
+
+  // monsters: friendly molecules that wander the map; tap one to meet it
+  const monsters = MONSTERS.map((def, i) => ({ def, x: 44 + hash(i, 31) * 200, y: 90 + i * 100, tx: 0, ty: 0, v: 7 + hash(i, 32) * 6, dir: 1, ph: hash(i, 33) * 6.28, hop: 0 }));
+  const pickTarget = m => { m.tx = 24 + Math.random() * 240; m.ty = 50 + Math.random() * (map.height - 100); };
+  monsters.forEach(pickTarget);
+  const parts = [];
+  const burst = (x, y, n = 16) => { for (let i = 0; i < n; i++) { const a = (i / n) * 6.283 + Math.random(), sp = 18 + Math.random() * 30; parts.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 10, life: 0, max: 0.8 + Math.random() * 0.5, r: 1.6 + Math.random() * 2.4, c: TW[Math.floor(Math.random() * 4)] }); } };
+  let dustT = 0;
+  function roam(dt) {
+    if (calm) return;
+    for (const m of monsters) {
+      const dx = m.tx - m.x, dy = m.ty - m.y, d = Math.hypot(dx, dy);
+      if (d < 4) pickTarget(m); else { m.x += (dx / d) * m.v * dt; m.y += (dy / d) * m.v * dt; if (Math.abs(dx) > 1) m.dir = dx > 0 ? 1 : -1; }
+      if (m.hop > 0) m.hop = Math.max(0, m.hop - dt);
+      if (Math.random() < dt * 1.6) parts.push({ x: m.x + (Math.random() - 0.5) * 24, y: m.y + 8 + Math.random() * 10, vx: (Math.random() - 0.5) * 6, vy: -6 - Math.random() * 8, life: 0, max: 0.9, r: 1.4 + Math.random() * 1.6, c: '170,255,240' });
+    }
+    dustT += dt;
+    if (walk && dustT > 0.04) { dustT = 0; parts.push({ x: hero.x + (Math.random() - 0.5) * 12, y: hero.y - 2 - Math.random() * 6, vx: (Math.random() - 0.5) * 10, vy: -8 - Math.random() * 10, life: 0, max: 0.9, r: 1.6 + Math.random() * 2, c: Math.random() < 0.5 ? '212,255,58' : '255,255,255' }); }
+    for (const q of parts) { q.life += dt; q.x += q.vx * dt; q.y += q.vy * dt; q.vy += 14 * dt; }
+    for (let i = parts.length - 1; i >= 0; i--) if (parts[i].life >= parts[i].max) parts.splice(i, 1);
+  }
+  canvas.addEventListener('click', e => {
+    const r = canvas.getBoundingClientRect(), x = ((e.clientX - r.left) / r.width) * map.width, y = ((e.clientY - r.top) / r.height) * map.height;
+    let best = null, bd = 24;
+    for (const m of monsters) { const d = Math.hypot(m.x - x, m.y - y); if (d < bd) { bd = d; best = m; } }
+    if (best) { best.hop = 0.7; burst(best.x, best.y); onMonster(best.def); }
+  });
 
   function fx(t) {
     for (const e of effects) {
       if (e.type === 'fall') {
         ctx.fillStyle = 'rgba(255,255,255,.85)'; for (let i = 0; i < 4; i++) ctx.fillRect(e.x + 1.6 + i * 2.6, e.y + ((t * 34 + i * 7) % e.h), 1.1, 5);
         ctx.fillStyle = `rgba(235,252,255,${0.45 + 0.2 * Math.sin(t * 5)})`; ctx.beginPath(); ctx.ellipse(e.x + e.w / 2, e.y + e.h, 9, 3, 0, 0, 7); ctx.fill();
+        glowAt(e.x + e.w / 2, e.y + e.h, 16, '150,235,255', 0.3 + 0.12 * Math.sin(t * 3));
       } else if (e.type === 'smoke') {
         for (let i = 0; i < 4; i++) { const ph = (t * 0.45 + i / 4) % 1; ctx.fillStyle = `rgba(238,246,255,${0.6 * (1 - ph)})`; ctx.beginPath(); ctx.arc(e.x + Math.sin(ph * 7 + i) * 2 + ph * 6, e.y - ph * 20, 1.6 + ph * 3.2, 0, 7); ctx.fill(); }
       } else if (e.type === 'window') {
-        glowAt(e.x + e.w / 2, e.y + e.h / 2, 12, '255,214,120', 0.22 + 0.1 * Math.sin(t * 3 + e.x));
+        glowAt(e.x + e.w / 2, e.y + e.h / 2, 18, '255,206,110', 0.32 + 0.12 * Math.sin(t * 3 + e.x));
       } else if (e.type === 'orb') {
-        const oy = e.y - 22; glowAt(e.x, e.y, 14, '94,234,212', 0.4 + 0.2 * Math.sin(t * 3));
-        ctx.lineWidth = 0.9; [0, 1.047, 2.094].forEach((rot, i) => { ctx.strokeStyle = 'rgba(94,234,212,.85)'; ctx.beginPath(); ctx.ellipse(e.x, oy, 17, 5.6, rot, 0, 7); ctx.stroke(); const a = t * 2.2 + i * 2.1; const ex = Math.cos(a) * 17, ey = Math.sin(a) * 5.6; ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(e.x + ex * Math.cos(rot) - ey * Math.sin(rot), oy + ex * Math.sin(rot) + ey * Math.cos(rot), 1.7, 0, 7); ctx.fill(); });
-        ctx.fillStyle = '#d4ff3a'; ctx.beginPath(); ctx.arc(e.x, oy, 2.4, 0, 7); ctx.fill();
+        const oy = e.y - 22; glowAt(e.x, e.y, 26, '94,234,212', 0.75 + 0.25 * Math.sin(t * 3));
+        ctx.lineWidth = 0.9; [0, 1.047, 2.094].forEach((rot, i) => { ctx.strokeStyle = 'rgba(94,234,212,.9)'; ctx.beginPath(); ctx.ellipse(e.x, oy, 17, 5.6, rot, 0, 7); ctx.stroke(); const a = t * 2.2 + i * 2.1; const ex = Math.cos(a) * 17, ey = Math.sin(a) * 5.6; const px = e.x + ex * Math.cos(rot) - ey * Math.sin(rot), py = oy + ex * Math.sin(rot) + ey * Math.cos(rot); glowAt(px, py, 7, '255,255,255', 0.9); ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(px, py, 1.7, 0, 7); ctx.fill(); });
+        glowAt(e.x, oy, 14, '212,255,58', 0.8); ctx.fillStyle = '#d4ff3a'; ctx.beginPath(); ctx.arc(e.x, oy, 2.4, 0, 7); ctx.fill();
       } else if (e.type === 'neon') {
-        const flick = Math.sin(t * 2.3) > 0.94 ? 0.08 : 0.3 + 0.1 * Math.sin(t * 9); glowAt(e.x + e.w / 2, e.y + e.h / 2, 38, '212,255,58', flick);
+        const flick = Math.sin(t * 2.3) > 0.94 ? 0.12 : 0.55 + 0.15 * Math.sin(t * 9); glowAt(e.x + e.w / 2, e.y + e.h / 2, 46, '212,255,58', flick * 0.7);
       } else if (e.type === 'glow') {
-        glowAt(e.x, e.y, 20, e.c, 0.38 + 0.2 * Math.sin(t * 2.4 + e.x));
+        glowAt(e.x, e.y, 28, e.c, 0.6 + 0.25 * Math.sin(t * 2.4 + e.x));
       } else if (e.type === 'snow') {
         ctx.fillStyle = 'rgba(255,255,255,.9)'; for (let i = 0; i < 26; i++) { const x = e.x + ((hash(i, 5) * e.w + Math.sin(t + i) * 4 + e.w) % e.w), y = e.y + ((hash(i, 6) * e.h + t * (10 + hash(i, 7) * 8)) % e.h); ctx.fillRect(x, y, 1.4, 1.4); }
       }
@@ -266,20 +317,43 @@ export function createOverworld({ canvas, pinsEl, worlds, map, getState, getAvat
     for (let y = 12; y < map.height; y += 24) { ctx.beginPath(); for (let x = 0; x <= map.width; x += 8) { const yy = y + Math.sin(x * 0.07 + t * 1.2 + y) * 2; x ? ctx.lineTo(x, yy) : ctx.moveTo(x, yy); } ctx.stroke(); }
     for (const [x, y, ph] of sparks) if (Math.floor(t * 1.4 + ph * 6) % 3 === 0) { ctx.fillStyle = '#9ceaff'; ctx.fillRect(x, y, 3, 1); }
     const states = getState(), pulse = 0.5 + 0.5 * Math.sin(t * 1.6);
-    for (const w of worlds) {      // foam ring + soft shadow on the water
+    for (const w of worlds) {      // foam ring, soft shadow, and a coloured glow round every world you can visit
       ctx.fillStyle = 'rgba(2,14,32,.3)'; ctx.beginPath(); ctx.ellipse(w.pin[0] + 5, w.pin[1] + RY + CLIFF - 4, RX + 2, RY * 0.8, 0, 0, 7); ctx.fill();
+      if (states[w.id - 1].unlocked) glowAt(w.pin[0], w.pin[1] + 14, 104, rgbOf(w.accent), 0.2 + 0.1 * pulse);
       ctx.strokeStyle = `rgba(232,251,255,${0.3 + 0.2 * pulse})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(w.pin[0], w.pin[1] + CLIFF + 2, RX + 6 + pulse * 2, RY + 5 + pulse, 0, 0, 7); ctx.stroke();
     }
     boats.forEach(b => { const s = SC_BOAT(); ctx.drawImage(s, Math.round(b.x - 22), Math.round(b.y - 30 + Math.sin(t * 1.4 + b.ph) * 2), s.lw, s.lh); });
     ctx.drawImage(layer, 0, 0, map.width, map.height);
+    // lights of energy running along the open bridges
+    bridgeAt.forEach((at, i) => { if (!(states[i].unlocked && states[i + 1].unlocked)) return; for (let k = 0; k < 3; k++) { const q = at(((t * 0.22 + k / 3) % 1)); star(q.x, q.y - 6, 3, '212,255,58', 0.9, t); } });
     fx(t);
+    const w5 = byId[5];             // aurora ribbons over the glacier
+    if (w5) for (let k = 0; k < 3; k++) {
+      ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.lineWidth = 7; ctx.lineCap = 'round'; ctx.strokeStyle = `rgba(${['120,255,190', '190,150,255', '120,220,255'][k]},${states[4].unlocked ? 0.2 : 0.1})`; ctx.beginPath();
+      for (let x = -56; x <= 56; x += 4) { const y = w5.pin[1] - 62 + k * 9 + Math.sin(x * 0.07 + t * 0.9 + k * 1.7) * 8; x === -56 ? ctx.moveTo(w5.pin[0] + x, y) : ctx.lineTo(w5.pin[0] + x, y); }
+      ctx.stroke(); ctx.restore();
+    }
     const bob = Math.round(Math.sin(t * 4) * 2);
     for (const w of worlds) {
-      const st = states[w.id - 1], s = pinSprite(w, st);
-      ctx.drawImage(s, w.pin[0] - 22, w.pin[1] - 42 - (st.unlocked && w.id === cur && !walk ? Math.abs(bob) : 0), 44, 54);
+      const st = states[w.id - 1], rgb = rgbOf(w.accent), here = st.unlocked && w.id === cur && !walk;
+      if (st.unlocked) glowAt(w.pin[0], w.pin[1] - 20, here ? 46 : 32, rgb, here ? 0.7 + 0.2 * Math.sin(t * 3) : 0.35);
+      if (here) { ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.translate(w.pin[0], w.pin[1] - 22); ctx.rotate(t * 0.35); ctx.fillStyle = `rgba(${rgb},.13)`; for (let i = 0; i < 8; i++) { ctx.rotate(Math.PI / 4); ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-4, -50); ctx.lineTo(4, -50); ctx.fill(); } ctx.restore(); }
+      const s = pinSprite(w, st);
+      ctx.drawImage(s, w.pin[0] - 22, w.pin[1] - 42 - (here ? Math.abs(bob) : 0), 44, 54);
+      if (st.unlocked) for (let k = 0; k < 3; k++) { const a = t * 1.3 + k * 2.1 + w.id; star(w.pin[0] + Math.cos(a) * 26, w.pin[1] - 22 + Math.sin(a) * 12, 2.6, k % 2 ? '255,236,170' : rgb, 0.8 + 0.2 * Math.sin(t * 5 + k), a); }
+    }
+    // monsters, then the hero
+    for (const m of monsters) {
+      const sp = monsterSprite(m.def.id), up = m.hop > 0 ? Math.sin((1 - m.hop / 0.7) * Math.PI) * 16 : 0;
+      const by = Math.sin(t * 2.2 + m.ph) * 3 - up, sq = 1 + Math.sin(t * 4.4 + m.ph) * 0.05;
+      glowAt(m.x, m.y + by, 34, '120,255,230', 0.34);
+      ctx.fillStyle = 'rgba(2,14,32,.26)'; ctx.beginPath(); ctx.ellipse(m.x + 3, m.y + 22, 14 - up * 0.3, 4, 0, 0, 7); ctx.fill();
+      ctx.save(); ctx.translate(m.x, m.y + by); ctx.scale(m.dir * sq, 1 / sq); ctx.rotate(Math.sin(t * 1.8 + m.ph) * 0.07 * m.dir); ctx.drawImage(sp, -sp.lw / 2, -sp.lh / 2, sp.lw, sp.lh); ctx.restore();
     }
     ctx.fillStyle = 'rgba(0,0,0,.32)'; ctx.beginPath(); ctx.ellipse(Math.round(hero.x), Math.round(hero.y) + 1, 11, 3.2, 0, 0, 7); ctx.fill();
     drawAvatar(ctx, getAvatar(), hero.x - 16, hero.y - 41 - (walk ? Math.abs(Math.round(Math.sin(t * 14) * 2)) : 0), 1);
+    for (const q of parts) { const k = 1 - q.life / q.max; star(q.x, q.y, q.r * (0.5 + k), q.c, k, q.life * 4); }
+    if (!calm) for (const tw of twinkles) { const k = Math.max(0, Math.sin(t * tw.sp + tw.ph)); if (k > 0.05) star(tw.x, tw.y, tw.r * k, tw.c, k * 0.9, Math.PI / 4 * k); }
     ctx.strokeStyle = 'rgba(255,255,255,.75)'; ctx.lineWidth = 1.1; ctx.lineCap = 'round';
     birds.forEach(([x0, y, sp], i) => { const x = ((x0 * map.width + t * 14 * sp) % (map.width + 30)) - 15, f = Math.sin(t * 7 + i) * 2; ctx.beginPath(); ctx.moveTo(x - 4, y + f); ctx.lineTo(x, y + 2); ctx.lineTo(x + 4, y + f); ctx.stroke(); });
   }
@@ -289,7 +363,7 @@ export function createOverworld({ canvas, pinsEl, worlds, map, getState, getAvat
   function frame(now) {
     if (!running) return;
     const dt = Math.min(0.1, (now - last) / 1000); last = now; acc += dt;
-    update(dt);
+    update(dt); roam(dt);
     if (acc >= 1 / 24 || walk) { draw(now / 1000); acc = 0; }
     raf = requestAnimationFrame(frame);
   }

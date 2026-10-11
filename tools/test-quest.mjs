@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import { formulaOf, checkServe, buildOrders, buildTray, orderName, starsFor, tipFor } from '../quest/js/diner-logic.js';
 import { worldProgress, worldStates, walkPath } from '../quest/js/progress.js';
 import { EMBLEMS } from '../quest/js/badges.js';
+import { MONSTERS, GEOMETRY, ATOM } from '../quest/js/monsters.js';
 import { OPTIONS, DEFAULT_AVATAR, randomAvatar, WIDTH, HEIGHT } from '../quest/js/avatar.js';
 
 const d = JSON.parse(readFileSync('quest/data/diner.json', 'utf8'));
@@ -121,5 +122,14 @@ assert.deepEqual(worldStates(fake, {}).map(s => s.unlocked), [true, false, false
 assert.deepEqual(worldStates(fake, { 1: 1 }).map(s => s.unlocked), [true, true, false]);
 assert.deepEqual(walkPath(1, 4), [1, 2, 3, 4]);
 assert.deepEqual(walkPath(6, 5), [6, 5]);
+
+// Molecule monsters: each one is a real molecule with a correct, British-spelt fact; geometry matches the chemistry
+assert.equal(new Set(MONSTERS.map(m => m.id)).size, MONSTERS.length);
+for (const m of MONSTERS) { assert.ok(m.name && m.fact.length > 40, `${m.id}: needs a name and a fact`); assert.ok(!/color|center|polariz/i.test(m.fact), `${m.id}: use British spelling`); }
+assert.deepEqual(GEOMETRY, { water: 104.5, co2: 180, nh3: 107, ch4: 109.5 });
+assert.match(MONSTERS.find(m => m.id === 'water').fact, /104\.5/); assert.match(MONSTERS.find(m => m.id === 'co2').fact, /180/);
+assert.match(MONSTERS.find(m => m.id === 'nh3').fact, /107/); assert.match(MONSTERS.find(m => m.id === 'ch4').fact, /109\.5/);
+for (const a of ['H', 'O', 'C', 'N', 'Na', 'Cl']) assert.ok(ATOM[a].r > 0 && /^#[0-9a-f]{6}$/i.test(ATOM[a].col));
+assert.ok(ATOM.Cl.r > ATOM.Na.r, 'Cl⁻ is larger than Na⁺');
 
 console.log(`ChemQuest data OK (${orders} orders, ${d.ions.length} ions)`);
