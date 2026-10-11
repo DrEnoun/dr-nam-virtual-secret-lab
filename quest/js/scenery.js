@@ -1,15 +1,16 @@
 // Scenery sprites for the overworld: trees, houses, temples, castles, crystals, a diner... Each is drawn at 2x, then crisped
 // into hard pixels with an outline. A sprite can carry "anchors" (smoke points, window lights, glyph orbs) for animation.
-import { pxCanvas, crisp, shapes, shade, tint, mix } from './pxart.js';
+import { pxCanvas, crisp, lightPass, shapes, shade, tint, mix } from './pxart.js';
 
-export const A = 2;           // art pixels per map unit
+export const A = 3;           // art pixels per map unit
 const OUT = '#10202e';
 
 export function make(w, h, fn, outline = OUT) {
   const cv = pxCanvas(w * A, h * A), c = cv.getContext('2d');
   c.scale(A, A);
   const anchors = fn(c, shapes(c)) || {};
-  crisp(cv, outline);
+  lightPass(c, w, h);
+  crisp(cv, outline, 110, 2);
   cv.anchors = anchors; cv.lw = w; cv.lh = h;
   return cv;
 }
@@ -17,7 +18,14 @@ const lin = (c, x0, y0, x1, y1, ...stops) => { const g = c.createLinearGradient(
 const lines = (c, col, lw, pts) => { c.strokeStyle = col; c.lineWidth = lw; c.beginPath(); pts.forEach(([x0, y0, x1, y1]) => { c.moveTo(x0, y0); c.lineTo(x1, y1); }); c.stroke(); };
 
 // ---------- plants ----------
-export const roundTree = (pal = ['#2c8a45', '#3fae5a', '#76d98d']) => make(32, 38, (c, { R, E }) => {
+export const TREES = {
+  green:   ['#2c8a45', '#3fae5a', '#76d98d'],
+  teal:    ['#1f8a6a', '#34b58a', '#7be6bd'],
+  blossom: ['#d9548f', '#f07fb0', '#ffc2dc'],
+  autumn:  ['#c8641e', '#f09a2e', '#ffd070'],
+  lime:    ['#5aa820', '#86d338', '#c4f56c'],
+};
+export const roundTree = (pal = TREES.green) => make(32, 38, (c, { R, E }) => {
   R(14, 25, 4.4, 12, 1.6, '#6b4226'); R(16.4, 25, 2, 12, 1, '#4f301a', false);
   E(16, 20, 14, 11, pal[0]); E(9, 21, 8.4, 7.4, pal[1]); E(23, 21, 8.4, 7.4, pal[1]); E(16, 13.4, 11, 9.4, pal[1]);
   E(12.4, 10, 5.4, 4.4, pal[2], false); E(21, 15, 3.4, 2.6, pal[2], false); E(8, 19, 2.6, 2, pal[2], false);

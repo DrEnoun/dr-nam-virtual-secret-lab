@@ -2,7 +2,7 @@
 // No DOM access at import time, so this file can be imported in Node tests.
 import { crisp, shade, tint } from './pxart.js';
 
-export const BADGE_W = 44, BADGE_H = 52;
+export const BADGE_W = 44, BADGE_H = 52, BADGE_SS = 3;   // drawn at 3x for the finer look
 
 // Each emblem is a small bitmap ('#' = pixel). Keys match "emblem" in data/worlds.json.
 export const EMBLEMS = {
@@ -16,6 +16,7 @@ export const EMBLEMS = {
 
 export function drawBadge(canvas, emblem, accent, earned) {
   const c = canvas.getContext('2d');
+  c.setTransform(canvas.width / BADGE_W, 0, 0, canvas.height / BADGE_H, 0, 0);
   c.clearRect(0, 0, BADGE_W, BADGE_H);
   const rim = earned ? accent : '#8794a2', body = earned ? shade(accent, 0.5) : '#3a4654', glow = earned ? shade(accent, 0.28) : '#566473';
   const shield = (inset) => {
@@ -40,5 +41,5 @@ export function drawBadge(canvas, emblem, accent, earned) {
   bits.forEach((row, j) => [...row].forEach((ch, i) => { if (ch === '#') c.fillRect(ox + i * px + 1, oy + j * px + 1, px, px); }));
   c.fillStyle = earned ? '#ffffff' : '#a9b4c0';
   bits.forEach((row, j) => [...row].forEach((ch, i) => { if (ch === '#') c.fillRect(ox + i * px, oy + j * px, px, px); }));
-  crisp(canvas, '#14202e');
+  crisp(canvas, '#14202e', 110, 2);
 }

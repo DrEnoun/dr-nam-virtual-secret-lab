@@ -3,7 +3,7 @@
 // smoke, lit windows, an orbiting atom, snow, neon and boats.
 import { drawAvatar } from './avatar.js';
 import { walkPath } from './progress.js';
-import { pxCanvas, crisp, greyscale, shapes, shade, tint, mix } from './pxart.js';
+import { pxCanvas, crisp, lightPass, greyscale, shapes, shade, tint, mix } from './pxart.js';
 import * as SC from './scenery.js';
 
 const A = SC.A;                         // art pixels per map unit
@@ -25,15 +25,15 @@ const lin = (c, x0, y0, x1, y1, ...stops) => { const g = c.createLinearGradient(
 
 // Scenery per island: [sprite, dx, dy] from the island centre, bottom-centre anchored. Painted back to front.
 const SCENERY = {
-  meadow: [['roundTree', -50, 2], ['pine', -40, 10], ['roundTree', -27, -4], ['cottage', 34, 2], ['bush', -30, 14], ['fence', 46, 15], ['roundTree', 54, 12], ['bush', 12, 19], ['rocks', -4, 21]],
-  ruins:  [['palm', -50, 4], ['palm', -39, 12], ['palm', -54, 15], ['ziggurat', 30, 4], ['pillar', -22, 12], ['bush', 2, 19], ['rocks', 54, 18]],
-  falls:  [['roundTree', -50, 4], ['pine', -40, 12], ['wall', 32, 5], ['roundTree', 54, 13], ['bush', -28, 17], ['rocks', 8, 21]],
+  meadow: [['roundTree', -50, 2], ['pine', -40, 10], ['blossom', -27, -4], ['cottage', 34, 2], ['bushB', -30, 14], ['fence', 46, 15], ['limeTree', 54, 12], ['bushB', 12, 19], ['rocks', -4, 21], ['blossom', -56, 15]],
+  ruins:  [['palm', -50, 4], ['palm', -39, 12], ['palm', -54, 15], ['ziggurat', 30, 4], ['pillar', -22, 12], ['autumn', 4, 19], ['rocks', 54, 18]],
+  falls:  [['tealTree', -50, 4], ['pine', -40, 12], ['wall', 32, 5], ['tealTree', 54, 13], ['bushB', -28, 17], ['rocks', 8, 21], ['blossom', -58, 16]],
   peaks:  [['mtn', -34, 6], ['mtnS', -14, 16], ['castle', 36, 4], ['pine', -54, 14], ['rocks', 54, 16]],
   glacier:[['crystal', -36, 6], ['snowPine', -52, 12], ['crystalS', -14, 18], ['iceHall', 33, 4], ['snowPine', 55, 13], ['snowPine', -46, 17]],
   diner:  [['pylonP', -46, 8], ['pylonM', -34, 15], ['diner', 33, 3], ['lamp', -12, 20], ['lamp', 58, 14], ['crystalS', 8, 22]],
 };
 const MAKE = {
-  roundTree: () => SC.roundTree(), pine: () => SC.pine(false), snowPine: () => SC.pine(true), palm: SC.palm, bush: () => SC.bush(), rocks: () => SC.rocks(),
+  roundTree: () => SC.roundTree(), blossom: () => SC.roundTree(SC.TREES.blossom), tealTree: () => SC.roundTree(SC.TREES.teal), limeTree: () => SC.roundTree(SC.TREES.lime), autumn: () => SC.roundTree(SC.TREES.autumn), bushB: () => SC.bush(['#2f9a8a', '#52d1b8']), pine: () => SC.pine(false), snowPine: () => SC.pine(true), palm: SC.palm, bush: () => SC.bush(), rocks: () => SC.rocks(),
   fence: SC.fence, cottage: SC.cottage, ziggurat: SC.ziggurat, pillar: SC.pillar, wall: SC.tableWall, castle: SC.castle,
   mtn: () => SC.mountain(64, 54), mtnS: () => SC.mountain(40, 34), crystal: SC.crystal, crystalS: () => SC.crystalS(), iceHall: SC.iceHall,
   diner: SC.diner, lamp: SC.lamp, pylonP: () => SC.pylon('+'), pylonM: () => SC.pylon('−'),
@@ -100,7 +100,8 @@ function islandArt(w, locked) {
   });
   for (const [name, dx, dy] of SCENERY[w.biome]) {
     const s = sprite(name);
-    c.drawImage(s, Math.round(CX + dx - s.lw / 2), Math.round(CY + dy - s.lh), s.lw, s.lh);
+    c.fillStyle = 'rgba(8,40,36,.28)'; c.beginPath(); c.ellipse(CX + dx + 1, CY + dy - 0.5, s.lw * 0.42, Math.max(2.4, s.lw * 0.1), 0, 0, 7); c.fill();
+    c.drawImage(s, CX + dx - s.lw / 2, CY + dy - s.lh, s.lw, s.lh);
     const sx = CX + dx - s.lw / 2 + ox, sy = CY + dy - s.lh + oy, an = s.anchors || {};
     if (an.smoke) effects.push({ type: 'smoke', x: sx + an.smoke[0], y: sy + an.smoke[1] });
     if (an.steam) effects.push({ type: 'smoke', x: sx + an.steam[0], y: sy + an.steam[1] });
@@ -110,8 +111,9 @@ function islandArt(w, locked) {
     if (an.glow) effects.push({ type: 'glow', x: sx + an.glow[0], y: sy + an.glow[1], c: w.biome === 'glacier' ? '143,245,255' : w.biome === 'diner' && name !== 'lamp' ? '94,234,212' : '255,240,170' });
   }
   if (w.biome === 'glacier') effects.push({ type: 'snow', x: ox + CX - RX, y: oy + CY - 54, w: RX * 2, h: 90 });
-  crisp(cv, OUT);
-  if (locked) greyscale(cv, 0.86, 0.55);
+  lightPass(c, IW, IH, 0.2, 0.3);
+  crisp(cv, OUT, 110, 2);
+  if (locked) greyscale(cv, 0.92, 0.36);
   return (islandCache[key] = { cv, effects: locked ? [] : effects });
 }
 
@@ -120,8 +122,8 @@ const pinCache = {};
 function pinSprite(w, st) {
   const key = `${w.id}-${st.unlocked}-${st.earned}`;
   if (pinCache[key]) return pinCache[key];
-  const cv = pxCanvas(44 * 2, 54 * 2), c = cv.getContext('2d'), { P } = shapes(c);
-  c.scale(2, 2);
+  const cv = pxCanvas(44 * A, 54 * A), c = cv.getContext('2d'), { P } = shapes(c);
+  c.scale(A, A);
   const col = st.unlocked ? w.accent : '#8a97a5';
   c.fillStyle = col; c.beginPath(); c.arc(22, 19, 16.5, 0, Math.PI * 2); c.fill();
   P([[9.6, 29], [22, 51], [34.4, 29]], col, false);
@@ -131,7 +133,7 @@ function pinSprite(w, st) {
   c.fillStyle = st.unlocked ? '#14202e' : '#4a5663'; c.font = '800 19px "League Spartan", sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(String(w.id), 22, 20.4);
   if (!st.unlocked) { c.fillStyle = '#eef3f8'; c.beginPath(); c.roundRect(32, 3, 11, 9, 2); c.fill(); c.strokeStyle = '#eef3f8'; c.lineWidth = 1.8; c.beginPath(); c.arc(37.5, 2.6, 3.2, Math.PI, 0); c.stroke(); }
   if (st.earned) P([[38, 3], [39.8, 7.6], [44, 7.8], [40.6, 10.6], [41.8, 15], [38, 12.4], [34.2, 15], [35.4, 10.6], [32, 7.8], [36.2, 7.6]], '#d4ff3a', '#6f7f00');
-  crisp(cv, '#14202e');
+  crisp(cv, '#14202e', 110, 2);
   return (pinCache[key] = cv);
 }
 
@@ -147,11 +149,15 @@ export function createOverworld({ canvas, pinsEl, worlds, map, getState, getAvat
 
   // ----- static backdrop: deep water, turquoise shallows round each island, cloud banks at the edges -----
   const water = pxCanvas(W, H), wc = water.getContext('2d'); wc.scale(A, A);
-  wc.fillStyle = lin(wc, 0, 0, 0, map.height, [0, '#0f5a8a'], [0.5, '#0a4373'], [1, '#07274c']); wc.fillRect(0, 0, map.width, map.height);
-  worlds.forEach(w => { const g = wc.createRadialGradient(w.pin[0], w.pin[1] + 18, 20, w.pin[0], w.pin[1] + 18, 112); g.addColorStop(0, 'rgba(45,212,191,.5)'); g.addColorStop(.6, 'rgba(45,212,191,.14)'); g.addColorStop(1, 'rgba(45,212,191,0)'); wc.fillStyle = g; wc.fillRect(w.pin[0] - 120, w.pin[1] - 110, 240, 260); });
+  wc.fillStyle = lin(wc, 0, 0, 0, map.height, [0, '#2a7fc4'], [0.18, '#1a8fc0'], [0.42, '#0f86ad'], [0.7, '#0a5a8c'], [1, '#07305d']); wc.fillRect(0, 0, map.width, map.height);
+  const haze = (x, y, r, rgba) => { const g = wc.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, rgba); g.addColorStop(1, rgba.replace(/[\d.]+\)$/, '0)')); wc.fillStyle = g; wc.fillRect(x - r, y - r, r * 2, r * 2); };
+  haze(30, 40, 170, 'rgba(150,100,255,.30)'); haze(270, 20, 150, 'rgba(255,170,110,.22)'); haze(250, 380, 150, 'rgba(60,220,200,.22)'); haze(30, 520, 160, 'rgba(60,160,255,.24)');
+  for (let i = 0; i < 70; i++) { const x = hash(i, 11) * map.width, y = hash(i, 12) * map.height, r = 10 + hash(i, 13) * 26; haze(x, y, r, `rgba(150,255,240,${0.05 + hash(i, 14) * 0.07})`); }
+  for (let i = 0; i < 4; i++) { const x = 20 + i * 80; wc.fillStyle = lin(wc, x, 0, x + 70, 300, [0, 'rgba(255,255,255,.10)'], [1, 'rgba(255,255,255,0)']); wc.beginPath(); wc.moveTo(x, 0); wc.lineTo(x + 26, 0); wc.lineTo(x + 100, map.height * 0.62); wc.lineTo(x + 62, map.height * 0.62); wc.fill(); }
+  worlds.forEach(w => { const g = wc.createRadialGradient(w.pin[0], w.pin[1] + 18, 20, w.pin[0], w.pin[1] + 18, 112); g.addColorStop(0, 'rgba(70,240,214,.62)'); g.addColorStop(.55, 'rgba(60,225,205,.22)'); g.addColorStop(1, 'rgba(45,212,191,0)'); wc.fillStyle = g; wc.fillRect(w.pin[0] - 120, w.pin[1] - 110, 240, 260); });
   const puff = (x, y, s, tone) => { [[0, 0, 22, 12], [-18, 5, 16, 9], [18, 5, 16, 9], [-6, -6, 14, 9], [8, -5, 12, 8]].forEach(([dx, dy, rx, ry]) => { wc.fillStyle = tone; wc.beginPath(); wc.ellipse(x + dx * s, y + dy * s, rx * s, ry * s, 0, 0, 7); wc.fill(); }); };
-  [[8, 70, 1.5], [284, 160, 1.3], [4, 360, 1.2], [286, 410, 1.5], [10, 630, 1.4], [270, 672, 1.6], [150, 682, 1.3]].forEach(([x, y, s]) => { puff(x, y + 4, s, '#1d2f66'); puff(x, y, s, '#35498f'); puff(x - 3, y - 4 * s, s * 0.7, '#5b72bd'); });
-  const vg = wc.createRadialGradient(map.width / 2, map.height / 2, map.height * 0.3, map.width / 2, map.height / 2, map.height * 0.78); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(2,10,30,.45)'); wc.fillStyle = vg; wc.fillRect(0, 0, map.width, map.height);
+  [[8, 70, 1.5], [284, 160, 1.3], [4, 360, 1.2], [286, 410, 1.5], [10, 630, 1.4], [270, 672, 1.6], [150, 682, 1.3]].forEach(([x, y, s]) => { puff(x, y + 4, s, '#2b2a7a'); puff(x, y, s, '#4a4fb0'); puff(x - 3, y - 4 * s, s * 0.7, '#8a8fe6'); puff(x - 5, y - 6 * s, s * 0.4, '#ffc8e0'); });
+  const vg = wc.createRadialGradient(map.width / 2, map.height / 2, map.height * 0.3, map.width / 2, map.height / 2, map.height * 0.78); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(4,10,50,.4)'); wc.fillStyle = vg; wc.fillRect(0, 0, map.width, map.height);
 
   // ----- static layer: rope bridges, then islands back to front -----
   const rimDist = (ux, uy) => 1 / Math.sqrt((ux / RX) ** 2 + (uy / RY) ** 2);
@@ -246,7 +252,7 @@ export function createOverworld({ canvas, pinsEl, worlds, map, getState, getAvat
       } else if (e.type === 'neon') {
         const flick = Math.sin(t * 2.3) > 0.94 ? 0.08 : 0.3 + 0.1 * Math.sin(t * 9); glowAt(e.x + e.w / 2, e.y + e.h / 2, 38, '212,255,58', flick);
       } else if (e.type === 'glow') {
-        glowAt(e.x, e.y, 16, e.c, 0.3 + 0.18 * Math.sin(t * 2.4 + e.x));
+        glowAt(e.x, e.y, 20, e.c, 0.38 + 0.2 * Math.sin(t * 2.4 + e.x));
       } else if (e.type === 'snow') {
         ctx.fillStyle = 'rgba(255,255,255,.9)'; for (let i = 0; i < 26; i++) { const x = e.x + ((hash(i, 5) * e.w + Math.sin(t + i) * 4 + e.w) % e.w), y = e.y + ((hash(i, 6) * e.h + t * (10 + hash(i, 7) * 8)) % e.h); ctx.fillRect(x, y, 1.4, 1.4); }
       }

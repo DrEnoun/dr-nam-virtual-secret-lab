@@ -7,9 +7,9 @@ import {
 import { pxCanvas, crisp, shapes } from './pxart.js';
 import { worldStates } from './progress.js';
 import { createOverworld } from './overworld.js';
-import { drawBadge, BADGE_W, BADGE_H } from './badges.js';
+import { drawBadge, BADGE_W, BADGE_H, BADGE_SS } from './badges.js';
 import { doodles } from '../../js/doodles.js';
-import { OPTIONS, STYLE_LABEL, DEFAULT_AVATAR, drawAvatar, randomAvatar } from './avatar.js';
+import { OPTIONS, STYLE_LABEL, DEFAULT_AVATAR, drawAvatar, randomAvatar, WIDTH } from './avatar.js';
 
 const $ = id => document.getElementById(id);
 const KEY = 'drnam-quest:v1';
@@ -63,10 +63,10 @@ function says(el, { text, state = '', status = '', fact = '' }) {
 }
 
 // ---------- Overworld (home screen) ----------
-function drawPortrait(canvas, opts, scale) {
+function drawPortrait(canvas, opts) {
   const c = canvas.getContext('2d');
   c.clearRect(0, 0, canvas.width, canvas.height);
-  drawAvatar(c, opts, 0, 0, scale);
+  drawAvatar(c, opts, 0, 0, canvas.width / WIDTH);
 }
 const starString = n => '★'.repeat(n) + '☆'.repeat(3 - n);
 const states = () => worldStates(worlds, save.stars);
@@ -108,7 +108,7 @@ function renderBadges() {
   for (const w of worlds) {
     const earned = st[w.id - 1].earned;
     const d = document.createElement('div'); d.className = 'badge'; d.dataset.earned = String(earned);
-    const cv = document.createElement('canvas'); cv.width = BADGE_W; cv.height = BADGE_H;
+    const cv = document.createElement('canvas'); cv.width = BADGE_W * BADGE_SS; cv.height = BADGE_H * BADGE_SS;
     cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', `${w.badge} badge, ${earned ? 'earned' : 'not yet earned'}`);
     drawBadge(cv, w.emblem, w.accent, earned);
     d.append(cv, document.createTextNode(w.badge));
@@ -118,7 +118,7 @@ function renderBadges() {
 }
 
 function renderMenu() {
-  drawPortrait($('menu-avatar'), save.avatar, 2);
+  drawPortrait($('menu-avatar'), save.avatar);
   $('menu-coins').textContent = save.coins; $('menu-xp').textContent = save.xp;
   overworld.setCurrent(save.world); selected = save.world;
   renderWorldCard(); renderTopics(); renderBadges();
@@ -148,7 +148,7 @@ $('btn-shifts-back').onclick = () => { sound.pop(); renderMenu(); show('menu'); 
 // ---------- Avatar creator ----------
 let draft = null;
 function renderAvatarEditor() {
-  drawPortrait($('avatar-preview'), draft, 5);
+  drawPortrait($('avatar-preview'), draft);
   const host = $('avatar-options'); host.innerHTML = '';
   const group = (title, items) => {
     const g = document.createElement('div'); g.className = 'opt-group';
@@ -326,7 +326,7 @@ $('result-next').onclick = () => startLevel(g.level.id + 1);
 $('result-menu').onclick = $('btn-quit').onclick = () => { if (g) g.over = true; $('result').hidden = true; renderMenu(); show('menu'); };
 
 // ---------- Scene (canvas, 320 × 192 logical pixels) ----------
-const COUNTER_TOP = 122, CUSTOMER_X = 44, PLAYER_X = 214;
+const COUNTER_TOP = 122, CUSTOMER_X = 44, PLAYER_X = 214, SA = 3;   // SA = backing pixels per scene unit (320 × 192 units)
 
 // Draws a formula with proper subscripts, e.g. chem(c, 'Al2O3', ...) -> Al₂O₃ (digits sit lower and smaller).
 function chem(c, text, cx, y, size, colour) {
@@ -339,7 +339,8 @@ function chem(c, text, cx, y, size, colour) {
 }
 
 function buildSceneArt() {
-  const bg = pxCanvas(320, 192), c = bg.getContext('2d'), { R, E, P } = shapes(c);
+  const bg = pxCanvas(320 * SA, 192 * SA), c = bg.getContext('2d'), { R, E, P } = shapes(c);
+  c.scale(SA, SA);
   // wall, wainscot and rail
   let g = c.createLinearGradient(0, 0, 0, 120); g.addColorStop(0, '#13808e'); g.addColorStop(1, '#0d5c6e'); c.fillStyle = g; c.fillRect(0, 0, 320, 130);
   c.fillStyle = '#12495a'; c.fillRect(0, 92, 320, 40); c.fillStyle = '#5eead4'; c.fillRect(0, 90, 320, 3);
@@ -371,7 +372,8 @@ function buildSceneArt() {
   crisp(bg, null);
 
   // counter (drawn in front of the people so it hides their legs)
-  const fg = pxCanvas(320, 192), f = fg.getContext('2d'), { R: FR, E: FE } = shapes(f);
+  const fg = pxCanvas(320 * SA, 192 * SA), f = fg.getContext('2d'), { R: FR, E: FE } = shapes(f);
+  f.scale(SA, SA);
   f.fillStyle = '#eef6ff'; f.fillRect(0, COUNTER_TOP, 320, 10); f.fillStyle = '#ffffff'; f.fillRect(0, COUNTER_TOP, 320, 2); f.fillStyle = '#9db4cc'; f.fillRect(0, COUNTER_TOP + 8, 320, 2);
   f.fillStyle = '#d4ff3a'; f.fillRect(0, COUNTER_TOP + 10, 320, 4);
   f.fillStyle = '#12495a'; f.fillRect(0, COUNTER_TOP + 14, 320, 34);
@@ -386,8 +388,8 @@ function buildSceneArt() {
 const sceneArt = buildSceneArt();
 
 function drawScene(t) {
-  sctx.imageSmoothingEnabled = false;
-  sctx.drawImage(sceneArt.bg, 0, 0);
+  sctx.setTransform(SA, 0, 0, SA, 0, 0); sctx.imageSmoothingEnabled = false;
+  sctx.drawImage(sceneArt.bg, 0, 0, 320, 192);
   const bob = Math.floor(t * 2) % 2;
   if (g && g.cust) {
     const c = g.cust, shake = c.mood === 'angry' && !g.busy ? (Math.floor(t * 18) % 2 ? 2 : -2) : 0;
@@ -399,7 +401,7 @@ function drawScene(t) {
     }
   }
   drawAvatar(sctx, save.avatar, PLAYER_X, COUNTER_TOP - 58 - bob * 2, 2, { mood: g && g.cust && g.cust.mood === 'happy' ? 'happy' : 'wait' });
-  sctx.drawImage(sceneArt.fg, 0, 0);
+  sctx.imageSmoothingEnabled = false; sctx.drawImage(sceneArt.fg, 0, 0, 320, 192);
   if (g && g.cust && g.cust.mood === 'happy') {            // the served compound glows on the plate
     const gl = sctx.createRadialGradient(160, COUNTER_TOP - 6, 1, 160, COUNTER_TOP - 6, 18); gl.addColorStop(0, 'rgba(212,255,58,.9)'); gl.addColorStop(1, 'rgba(212,255,58,0)');
     sctx.fillStyle = gl; sctx.fillRect(138, COUNTER_TOP - 28, 44, 44);

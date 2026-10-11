@@ -4,6 +4,7 @@ import { pxCanvas, crisp, shapes, shade, tint } from './pxart.js';
 
 export const WIDTH = 32;
 export const HEIGHT = 44;
+const SS = 3;                       // the sprite is painted at 3x so it matches the finer map art
 
 export const OPTIONS = {
   skin: ['#f9d5b5', '#e8b08a', '#c68642', '#8d5524'],
@@ -79,14 +80,14 @@ export function avatarCanvas(opts = DEFAULT_AVATAR, { customer = false, mood = '
   const o = { ...DEFAULT_AVATAR, ...opts };
   const key = JSON.stringify([o, customer, mood]);
   let cv = cache.get(key);
-  if (!cv) { cv = pxCanvas(WIDTH, HEIGHT); paint(cv.getContext('2d'), o, customer, mood); crisp(cv, INK); cache.set(key, cv); }
+  if (!cv) { cv = pxCanvas(WIDTH * SS, HEIGHT * SS); const c = cv.getContext('2d'); c.scale(SS, SS); paint(c, o, customer, mood); crisp(cv, INK, 110, 2); cache.set(key, cv); }
   return cv;
 }
 
 export function drawAvatar(ctx, opts, x, y, scale = 1, extra = {}) {
   const was = ctx.imageSmoothingEnabled;
-  ctx.imageSmoothingEnabled = false;
-  ctx.drawImage(avatarCanvas(opts, extra), Math.round(x), Math.round(y), WIDTH * scale, HEIGHT * scale);
+  ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(avatarCanvas(opts, extra), x, y, WIDTH * scale, HEIGHT * scale);
   ctx.imageSmoothingEnabled = was;
 }
 

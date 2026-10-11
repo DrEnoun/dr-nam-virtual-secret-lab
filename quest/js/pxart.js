@@ -7,24 +7,35 @@ export const mix = (a, b, t) => { const x = toRgb(a), y = toRgb(b); return toHex
 export const shade = (hex, amount = 0.2) => mix(hex, '#000000', amount);
 export const tint = (hex, amount = 0.25) => mix(hex, '#ffffff', amount);
 
-// Removes anti-aliasing (alpha is on or off) and adds a 1px outline round the silhouette.
-export function crisp(canvas, outline = '#231f20', alphaCut = 110) {
+// Removes anti-aliasing (alpha is on or off) and adds an outline of `width` pixels round the silhouette.
+export function crisp(canvas, outline = '#231f20', alphaCut = 110, width = 1) {
   const ctx = canvas.getContext('2d'), { width: w, height: h } = canvas;
   const img = ctx.getImageData(0, 0, w, h), d = img.data;
   const solid = new Uint8Array(w * h);
   for (let i = 0; i < w * h; i++) { solid[i] = d[i * 4 + 3] >= alphaCut ? 1 : 0; d[i * 4 + 3] = solid[i] ? 255 : 0; }
   if (outline) {
     const [r, g, b] = toRgb(outline);
-    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-      const i = y * w + x;
-      if (solid[i]) continue;
-      if ((x > 0 && solid[i - 1]) || (x < w - 1 && solid[i + 1]) || (y > 0 && solid[i - w]) || (y < h - 1 && solid[i + w])) {
-        d[i * 4] = r; d[i * 4 + 1] = g; d[i * 4 + 2] = b; d[i * 4 + 3] = 255;
+    for (let pass = 0; pass < width; pass++) {
+      const grow = [];
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+        const i = y * w + x;
+        if (solid[i]) continue;
+        if ((x > 0 && solid[i - 1]) || (x < w - 1 && solid[i + 1]) || (y > 0 && solid[i - w]) || (y < h - 1 && solid[i + w])) grow.push(i);
       }
+      for (const i of grow) { solid[i] = 1; d[i * 4] = r; d[i * 4 + 1] = g; d[i * 4 + 2] = b; d[i * 4 + 3] = 255; }
     }
   }
   ctx.putImageData(img, 0, 0);
   return canvas;
+}
+
+// Warm light from the top-left and cool shadow to the bottom-right, laid over what is already drawn (no new pixels).
+export function lightPass(ctx, w, h, warm = 0.26, cool = 0.32) {
+  ctx.save(); ctx.globalCompositeOperation = 'source-atop';
+  const g = ctx.createLinearGradient(0, 0, w, h);
+  g.addColorStop(0, `rgba(255,236,176,${warm})`); g.addColorStop(0.45, 'rgba(255,255,255,0)'); g.addColorStop(1, `rgba(24,18,84,${cool})`);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+  ctx.restore();
 }
 
 // Dims and partly desaturates a drawn sprite so locked worlds look "not yet visited" but stay colourful.

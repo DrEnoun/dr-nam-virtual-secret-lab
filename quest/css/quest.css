@@ -218,6 +218,6 @@ canvas { image-rendering: auto; }
 .badge small { font-family: var(--font-body); font-weight: 400; font-size: 12px; }
 .shelf-note { text-align: center; font-size: 15px; margin-top: 8px; }
 
-#menu-avatar, #avatar-preview { image-rendering: pixelated; }
+#menu-avatar { width: 64px; height: 88px; } #avatar-preview { width: 160px; height: 220px; }
 
 .map-pin__stem { position: absolute; width: 3px; transform: translateX(-50%); background: var(--accent); border-radius: 2px; box-shadow: 0 0 8px var(--accent); pointer-events: none; }
