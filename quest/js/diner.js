@@ -6,7 +6,8 @@ import {
 } from './diner-logic.js';
 import { pxCanvas, crisp, shapes } from './pxart.js';
 import { monsterSprite } from './monsters.js';
-import { worldStates } from './progress.js';
+import { createMemory } from './memory.js';
+import { worldStates, starKey } from './progress.js';
 import { createOverworld } from './overworld.js';
 import { drawBadge, BADGE_W, BADGE_H, BADGE_SS } from './badges.js';
 import { doodles } from '../../js/doodles.js';
@@ -21,16 +22,18 @@ const defaults = () => ({ world: 1, coins: 0, xp: 0, stars: {}, avatar: { ...DEF
 let save = defaults();
 try { save = { ...defaults(), ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch (e) { /* use defaults */ }
 const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) { /* ignore */ } };
+for (const k of Object.keys(save.stars)) if (/^\d+$/.test(k)) { save.stars['6.' + k] = Math.max(save.stars['6.' + k] || 0, save.stars[k]); delete save.stars[k]; }
 sound.enabled = !save.mute;
 
 try { await Promise.all([document.fonts.load('800 17px "League Spartan"'), document.fonts.load('400 12px Questrial')]); } catch (e) { /* fall back to system fonts */ }
 const data = await (await fetch('data/diner.json')).json();
+const memData = await (await fetch('data/memory.json')).json();
 const worldData = await (await fetch('data/worlds.json')).json();
 const worlds = worldData.worlds;
 const ionById = Object.fromEntries(data.ions.map(i => [i.id, i]));
 
 // ---------- Screens, theme and sound ----------
-const screens = ['menu', 'shifts', 'avatar', 'game'];
+const screens = ['menu', 'shifts', 'memory', 'avatar', 'game'];
 function show(name) {
   if (name !== 'menu') overworld.stop();
   screens.forEach(s => { $('screen-' + s).hidden = s !== name; });
@@ -42,10 +45,10 @@ function applyTheme() {
 }
 function applySound() {
   const label = sound.enabled ? 'Sound on' : 'Muted';
-  $('btn-sound').textContent = label; $('btn-sound-menu').textContent = label;
+  $('btn-sound').textContent = label; $('btn-sound-menu').textContent = label; $('mem-sound').textContent = label;
 }
 const toggleSound = () => { sound.enabled = !sound.enabled; save.mute = !sound.enabled; persist(); applySound(); sound.unlock(); sound.select(); };
-$('btn-sound').onclick = $('btn-sound-menu').onclick = toggleSound;
+$('btn-sound').onclick = $('btn-sound-menu').onclick = $('mem-sound').onclick = toggleSound;
 $('btn-theme-menu').onclick = () => { save.theme = save.theme === 'day' ? 'night' : 'day'; persist(); applyTheme(); };
 
 // ---------- Dr. NAM Says bubble (uses her real badge, never a drawn likeness) ----------
@@ -95,7 +98,7 @@ function renderWorldCard() {
     <p class="world-card__meta">${status}</p>
     ${w.playable ? `<p class="world-card__stars" aria-label="${st.starSum} of ${st.total * 3} stars">${'★'.repeat(st.starSum)}${'☆'.repeat(st.total * 3 - st.starSum)}</p>` : ''}
     <button class="btn-start" id="btn-play" type="button" ${play ? '' : 'disabled'}>${play ? 'Play' : st.unlocked ? 'Coming soon' : 'Locked'}</button>`;
-  if (play) $('btn-play').onclick = () => { sound.unlock(); sound.select(); renderShifts(); show('shifts'); };
+  if (play) $('btn-play').onclick = () => { sound.unlock(); sound.select(); renderShifts(w.id); show('shifts'); };
   says($('menu-says'), { text: w.tip });
 }
 
@@ -128,24 +131,42 @@ function renderMenu() {
   applyTheme(); applySound();
 }
 
-// ---------- Shift picker (World 6) ----------
-function renderShifts() {
+// ---------- Level picker (any playable world) ----------
+const levelsOf = worldId => (worldId === 6 ? data.levels : memData.levels);
+const unitOf = worldId => (worldId === 6 ? 'shift' : 'level');
+function renderShifts(worldId) {
+  const world = worlds.find(w => w.id === worldId), levels = levelsOf(worldId), unit = unitOf(worldId);
+  $('shifts-title').innerHTML = `<span class="lime-rule" aria-hidden="true"></span>${world.name}`;
+  $('shifts-sub').textContent = world.blurb;
   const list = $('level-list'); list.innerHTML = '';
-  for (const lv of data.levels) {
-    const unlocked = lv.id === 1 || (save.stars[lv.id - 1] || 0) > 0;
+  levels.forEach((lv, i) => {
+    const star = id => save.stars[starKey(worldId, id)] || 0;
+    const unlocked = i === 0 || star(levels[i - 1].id) > 0, stars = star(lv.id);
     const b = document.createElement('button');
     b.className = 'sticker level-card'; b.type = 'button'; b.disabled = !unlocked;
-    const stars = save.stars[lv.id] || 0;
     b.innerHTML = `<span class="level-card__num">${unlocked ? (lv.boss ? 'B' : lv.id) : '🔒'}</span>
       <span class="level-card__title">${lv.title}</span>
-      <span class="level-card__sub">${unlocked ? lv.subtitle : 'Clear the previous shift to unlock'}</span>
+      <span class="level-card__sub">${unlocked ? lv.subtitle : `Clear the previous ${unit} to unlock`}</span>
       <span class="level-card__stars" aria-label="${stars} of 3 stars">${starString(stars)}</span>`;
-    if (unlocked) b.onclick = () => { sound.unlock(); sound.select(); overworld.stop(); startLevel(lv.id); };
+    if (unlocked) b.onclick = () => { sound.unlock(); sound.select(); startWorldLevel(worldId, lv.id); };
     list.append(b);
-  }
-  says($('shifts-says'), { text: data.levels[0].tip });
+  });
+  says($('shifts-says'), { text: levels[0].tip });
 }
+
+function startWorldLevel(worldId, levelId) {
+  overworld.stop();
+  if (worldId === 6) startLevel(levelId);
+  else { $('result').hidden = true; memory.start(levelId); show('memory'); applySound(); }
+}
+
 $('btn-shifts-back').onclick = () => { sound.pop(); renderMenu(); show('menu'); };
+
+const memory = createMemory({
+  $, levels: memData.levels, says, sound,
+  onFinish: r => showResult({ worldId: 1, ...r }),
+  onExit: () => { renderMenu(); show('menu'); },
+});
 
 // ---------- Avatar creator ----------
 let draft = null;
@@ -309,25 +330,35 @@ function timeUp() {
 
 function finish(win) {
   g.over = true; g.won = win; react(win ? 'cheer' : 'sad', 600);
-  save.coins += g.coins; save.xp += g.xp;
-  const stars = win ? starsFor(g.hearts) : 0;
-  if (win) save.stars[g.level.id] = Math.max(save.stars[g.level.id] || 0, stars);
+  showResult({
+    worldId: 6, levelId: g.level.id, win, hearts: g.hearts, coins: g.coins, xp: g.xp,
+    title: win ? 'Shift complete!' : 'The diner closed early',
+    summary: win ? `You served ${g.served} customers and earned ${g.coins} coins and ${g.xp} XP.`
+      : `You ran out of hearts after serving ${g.served}. Try again: remember that the total + charge must equal the total − charge.`,
+  });
+}
+
+// Shared by both games: save coins, XP and stars, then show the result card.
+let lastRun = null;
+function showResult(r) {
+  save.coins += r.coins; save.xp += r.xp;
+  const stars = r.win ? starsFor(r.hearts) : 0, key = starKey(r.worldId, r.levelId);
+  if (r.win) save.stars[key] = Math.max(save.stars[key] || 0, stars);
   persist();
-  $('result-title').textContent = win ? 'Shift complete!' : 'The diner closed early';
+  lastRun = { worldId: r.worldId, levelId: r.levelId, won: r.win };
+  $('result-title').textContent = r.title;
   $('result-stars').innerHTML = [0, 1, 2].map(i => `<span class="${i < stars ? '' : 'off'}">${i < stars ? '★' : '☆'}</span>`).join('');
   $('result-stars').setAttribute('aria-label', `${stars} of 3 stars`);
-  $('result-text').textContent = win
-    ? `You served ${g.served} customers and earned ${g.coins} coins and ${g.xp} XP.`
-    : `You ran out of hearts after serving ${g.served}. Try again: remember that the total + charge must equal the total − charge.`;
-  const next = data.levels.find(l => l.id === g.level.id + 1);
-  $('result-next').hidden = !(win && next);
+  $('result-text').textContent = r.summary;
+  $('result-next').hidden = !(r.win && levelsOf(r.worldId).some(l => l.id === r.levelId + 1));
   $('result').hidden = false;
-  win ? sound.correct() : sound.wrong();
-  $('result-next').focus();
+  r.win ? sound.correct() : sound.wrong();
+  $('result-next').hidden ? $('result-retry').focus() : $('result-next').focus();
 }
-$('result-retry').onclick = () => startLevel(g.level.id);
-$('result-next').onclick = () => startLevel(g.level.id + 1);
-$('result-menu').onclick = $('btn-quit').onclick = () => { const won = !!(g && g.over && g.won); if (g) g.over = true; $('result').hidden = true; renderMenu(); show('menu'); if (won) overworld.celebrate(); };
+$('result-retry').onclick = () => startWorldLevel(lastRun.worldId, lastRun.levelId);
+$('result-next').onclick = () => startWorldLevel(lastRun.worldId, lastRun.levelId + 1);
+$('result-menu').onclick = () => { const won = !!(lastRun && lastRun.won); $('result').hidden = true; memory.stop(); renderMenu(); show('menu'); if (won) overworld.celebrate(); };
+$('btn-quit').onclick = () => { if (g) g.over = true; $('result').hidden = true; renderMenu(); show('menu'); };
 
 // ---------- Scene (canvas, 320 × 192 logical pixels) ----------
 const COUNTER_TOP = 122, CUSTOMER_X = 44, PLAYER_X = 214, SA = 3;   // SA = backing pixels per scene unit (320 × 192 units)

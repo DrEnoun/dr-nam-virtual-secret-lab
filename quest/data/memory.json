@@ -1,0 +1,493 @@
+{
+  "rules": "A mismatch costs a heart only when every card you flipped had already been seen, so exploring new cards is free.",
+  "levels": [
+    {
+      "id": 1,
+      "title": "Ion Names",
+      "subtitle": "Match each name to its formula",
+      "group": 2,
+      "pick": 6,
+      "tip": "Try this: flip two cards. If they are the same ion, one as a name and one as a formula, they stay face up. Exploring new cards is free, but flipping two cards you have already seen costs a heart!",
+      "sets": [
+        {
+          "id": "sulfate",
+          "uniq": "sulfate",
+          "fact": "Sulfate is SO₄²⁻: one sulfur and four oxygens, with a 2− charge.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "sulfate"
+            },
+            {
+              "kind": "formula",
+              "text": "SO4^2-"
+            }
+          ]
+        },
+        {
+          "id": "nitrate",
+          "uniq": "nitrate",
+          "fact": "Nitrate is NO₃⁻: one nitrogen and three oxygens, with a 1− charge.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "nitrate"
+            },
+            {
+              "kind": "formula",
+              "text": "NO3^-"
+            }
+          ]
+        },
+        {
+          "id": "carbonate",
+          "uniq": "carbonate",
+          "fact": "Carbonate is CO₃²⁻: one carbon and three oxygens, with a 2− charge.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "carbonate"
+            },
+            {
+              "kind": "formula",
+              "text": "CO3^2-"
+            }
+          ]
+        },
+        {
+          "id": "phosphate",
+          "uniq": "phosphate",
+          "fact": "Phosphate is PO₄³⁻: one phosphorus and four oxygens, with a 3− charge.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "phosphate"
+            },
+            {
+              "kind": "formula",
+              "text": "PO4^3-"
+            }
+          ]
+        },
+        {
+          "id": "hydroxide",
+          "uniq": "hydroxide",
+          "fact": "Hydroxide is OH⁻: one oxygen and one hydrogen, with a 1− charge.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "hydroxide"
+            },
+            {
+              "kind": "formula",
+              "text": "OH^-"
+            }
+          ]
+        },
+        {
+          "id": "ammonium",
+          "uniq": "ammonium",
+          "fact": "Ammonium is NH₄⁺: one nitrogen and four hydrogens, with a 1+ charge.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "ammonium"
+            },
+            {
+              "kind": "formula",
+              "text": "NH4^+"
+            }
+          ]
+        },
+        {
+          "id": "chloride",
+          "uniq": "chloride",
+          "fact": "Chloride is Cl⁻: a chlorine atom that has gained one electron.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "chloride"
+            },
+            {
+              "kind": "formula",
+              "text": "Cl^-"
+            }
+          ]
+        },
+        {
+          "id": "oxide",
+          "uniq": "oxide",
+          "fact": "Oxide is O²⁻: an oxygen atom that has gained two electrons.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "oxide"
+            },
+            {
+              "kind": "formula",
+              "text": "O^2-"
+            }
+          ]
+        },
+        {
+          "id": "sulfide",
+          "uniq": "sulfide",
+          "fact": "Sulfide is S²⁻: a sulfur atom that has gained two electrons.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "sulfide"
+            },
+            {
+              "kind": "formula",
+              "text": "S^2-"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Compound Names",
+      "subtitle": "Match names to compound formulae",
+      "group": 2,
+      "pick": 6,
+      "tip": "Did you know? In a formula the subscripts show how many of each ion balance the charges. Al₂O₃ needs two Al³⁺ for three O²⁻.",
+      "sets": [
+        {
+          "id": "nacl",
+          "uniq": "nacl",
+          "fact": "Sodium chloride is NaCl: Na⁺ and Cl⁻ in a 1:1 ratio.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "sodium chloride"
+            },
+            {
+              "kind": "formula",
+              "text": "NaCl"
+            }
+          ]
+        },
+        {
+          "id": "mgo",
+          "uniq": "mgo",
+          "fact": "Magnesium oxide is MgO: Mg²⁺ and O²⁻ in a 1:1 ratio.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "magnesium oxide"
+            },
+            {
+              "kind": "formula",
+              "text": "MgO"
+            }
+          ]
+        },
+        {
+          "id": "caco3",
+          "uniq": "caco3",
+          "fact": "Calcium carbonate is CaCO₃: Ca²⁺ and CO₃²⁻ in a 1:1 ratio.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "calcium carbonate"
+            },
+            {
+              "kind": "formula",
+              "text": "CaCO3"
+            }
+          ]
+        },
+        {
+          "id": "al2o3",
+          "uniq": "al2o3",
+          "fact": "Aluminium oxide is Al₂O₃: two Al³⁺ balance three O²⁻.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "aluminium oxide"
+            },
+            {
+              "kind": "formula",
+              "text": "Al2O3"
+            }
+          ]
+        },
+        {
+          "id": "mgcl2",
+          "uniq": "mgcl2",
+          "fact": "Magnesium chloride is MgCl₂: one Mg²⁺ needs two Cl⁻.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "magnesium chloride"
+            },
+            {
+              "kind": "formula",
+              "text": "MgCl2"
+            }
+          ]
+        },
+        {
+          "id": "caoh2",
+          "uniq": "caoh2",
+          "fact": "Calcium hydroxide is Ca(OH)₂: one Ca²⁺ needs two OH⁻.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "calcium hydroxide"
+            },
+            {
+              "kind": "formula",
+              "text": "Ca(OH)2"
+            }
+          ]
+        },
+        {
+          "id": "na2so4",
+          "uniq": "na2so4",
+          "fact": "Sodium sulfate is Na₂SO₄: two Na⁺ balance one SO₄²⁻.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "sodium sulfate"
+            },
+            {
+              "kind": "formula",
+              "text": "Na2SO4"
+            }
+          ]
+        },
+        {
+          "id": "nh4cl",
+          "uniq": "nh4cl",
+          "fact": "Ammonium chloride is NH₄Cl: NH₄⁺ and Cl⁻ in a 1:1 ratio.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "ammonium chloride"
+            },
+            {
+              "kind": "formula",
+              "text": "NH4Cl"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Shapes",
+      "subtitle": "Match each formula to its shape",
+      "group": 2,
+      "pick": 5,
+      "tip": "Try this: count the electron groups around the central atom. Lone pairs change the shape, so water is bent but CO₂ is linear.",
+      "sets": [
+        {
+          "id": "h2o",
+          "uniq": "bent",
+          "fact": "H₂O is bent: two bonds and two lone pairs on oxygen push the bonds to about 104.5°.",
+          "cards": [
+            {
+              "kind": "formula",
+              "text": "H2O"
+            },
+            {
+              "kind": "shape",
+              "text": "bent",
+              "shape": "bent",
+              "angle": "104.5°"
+            }
+          ]
+        },
+        {
+          "id": "co2",
+          "uniq": "linear",
+          "fact": "CO₂ is linear: two electron groups on carbon sit opposite each other, 180°.",
+          "cards": [
+            {
+              "kind": "formula",
+              "text": "CO2"
+            },
+            {
+              "kind": "shape",
+              "text": "linear",
+              "shape": "linear",
+              "angle": "180°"
+            }
+          ]
+        },
+        {
+          "id": "nh3",
+          "uniq": "trigonal pyramidal",
+          "fact": "NH₃ is trigonal pyramidal: three bonds and one lone pair on nitrogen, about 107°.",
+          "cards": [
+            {
+              "kind": "formula",
+              "text": "NH3"
+            },
+            {
+              "kind": "shape",
+              "text": "trigonal pyramidal",
+              "shape": "trigonal pyramidal",
+              "angle": "≈107°"
+            }
+          ]
+        },
+        {
+          "id": "ch4",
+          "uniq": "tetrahedral",
+          "fact": "CH₄ is tetrahedral: four bonds and no lone pairs, 109.5°.",
+          "cards": [
+            {
+              "kind": "formula",
+              "text": "CH4"
+            },
+            {
+              "kind": "shape",
+              "text": "tetrahedral",
+              "shape": "tetrahedral",
+              "angle": "109.5°"
+            }
+          ]
+        },
+        {
+          "id": "bf3",
+          "uniq": "trigonal planar",
+          "fact": "BF₃ is trigonal planar: three bonds and no lone pairs on boron, 120°.",
+          "cards": [
+            {
+              "kind": "formula",
+              "text": "BF3"
+            },
+            {
+              "kind": "shape",
+              "text": "trigonal planar",
+              "shape": "trigonal planar",
+              "angle": "120°"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Triple Match",
+      "subtitle": "Boss: name, formula and shape",
+      "boss": true,
+      "group": 3,
+      "pick": 4,
+      "time": 100,
+      "tip": "Boss level! Each molecule has three cards: its name, its formula and its shape. Flip all three before the clock runs out.",
+      "sets": [
+        {
+          "id": "h2o",
+          "uniq": "bent",
+          "fact": "Water is H₂O and bent: two lone pairs on oxygen squeeze the bonds to about 104.5°.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "water"
+            },
+            {
+              "kind": "formula",
+              "text": "H2O"
+            },
+            {
+              "kind": "shape",
+              "text": "bent",
+              "shape": "bent",
+              "angle": "104.5°"
+            }
+          ]
+        },
+        {
+          "id": "co2",
+          "uniq": "linear",
+          "fact": "Carbon dioxide is CO₂ and linear: two electron groups, 180°.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "carbon dioxide"
+            },
+            {
+              "kind": "formula",
+              "text": "CO2"
+            },
+            {
+              "kind": "shape",
+              "text": "linear",
+              "shape": "linear",
+              "angle": "180°"
+            }
+          ]
+        },
+        {
+          "id": "nh3",
+          "uniq": "trigonal pyramidal",
+          "fact": "Ammonia is NH₃ and trigonal pyramidal: three bonds and one lone pair, about 107°.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "ammonia"
+            },
+            {
+              "kind": "formula",
+              "text": "NH3"
+            },
+            {
+              "kind": "shape",
+              "text": "trigonal pyramidal",
+              "shape": "trigonal pyramidal",
+              "angle": "≈107°"
+            }
+          ]
+        },
+        {
+          "id": "ch4",
+          "uniq": "tetrahedral",
+          "fact": "Methane is CH₄ and tetrahedral: four bonds, no lone pairs, 109.5°.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "methane"
+            },
+            {
+              "kind": "formula",
+              "text": "CH4"
+            },
+            {
+              "kind": "shape",
+              "text": "tetrahedral",
+              "shape": "tetrahedral",
+              "angle": "109.5°"
+            }
+          ]
+        },
+        {
+          "id": "bf3",
+          "uniq": "trigonal planar",
+          "fact": "Boron trifluoride is BF₃ and trigonal planar: three bonds, no lone pairs, 120°.",
+          "cards": [
+            {
+              "kind": "name",
+              "text": "boron trifluoride"
+            },
+            {
+              "kind": "formula",
+              "text": "BF3"
+            },
+            {
+              "kind": "shape",
+              "text": "trigonal planar",
+              "shape": "trigonal planar",
+              "angle": "120°"
+            }
+          ]
+        }
+      ],
+      "goal": "Flip a molecule’s name, formula and shape together."
+    }
+  ]
+}

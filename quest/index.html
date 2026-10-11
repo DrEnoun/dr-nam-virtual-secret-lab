@@ -71,10 +71,28 @@
   <!-- ================= Shift picker (World 6) ================= -->
   <main class="screen" id="screen-shifts" hidden>
     <div class="row"><button class="chip" id="btn-shifts-back" type="button">‹ Map</button></div>
-    <h2 class="title title--small"><span class="lime-rule" aria-hidden="true"></span>Ion Diner</h2>
-    <p class="subtitle">Combine ions to serve ionic compounds before your customers lose patience.</p>
+    <h2 class="title title--small" id="shifts-title"><span class="lime-rule" aria-hidden="true"></span>Ion Diner</h2>
+    <p class="subtitle" id="shifts-sub">Combine ions to serve ionic compounds before your customers lose patience.</p>
     <div class="level-list" id="level-list"></div>
     <aside class="says" id="shifts-says"></aside>
+  </main>
+
+  <!-- ================= Memory match (World 1) ================= -->
+  <main class="screen screen--memory" id="screen-memory" hidden>
+    <header class="hud">
+      <button class="chip" id="mem-quit" type="button" aria-label="Back to the map">‹ Menu</button>
+      <div class="hud__hearts" id="mem-hearts" role="img" aria-label="Hearts"></div>
+      <div class="hud__coins"><span class="coin-dot" aria-hidden="true"></span><span id="mem-coins">0</span></div>
+      <button class="chip" id="mem-sound" type="button"></button>
+    </header>
+    <section class="ticket sticker-static" aria-live="polite">
+      <p class="ticket__meta" id="mem-meta"></p>
+      <p class="ticket__order" id="mem-goal"></p>
+      <div class="patience" id="mem-timer" role="progressbar" aria-label="Time left" aria-valuemin="0" aria-valuemax="100" hidden><span></span></div>
+    </section>
+    <aside class="says says--compact" id="mem-says" aria-live="polite"></aside>
+    <canvas id="mem-mascots" width="960" height="192" aria-hidden="true"></canvas>
+    <div class="mem-grid" id="mem-grid"></div>
   </main>
 
   <!-- ================= Avatar creator ================= -->

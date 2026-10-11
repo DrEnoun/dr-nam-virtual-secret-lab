@@ -1,11 +1,15 @@
 // Overworld progress rules: pure functions (no DOM) so unlocking and badges can be tested in Node.
-// A world's levels are looked up in `stars` ({ levelId: 0-3 }). A world is cleared when every level has 1+ stars.
+// Stars are saved per world and level, e.g. stars["6.2"] = 3 for World 6, shift 2.
+export const starKey = (worldId, levelId) => `${worldId}.${levelId}`;
+
+// A world is cleared when every one of its levels has 1+ stars.
 export function worldProgress(world, stars = {}) {
   const ids = world.levelIds || [];
-  const got = ids.filter(id => (stars[id] || 0) > 0).length;
+  const star = id => stars[starKey(world.id, id)] || 0;
+  const got = ids.filter(id => star(id) > 0).length;
   return {
     total: ids.length, got,
-    starSum: ids.reduce((a, id) => a + (stars[id] || 0), 0),
+    starSum: ids.reduce((a, id) => a + star(id), 0),
     cleared: ids.length > 0 && got === ids.length,
   };
 }

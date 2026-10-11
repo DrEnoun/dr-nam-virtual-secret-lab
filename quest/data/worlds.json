@@ -18,9 +18,16 @@
       ],
       "badge": "Memory Master",
       "emblem": "cards",
-      "playable": false,
-      "callout": "Coming soon",
-      "tip": "Did you know? “Sulfate” and SO₄²⁻ are the same ion, one written as a name and one as a formula. World 1 will let you match them."
+      "playable": true,
+      "callout": "4 levels",
+      "tip": "Why do SO₄²⁻ and “sulfate” belong together? They are the same ion, written as a formula and as a name. Flip the cards and match them!",
+      "levelIds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "blurb": "Flip the cards to match names, formulae and shapes."
     },
     {
       "id": 2,
@@ -118,7 +125,8 @@
       ],
       "callout": "4 shifts",
       "tip": "Why do ionic compounds have zero net charge? Because the total positive charge cancels the total negative charge. Serve a few customers and see!",
-      "calloutLift": 26
+      "calloutLift": 26,
+      "blurb": "Combine ions to serve ionic compounds before your customers lose patience."
     }
   ]
 }

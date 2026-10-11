@@ -18,6 +18,8 @@ export function formulaOf(cat, an) {
 
 const sub = s => s.replace(/\d+/g, m => `<sub>${m}</sub>`);
 export const formulaHTML = text => sub(text);
+// Formula text with an optional charge after ^, e.g. "SO4^2-" -> SO<sub>4</sub><sup>2−</sup>.
+export const chargedHTML = text => { const [f, ch] = text.split('^'); return sub(f) + (ch ? `<sup>${ch.replace('-', MINUS)}</sup>` : ''); };
 export const ionHTML = ion => {
   const n = Math.abs(ion.charge);
   return `${sub(ion.sym)}<sup>${n > 1 ? n : ''}${ion.charge > 0 ? '+' : MINUS}</sup>`;
