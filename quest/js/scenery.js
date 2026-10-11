@@ -130,10 +130,10 @@ export const diner = () => make(80, 70, (c, { R, P, E }) => {
   return { neon: [14, 1, 52, 15], windows: [[12, 36, 36, 20]], steam: [58.5, 14] };
 });
 export const lamp = () => make(12, 36, (c, { R, E }) => { R(5, 8, 2.4, 27, 0.8, '#3a4a64'); E(6.2, 6, 4.6, 4.6, '#fff6b8', '#8a6a1a'); R(2.4, 1, 7.6, 2.4, 1, '#3a4a64'); return { glow: [6.2, 6] }; });
-export const pylon = (sign) => make(22, 40, (c, { P }) => {
-  P([[3, 39], [6, 12], [11, 2], [16, 12], [19, 39]], '#2fe0cc'); P([[11, 2], [16, 12], [19, 39], [12, 39]], '#17a79a'); P([[11, 2], [6, 12], [3, 39], [7, 39]], '#9ffbf1', false);
-  c.fillStyle = '#ffffff'; c.font = '800 13px "League Spartan", sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(sign, 11.4, 23);
-  return { glow: [11, 20] };
+export const pylon = (cols = ['#2fe0cc', '#17a79a', '#9ffbf1']) => make(22, 40, (c, { P }) => {
+  P([[3, 39], [6, 12], [11, 2], [16, 12], [19, 39]], cols[0]); P([[11, 2], [16, 12], [19, 39], [12, 39]], cols[1]); P([[11, 2], [6, 12], [3, 39], [7, 39]], cols[2], false);
+  P([[11.4, 15], [12.8, 20.6], [18, 22], [12.8, 23.4], [11.4, 29], [10, 23.4], [4.8, 22], [10, 20.6]], '#ffffff', false);   // sparkle
+  return { glow: [11, 22] };
 });
 export const pillar = () => make(14, 30, (c, { R }) => { R(2, 6, 10, 23, 1.5, '#efd59a'); R(8, 6, 4, 23, 1, '#d1ab62', false); R(0, 3, 14, 4, 1.2, '#d9b36d'); R(1, 25, 12, 4, 1.2, '#c9a05a'); lines(c, 'rgba(110,70,20,.35)', 0.8, [[3, 14, 7, 12]]); });
 export const sign = () => make(24, 22, (c, { R, E }) => { R(10.6, 9, 2.8, 12, 0.8, '#6b4226'); R(1, 1, 22, 11, 3, '#0d1d33', '#d4ff3a'); E(8, 6.6, 2.6, 2.6, '#5eead4', false); E(16, 6.6, 2.6, 2.6, '#fc7a7a', false); });

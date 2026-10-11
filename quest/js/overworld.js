@@ -36,7 +36,7 @@ const MAKE = {
   roundTree: () => SC.roundTree(), blossom: () => SC.roundTree(SC.TREES.blossom), tealTree: () => SC.roundTree(SC.TREES.teal), limeTree: () => SC.roundTree(SC.TREES.lime), autumn: () => SC.roundTree(SC.TREES.autumn), bushB: () => SC.bush(['#2f9a8a', '#52d1b8']), pine: () => SC.pine(false), snowPine: () => SC.pine(true), palm: SC.palm, bush: () => SC.bush(), rocks: () => SC.rocks(),
   fence: SC.fence, cottage: SC.cottage, ziggurat: SC.ziggurat, pillar: SC.pillar, wall: SC.tableWall, castle: SC.castle,
   mtn: () => SC.mountain(64, 54), mtnS: () => SC.mountain(40, 34), crystal: SC.crystal, crystalS: () => SC.crystalS(), iceHall: SC.iceHall,
-  diner: SC.diner, lamp: SC.lamp, pylonP: () => SC.pylon('+'), pylonM: () => SC.pylon('−'),
+  diner: SC.diner, lamp: SC.lamp, pylonP: () => SC.pylon(), pylonM: () => SC.pylon(['#d98bff', '#9a45d1', '#f3d2ff']),
 };
 const cache = {};
 const sprite = k => (cache[k] ??= MAKE[k]());
