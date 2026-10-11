@@ -4,6 +4,10 @@ import { sound } from '../../js/sound.js';
 import {
   buildOrders, buildTray, checkServe, ionHTML, netCharge, orderName, revealAnswer, starsFor, tipFor, chargeStr,
 } from './diner-logic.js';
+import { worldStates } from './progress.js';
+import { createOverworld } from './overworld.js';
+import { drawBadge, BADGE_W, BADGE_H } from './badges.js';
+import { doodles } from '../../js/doodles.js';
 import { OPTIONS, STYLE_LABEL, DEFAULT_AVATAR, drawAvatar, randomAvatar } from './avatar.js';
 
 const $ = id => document.getElementById(id);
@@ -11,18 +15,21 @@ const KEY = 'drnam-quest:v1';
 const LOGO = '../brand/logos/chemistry-with-dr-nam-logo.jpg';
 
 // ---------- Saved progress (localStorage may be blocked, so every access is guarded) ----------
-const defaults = () => ({ coins: 0, xp: 0, stars: {}, avatar: { ...DEFAULT_AVATAR }, theme: 'night', mute: false });
+const defaults = () => ({ world: 1, coins: 0, xp: 0, stars: {}, avatar: { ...DEFAULT_AVATAR }, theme: 'night', mute: false });
 let save = defaults();
 try { save = { ...defaults(), ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch (e) { /* use defaults */ }
 const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) { /* ignore */ } };
 sound.enabled = !save.mute;
 
 const data = await (await fetch('data/diner.json')).json();
+const worldData = await (await fetch('data/worlds.json')).json();
+const worlds = worldData.worlds;
 const ionById = Object.fromEntries(data.ions.map(i => [i.id, i]));
 
 // ---------- Screens, theme and sound ----------
-const screens = ['menu', 'avatar', 'game'];
+const screens = ['menu', 'shifts', 'avatar', 'game'];
 function show(name) {
+  if (name !== 'menu') overworld.stop();
   screens.forEach(s => { $('screen-' + s).hidden = s !== name; });
   window.scrollTo(0, 0);
 }
@@ -53,17 +60,72 @@ function says(el, { text, state = '', status = '', fact = '' }) {
   el.append(av, b);
 }
 
-// ---------- Menu ----------
+// ---------- Overworld (home screen) ----------
 function drawPortrait(canvas, opts, scale) {
   const c = canvas.getContext('2d');
   c.clearRect(0, 0, canvas.width, canvas.height);
   drawAvatar(c, opts, 0, 0, scale);
 }
 const starString = n => '★'.repeat(n) + '☆'.repeat(3 - n);
+const states = () => worldStates(worlds, save.stars);
+let selected = save.world;
+
+const overworld = createOverworld({
+  canvas: $('map-canvas'), pinsEl: $('map-pins'), worlds, map: worldData.map,
+  getState: states, getAvatar: () => save.avatar,
+  onSelect: (id, arrived) => {
+    selected = id;
+    if (arrived) { save.world = id; persist(); }
+    sound.pop(); renderWorldCard();
+  },
+});
+overworld.init();
+
+function renderWorldCard() {
+  const w = worlds.find(x => x.id === selected), st = states()[selected - 1];
+  const card = $('world-card');
+  const play = w.playable && st.unlocked;
+  const status = !st.unlocked ? `Locked. Clear World ${w.id - 1} to open it.` : w.playable ? `${st.got} of ${st.total} shifts cleared` : 'Still being built: coming soon!';
+  card.innerHTML = `<p class="world-card__eyebrow">World ${w.id} · ${w.gameplay}</p>
+    <h2>${w.name}</h2><p class="world-card__meta">${w.topic}</p>
+    <p class="world-card__meta">${status}</p>
+    ${w.playable ? `<p class="world-card__stars" aria-label="${st.starSum} of ${st.total * 3} stars">${'★'.repeat(st.starSum)}${'☆'.repeat(st.total * 3 - st.starSum)}</p>` : ''}
+    <button class="btn-start" id="btn-play" type="button" ${play ? '' : 'disabled'}>${play ? 'Play' : st.unlocked ? 'Coming soon' : 'Locked'}</button>`;
+  if (play) $('btn-play').onclick = () => { sound.unlock(); sound.select(); renderShifts(); show('shifts'); };
+  says($('menu-says'), { text: w.tip });
+}
+
+function renderTopics() {
+  const st = states();
+  $('topic-grid').innerHTML = worlds.map(w => `<div class="topic-card" style="--accent:${w.accent}" data-locked="${!st[w.id - 1].unlocked}">
+      ${doodles[w.icon] || ''}<b>${w.gameplay}</b><small>${w.topic}</small></div>`).join('');
+}
+
+function renderBadges() {
+  const st = states(), shelf = $('badge-shelf'); shelf.innerHTML = '';
+  for (const w of worlds) {
+    const earned = st[w.id - 1].earned;
+    const d = document.createElement('div'); d.className = 'badge'; d.dataset.earned = String(earned);
+    const cv = document.createElement('canvas'); cv.width = BADGE_W; cv.height = BADGE_H;
+    cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', `${w.badge} badge, ${earned ? 'earned' : 'not yet earned'}`);
+    drawBadge(cv.getContext('2d'), w.emblem, w.accent, earned);
+    d.append(cv, document.createTextNode(w.badge));
+    const sm = document.createElement('small'); sm.textContent = earned ? '✓ Earned' : `World ${w.id}`; d.append(sm);
+    shelf.append(d);
+  }
+}
 
 function renderMenu() {
   drawPortrait($('menu-avatar'), save.avatar, 4);
   $('menu-coins').textContent = save.coins; $('menu-xp').textContent = save.xp;
+  overworld.setCurrent(save.world); selected = save.world;
+  renderWorldCard(); renderTopics(); renderBadges();
+  overworld.start();
+  applyTheme(); applySound();
+}
+
+// ---------- Shift picker (World 6) ----------
+function renderShifts() {
   const list = $('level-list'); list.innerHTML = '';
   for (const lv of data.levels) {
     const unlocked = lv.id === 1 || (save.stars[lv.id - 1] || 0) > 0;
@@ -74,12 +136,12 @@ function renderMenu() {
       <span class="level-card__title">${lv.title}</span>
       <span class="level-card__sub">${unlocked ? lv.subtitle : 'Clear the previous shift to unlock'}</span>
       <span class="level-card__stars" aria-label="${stars} of 3 stars">${starString(stars)}</span>`;
-    if (unlocked) b.onclick = () => { sound.unlock(); sound.select(); startLevel(lv.id); };
+    if (unlocked) b.onclick = () => { sound.unlock(); sound.select(); overworld.stop(); startLevel(lv.id); };
     list.append(b);
   }
-  says($('menu-says'), { text: 'Welcome to the Ion Diner! Why do ionic compounds have zero net charge? Serve a few customers and find out.' });
-  applyTheme(); applySound();
+  says($('shifts-says'), { text: data.levels[0].tip });
 }
+$('btn-shifts-back').onclick = () => { sound.pop(); renderMenu(); show('menu'); };
 
 // ---------- Avatar creator ----------
 let draft = null;
@@ -110,7 +172,8 @@ function renderAvatarEditor() {
   group('Lab coat', OPTIONS.coat.map((c, i) => swatch('coat', i, c, `Lab coat colour ${i + 1}`)));
   group('Safety goggles', [chip('On', draft.goggles, () => { draft.goggles = true; }), chip('Off', !draft.goggles, () => { draft.goggles = false; })]);
 }
-$('btn-avatar').onclick = () => { draft = { ...save.avatar }; renderAvatarEditor(); show('avatar'); };
+$('btn-avatar').onclick = () => {
+  overworld.stop(); draft = { ...save.avatar }; renderAvatarEditor(); show('avatar'); };
 $('avatar-random').onclick = () => { draft = randomAvatar(Math.random, { goggles: draft.goggles }); sound.pop(); renderAvatarEditor(); };
 $('avatar-done').onclick = () => { save.avatar = draft; persist(); sound.correct(); renderMenu(); show('menu'); };
 

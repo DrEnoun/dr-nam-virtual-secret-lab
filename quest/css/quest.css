@@ -172,3 +172,48 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 @media (prefers-reduced-motion: reduce) { .float, .patience[data-low="true"] { animation: none; } * { transition: none !important; } }
 :root[data-theme="day"] .says__name { color: #0063ab; }
 .title .hl { background: var(--spark-400); color: var(--on-spark); padding: 0 8px; border-radius: 10px; border: 3px solid var(--sticker-ink); display: inline-block; transform: rotate(-1.5deg); }
+
+/* ----- Overworld ----- */
+.hero { display: flex; align-items: center; gap: 14px; }
+.hero .badge-disc { width: 84px; height: 84px; margin: 0; flex: none; }
+.tagline { font-size: 17px; }
+.map { position: relative; border-radius: var(--radius-md); border: var(--stroke-doodle) solid var(--sticker-ink); box-shadow: var(--shadow-sticker); overflow: hidden; background: #0b4f6c; }
+.map canvas { display: block; width: 100%; height: auto; }
+.map__pins { position: absolute; inset: 0; pointer-events: none; }
+.map-pin { position: absolute; transform: translate(-50%, -100%); pointer-events: none; }
+.map-pin__btn { pointer-events: auto; background: none; border: 0; padding: 0; cursor: pointer; min-width: 48px; min-height: 48px; display: grid; place-items: end center; }
+.map-pin__call {
+  display: grid; gap: 0; text-align: center; padding: 4px 10px 5px; border-radius: 12px;
+  background: var(--surface-000); color: var(--ink-strong); border: 2px solid var(--accent); box-shadow: 0 3px 0 rgba(0, 0, 0, .45);
+  font-size: 13px; line-height: 1.15; white-space: nowrap; position: relative; margin-bottom: 6px;
+}
+.map-pin__call::after { content: ""; position: absolute; left: 50%; bottom: -7px; width: 10px; height: 10px; background: var(--surface-000); border: solid var(--accent); border-width: 0 2px 2px 0; transform: translateX(-50%) rotate(45deg); }
+.map-pin__call b { font-family: var(--font-display); font-weight: 800; font-size: 12px; letter-spacing: .06em; color: var(--accent); }
+.map-pin__call span { font-family: var(--font-display); font-weight: 700; font-size: 15px; }
+.map-pin__call small { font-size: 12px; opacity: .85; }
+.map-pin__btn[data-locked="true"] .map-pin__call { border-color: #8a97a5; filter: grayscale(1); opacity: .85; }
+.map-pin__btn[data-locked="true"] .map-pin__call b { color: #c0cad4; }
+.map-pin__btn[data-current="true"] .map-pin__call { box-shadow: 0 0 0 3px var(--accent), 0 0 18px var(--accent); }
+:root[data-theme="day"] .map-pin__call { background: #fff; color: #231f20; }
+:root[data-theme="day"] .map-pin__call::after { background: #fff; }
+
+.world-card { padding: 14px 16px 16px; border-radius: var(--radius-md); display: grid; gap: 6px; }
+.world-card__eyebrow { font-family: var(--font-display); font-weight: 700; font-size: 14px; letter-spacing: .06em; text-transform: uppercase; color: #0d5c63; }
+.world-card h2 { font-size: 30px; font-weight: 800; line-height: 1; }
+.world-card__meta { font-size: 16px; }
+.world-card__stars { font-size: 22px; letter-spacing: 3px; }
+.world-card .btn-start { margin-top: 6px; width: 100%; min-height: 56px; font-size: 22px; }
+.world-card .btn-start[disabled] { background: #c8d2dc; color: #3a4654; box-shadow: 0 6px 0 var(--sticker-ink); cursor: not-allowed; }
+
+.topic-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.topic-card { padding: 10px 6px 8px; border-radius: var(--radius-sm); text-align: center; display: grid; justify-items: center; gap: 4px; border: 2px solid var(--accent); background: var(--surface-000); color: var(--ink-strong); }
+.topic-card svg { width: 38px; height: 38px; color: var(--accent); }
+.topic-card b { font-family: var(--font-display); font-size: 15px; line-height: 1.05; }
+.topic-card small { font-size: 12.5px; line-height: 1.15; opacity: .9; }
+.topic-card[data-locked="true"] { --accent: #8a97a5; opacity: .8; }
+.badge-shelf { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 6px; padding: 14px 8px; border-radius: var(--radius-md); }
+.badge { display: grid; justify-items: center; gap: 4px; text-align: center; font-family: var(--font-display); font-weight: 700; font-size: 14px; line-height: 1.05; }
+.badge canvas { width: 66px; height: 78px; }
+.badge[data-earned="false"] { opacity: .8; }
+.badge small { font-family: var(--font-body); font-weight: 400; font-size: 12px; }
+.shelf-note { text-align: center; font-size: 15px; margin-top: 8px; }

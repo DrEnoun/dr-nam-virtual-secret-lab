@@ -20,7 +20,7 @@
 <body>
   <div class="bg" aria-hidden="true"></div>
 
-  <!-- ================= Menu ================= -->
+  <!-- ================= Overworld (home) ================= -->
   <main class="screen" id="screen-menu">
     <div class="topline">
       <div class="logo-plate"><img src="../brand/logos/uitm-logo-full.png" alt="Universiti Teknologi MARA"></div>
@@ -32,10 +32,20 @@
 
     <section class="hero">
       <div class="badge-disc float"><img src="../brand/logos/chemistry-with-dr-nam-logo.jpg" alt="Chemistry with Dr. NAM"></div>
-      <p class="eyebrow">Chemistry with Dr. NAM</p>
-      <h1 class="title" aria-label="DR NAM’s CHEMQUEST"><span class="lime-rule" aria-hidden="true"></span><span aria-hidden="true">DR NAM’s<br>CHEM<span class="hl">QUEST</span></span></h1>
-      <p class="subtitle">World 6: <strong>Ion Diner</strong>. Combine ions to serve ionic compounds before your customers lose patience.</p>
+      <div>
+        <p class="eyebrow">Chemistry with Dr. NAM</p>
+        <h1 class="title" aria-label="DR NAM’s CHEMQUEST"><span class="lime-rule" aria-hidden="true"></span><span aria-hidden="true">DR NAM’s<br>CHEM<span class="hl">QUEST</span></span></h1>
+      </div>
     </section>
+    <p class="tagline">6 worlds. 1 diner open. Tap a pin to travel!</p>
+
+    <div class="map" id="map">
+      <canvas id="map-canvas" aria-label="World map with six islands"></canvas>
+      <div class="map__pins" id="map-pins"></div>
+    </div>
+
+    <section class="world-card sticker-static" id="world-card" aria-live="polite"></section>
+    <aside class="says" id="menu-says"></aside>
 
     <section class="player sticker-static">
       <canvas id="menu-avatar" width="64" height="80" aria-label="Your avatar"></canvas>
@@ -46,12 +56,25 @@
       </div>
     </section>
 
-    <section aria-labelledby="levels-h">
-      <h2 class="section-title" id="levels-h"><span class="num-disc" aria-hidden="true">✦</span>Choose a shift</h2>
-      <div class="level-list" id="level-list"></div>
+    <section aria-labelledby="topics-h">
+      <h2 class="section-title" id="topics-h"><span class="num-disc" aria-hidden="true">✦</span>What you will learn</h2>
+      <div class="topic-grid" id="topic-grid"></div>
     </section>
 
-    <aside class="says" id="menu-says"></aside>
+    <section aria-labelledby="badges-h">
+      <h2 class="section-title" id="badges-h"><span class="num-disc" aria-hidden="true">✦</span>Badge shelf</h2>
+      <div class="badge-shelf sticker-static" id="badge-shelf"></div>
+      <p class="shelf-note">Clear every level in a world to earn its badge!</p>
+    </section>
+  </main>
+
+  <!-- ================= Shift picker (World 6) ================= -->
+  <main class="screen" id="screen-shifts" hidden>
+    <div class="row"><button class="chip" id="btn-shifts-back" type="button">‹ Map</button></div>
+    <h2 class="title title--small"><span class="lime-rule" aria-hidden="true"></span>Ion Diner</h2>
+    <p class="subtitle">Combine ions to serve ionic compounds before your customers lose patience.</p>
+    <div class="level-list" id="level-list"></div>
+    <aside class="says" id="shifts-says"></aside>
   </main>
 
   <!-- ================= Avatar creator ================= -->

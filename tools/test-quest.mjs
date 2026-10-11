@@ -3,6 +3,8 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { formulaOf, checkServe, buildOrders, buildTray, orderName, starsFor, tipFor } from '../quest/js/diner-logic.js';
+import { worldProgress, worldStates, walkPath } from '../quest/js/progress.js';
+import { EMBLEMS } from '../quest/js/badges.js';
 import { avatarRows, avatarPixels, OPTIONS, WIDTH, HEIGHT } from '../quest/js/avatar.js';
 
 const d = JSON.parse(readFileSync('quest/data/diner.json', 'utf8'));
@@ -88,4 +90,33 @@ for (const style of OPTIONS.hairStyle) for (const goggles of [true, false]) {
   const px = avatarPixels({ hairStyle: style, goggles });
   assert.ok(px.flat().every(c => c === null || /^#[0-9a-f]{6}$/.test(c)), `${style}: unknown sprite key`);
 }
+// Overworld: six worlds in order, pins on the map, unique badges, sensible unlock rules
+const wd = JSON.parse(readFileSync('quest/data/worlds.json', 'utf8'));
+const W = wd.worlds;
+assert.deepEqual(W.map(w => w.id), [1, 2, 3, 4, 5, 6]);
+assert.equal(new Set(W.map(w => w.badge)).size, 6, 'badge names must be unique');
+assert.equal(new Set(W.map(w => w.accent)).size, 6, 'world colours must be unique');
+for (const w of W) {
+  assert.ok(EMBLEMS[w.emblem], `world ${w.id}: unknown emblem ${w.emblem}`);
+  assert.ok(w.pin[0] > 28 && w.pin[0] < wd.map.width - 28 && w.pin[1] > 30 && w.pin[1] < wd.map.height - 20, `world ${w.id}: pin too close to the map edge`);
+  assert.ok(w.tip && w.topic && w.gameplay && w.callout);
+  if (w.playable) w.levelIds.forEach(id => assert.ok(d.levels.some(l => l.id === id), `world ${w.id}: unknown level ${id}`));
+  else assert.ok(!w.levelIds, `world ${w.id}: unbuilt worlds have no levels yet`);
+}
+for (let i = 1; i < W.length; i++) assert.ok(W[i].pin[1] < W[i - 1].pin[1], 'worlds climb the map from bottom to top');
+// Fresh save: World 1 open, World 6 open as a preview, the rest locked
+assert.deepEqual(worldStates(W, {}).map(s => s.unlocked), [true, false, false, false, false, true]);
+assert.equal(worldStates(W, {}).filter(s => s.earned).length, 0);
+// Clearing every Ion Diner shift earns the World 6 badge; one shift is not enough
+assert.equal(worldProgress(W[5], { 1: 3, 2: 2 }).cleared, false);
+const done = worldProgress(W[5], { 1: 3, 2: 2, 3: 1 });
+assert.deepEqual([done.cleared, done.starSum, done.got], [true, 6, 3]);
+assert.equal(worldStates(W, { 1: 3, 2: 2, 3: 1 })[5].earned, true);
+// A world opens when the one before it is cleared
+const fake = [{ id: 1, levelIds: [1] }, { id: 2, levelIds: [2] }, { id: 3, levelIds: [3] }];
+assert.deepEqual(worldStates(fake, {}).map(s => s.unlocked), [true, false, false]);
+assert.deepEqual(worldStates(fake, { 1: 1 }).map(s => s.unlocked), [true, true, false]);
+assert.deepEqual(walkPath(1, 4), [1, 2, 3, 4]);
+assert.deepEqual(walkPath(6, 5), [6, 5]);
+
 console.log(`ChemQuest data OK (${orders} orders, ${d.ions.length} ions)`);
